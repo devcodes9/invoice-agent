@@ -18,7 +18,7 @@ Confidence, by action needed:
 ## For production
 
 - Privacy: run local open-source vision models, or use zero-retention providers and mask card/phone numbers before sending. (PII)
-- Guardrails: reject non-receipts/offensive/exclusive images; escape CSV cells starting with = + - @.
+- Guardrails: reject non-receipts/offensive/explicit images; escape CSV cells starting with = + - @.
 - Independent check: OCR on quoted evidence lines, since two LLMs can invent the same value.
 - Reliability: rate limiting, retries with backoff, a cost cap per run.
 - Evals: set up evals with tracking of time, tokens and cost per receipt, to tune the prompt and models on output quality, speed and cost together.
