@@ -1,0 +1,61 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005230657.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "CROSS CHANNEL NETWORK SDN. BHD.",
+    "date": "2017-12-31",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "20MM HERO PVC CONDUIT PIPE @ 1.7000",
+        "qty": 1,
+        "unit_price": 1.8,
+        "amount": 1.8
+      },
+      {
+        "description": "15A PVC CONNECTOR @ 1.8000",
+        "qty": 1,
+        "unit_price": 1.91,
+        "amount": 1.91
+      },
+      {
+        "description": "R & B-C/CLIP 8MM X 100PCS CABLE CLIPS @ 3.5000",
+        "qty": 1,
+        "unit_price": 3.71,
+        "amount": 3.71
+      },
+      {
+        "description": "3\" X 3\" 2862 A1 PVC NUT BOX @ 0.5000",
+        "qty": 1,
+        "unit_price": 0.53,
+        "amount": 0.53
+      }
+    ],
+    "subtotal": 7.95,
+    "taxes": [
+      {
+        "label": "GST @ 6%",
+        "rate": 6,
+        "amount": 0.45
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 7.95,
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 2464,
+    "output": 335,
+    "cost": 0.004139
+  },
+  "ms": 7044
+}

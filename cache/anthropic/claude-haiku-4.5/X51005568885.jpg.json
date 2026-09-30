@@ -1,0 +1,38 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005568885.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "EVERGREEN LIGHT SDN BHD",
+    "date": "2017-07-10",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "PROEMK 10W LED STICK",
+        "qty": 4,
+        "unit_price": 13.21,
+        "amount": 52.84
+      }
+    ],
+    "subtotal": 52.84,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 3.17
+      }
+    ],
+    "adjustments": [],
+    "rounding": -0.01,
+    "total": 56,
+    "missing": []
+  },
+  "usage": {
+    "input": 3128,
+    "output": 162,
+    "cost": 0.003938
+  },
+  "ms": 4292
+}

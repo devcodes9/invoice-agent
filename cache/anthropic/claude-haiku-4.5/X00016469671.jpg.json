@@ -1,0 +1,44 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X00016469671.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "OJC MARKETING SDN BHD",
+    "date": "2019-01-02",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "000000111",
+        "qty": 1,
+        "unit_price": 170,
+        "amount": 170
+      },
+      {
+        "description": "KINGS SAFETY SHOES KWD 805",
+        "qty": null,
+        "unit_price": null,
+        "amount": null
+      },
+      {
+        "description": "P004",
+        "qty": null,
+        "unit_price": null,
+        "amount": null
+      }
+    ],
+    "subtotal": 170,
+    "taxes": [],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 170,
+    "missing": []
+  },
+  "usage": {
+    "input": 2148,
+    "output": 188,
+    "cost": 0.003088
+  },
+  "ms": 6159
+}

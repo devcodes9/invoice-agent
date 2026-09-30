@@ -1,0 +1,67 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "2b060905be73",
+  "file": "X51005433556.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "YHM Aeon Tebrau City",
+    "date": "2018-03-11",
+    "currency": "MYR",
+    "currency_symbol_seen": "MYR",
+    "line_items": [
+      {
+        "description": "FG-A00019 Green Tea",
+        "qty": 1,
+        "unit_price": 1.5,
+        "amount": 1.5
+      },
+      {
+        "description": "FG-Y00030 Yakiniku Bowl R",
+        "qty": 1,
+        "unit_price": 12.8,
+        "amount": 12.8
+      },
+      {
+        "description": "FG-Y00183 Negi Tama Beef Bowl R",
+        "qty": 2,
+        "unit_price": 15.8,
+        "amount": 31.6
+      },
+      {
+        "description": "FG-Y00102 Miso/Wakame+Green Tea",
+        "qty": 1,
+        "unit_price": 3.8,
+        "amount": 3.8
+      },
+      {
+        "description": "FG-Y00264 Miso Soup",
+        "qty": 1,
+        "unit_price": 0,
+        "amount": 0
+      }
+    ],
+    "subtotal": 49.7,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": 6,
+        "amount": 2.8
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 49.7,
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1511,
+    "output": 741,
+    "cost": 0.003912
+  },
+  "ms": 4838
+}

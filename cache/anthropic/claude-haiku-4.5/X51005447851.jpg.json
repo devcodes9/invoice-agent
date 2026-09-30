@@ -1,0 +1,38 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005447851.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+    "date": "2018-01-30",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "REVIVE 500ML",
+        "qty": 1,
+        "unit_price": 1.7,
+        "amount": 1.7
+      }
+    ],
+    "subtotal": 1.7,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 1.7,
+    "missing": []
+  },
+  "usage": {
+    "input": 3238,
+    "output": 160,
+    "cost": 0.004038
+  },
+  "ms": 5203
+}

@@ -1,0 +1,38 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005361912.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "TED HENG STATIONERY & BOOKS",
+    "date": "2018-01-29",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "CARBON PAPER",
+        "qty": 2,
+        "unit_price": 0.5,
+        "amount": 1
+      }
+    ],
+    "subtotal": 1,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": 6,
+        "amount": 0.06
+      }
+    ],
+    "adjustments": [],
+    "rounding": -0.01,
+    "total": 1.05,
+    "missing": []
+  },
+  "usage": {
+    "input": 2904,
+    "output": 159,
+    "cost": 0.003699
+  },
+  "ms": 4924
+}

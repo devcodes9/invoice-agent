@@ -1,0 +1,68 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005442388.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "CONTENTO",
+    "date": "2018-03-20",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "2x 5.90 (67nk)",
+        "qty": 2,
+        "unit_price": 5.9,
+        "amount": 11.8
+      },
+      {
+        "description": "Bubble H T",
+        "qty": 1,
+        "unit_price": 4.9,
+        "amount": 4.9
+      },
+      {
+        "description": "Yam H T",
+        "qty": 1,
+        "unit_price": 1,
+        "amount": 1
+      },
+      {
+        "description": "1x 1.00 (snack)",
+        "qty": 1,
+        "unit_price": 1,
+        "amount": 1
+      },
+      {
+        "description": "ADD ON",
+        "qty": null,
+        "unit_price": null,
+        "amount": null
+      },
+      {
+        "description": "1x 3.90",
+        "qty": 1,
+        "unit_price": 3.9,
+        "amount": 3.9
+      },
+      {
+        "description": "U.Cho",
+        "qty": null,
+        "unit_price": null,
+        "amount": null
+      }
+    ],
+    "subtotal": 21.6,
+    "taxes": [],
+    "adjustments": [],
+    "rounding": null,
+    "total": 21.6,
+    "missing": []
+  },
+  "usage": {
+    "input": 3223,
+    "output": 322,
+    "cost": 0.004833
+  },
+  "ms": 4465
+}

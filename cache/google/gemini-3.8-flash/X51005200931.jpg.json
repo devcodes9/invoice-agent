@@ -1,0 +1,68 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "2b060905be73",
+  "file": "X51005200931.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "PERNIAGAAN ZHENG HUI",
+    "date": "2018-02-09",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "SR: CERAMIC CAP",
+        "qty": 5,
+        "unit_price": 3.5,
+        "amount": 17.5
+      },
+      {
+        "description": "SR: S/STEEL 1/2\" STREET ELBOW",
+        "qty": 30,
+        "unit_price": 3.8,
+        "amount": 114
+      },
+      {
+        "description": "SR: 2.4MM STARWELD RED HEAD TUNGSTEN ROD",
+        "qty": 1,
+        "unit_price": 55,
+        "amount": 55
+      },
+      {
+        "description": "SR: ESICUT 4\" CUTTING DISC (1BOX)-50PCS",
+        "qty": 3,
+        "unit_price": 33,
+        "amount": 99
+      },
+      {
+        "description": "SR: WELDRO PICKLING GEL 1KG",
+        "qty": 2,
+        "unit_price": 43,
+        "amount": 86
+      },
+      {
+        "description": "SR: 13.5\" WELDING GLOVE - GREEN (GS)",
+        "qty": 4,
+        "unit_price": 10,
+        "amount": 40
+      }
+    ],
+    "subtotal": 411.5,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 24.69
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0.01,
+    "total": 436.2,
+    "missing": []
+  },
+  "usage": {
+    "input": 1511,
+    "output": 1356,
+    "cost": 0.00621825
+  },
+  "ms": 8502
+}

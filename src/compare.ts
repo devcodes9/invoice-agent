@@ -6,9 +6,10 @@ export type Field = (typeof FIELDS)[number];
 export type Value = string | number | null;
 export type FieldDiff = { field: Field; a: Value; b: Value; agree: boolean };
 
-// Lowercase, punctuation stripped, spaces collapsed: "Sdn. Bhd" == "SDN BHD".
+// Lowercase, bracketed parts (registration numbers) dropped, punctuation stripped, spaces collapsed:
+// "99 Speed Mart S/B (519537-X)" == "99 SPEED MART S/B".
 export const normText = (s: string | null) =>
-  s === null ? null : s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+  s === null ? null : s.toLowerCase().replace(/\([^)]*\)/g, " ").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
 
 const sum = (xs: (number | null)[]) =>
   xs.length ? Math.round(xs.reduce<number>((t, x) => t + (x ?? 0), 0) * 100) / 100 : null;

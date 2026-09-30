@@ -1,0 +1,56 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005447841.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+    "date": "2018-03-09",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "A&M SARSAP 330ML",
+        "qty": 1,
+        "unit_price": 1.2,
+        "amount": 1.2
+      },
+      {
+        "description": "100PLUS REGULAR 500ML",
+        "qty": 1,
+        "unit_price": 1.9,
+        "amount": 1.9
+      },
+      {
+        "description": "Loacker wafer milk 45g",
+        "qty": 1,
+        "unit_price": 2.7,
+        "amount": 2.7
+      },
+      {
+        "description": "fishermans.f s/free lemon 25g",
+        "qty": 1,
+        "unit_price": 4.6,
+        "amount": 4.6
+      }
+    ],
+    "subtotal": 10.4,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 10.4,
+    "missing": []
+  },
+  "usage": {
+    "input": 3072,
+    "output": 281,
+    "cost": 0.004477
+  },
+  "ms": 5830
+}

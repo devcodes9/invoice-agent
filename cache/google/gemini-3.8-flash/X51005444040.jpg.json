@@ -1,0 +1,54 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "2b060905be73",
+  "file": "X51005444040.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "BENS INDEPENDENT GROCER SDN. BHD",
+    "date": "2018-03-09",
+    "currency": null,
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "Evian Mineral Water 6x1.25L",
+        "qty": 2,
+        "unit_price": 53.5,
+        "amount": 107
+      },
+      {
+        "description": "Fresh Cut Honey Jackfruit Peeled 400g",
+        "qty": 3,
+        "unit_price": 8.9,
+        "amount": 26.7
+      }
+    ],
+    "subtotal": 133.7,
+    "taxes": [
+      {
+        "label": "S",
+        "rate": 6,
+        "amount": 6.06
+      },
+      {
+        "label": "Z",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 133.7,
+    "missing": [
+      {
+        "field": "currency",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1497,
+    "output": 1422,
+    "cost": 0.00645525
+  },
+  "ms": 7062
+}

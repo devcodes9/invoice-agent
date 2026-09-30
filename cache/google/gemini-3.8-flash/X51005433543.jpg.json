@@ -1,0 +1,49 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "2b060905be73",
+  "file": "X51005433543.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+    "date": "2018-03-13",
+    "currency": "MYR",
+    "currency_symbol_seen": "$",
+    "line_items": [
+      {
+        "description": "SR 100100000035- 1 Meat + 3 Vege",
+        "qty": 1,
+        "unit_price": 7.1,
+        "amount": 7.1
+      },
+      {
+        "description": "SR 100100000015- Vegetable",
+        "qty": 1,
+        "unit_price": 1.1,
+        "amount": 1.1
+      }
+    ],
+    "subtotal": 8.2,
+    "taxes": [
+      {
+        "label": "GST @6%",
+        "rate": 6,
+        "amount": 0.46
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 8.2,
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1511,
+    "output": 1291,
+    "cost": 0.0059745
+  },
+  "ms": 7324
+}

@@ -3,21 +3,9 @@ import { MODELS } from "../src/config";
 import { extract, type Extraction } from "../src/extract";
 import { compare, sameValue } from "../src/compare";
 import { loadLabels, type Label } from "../src/labels";
+import { pool } from "../src/pool";
 
 const labels = loadLabels();
-
-async function pool<T, R>(items: T[], n: number, fn: (x: T) => Promise<R>): Promise<PromiseSettledResult<R>[]> {
-  const out: PromiseSettledResult<R>[] = new Array(items.length);
-  let next = 0;
-  const worker = async () => {
-    while (next < items.length) {
-      const i = next++;
-      out[i] = await fn(items[i]).then((value) => ({ status: "fulfilled" as const, value }), (reason) => ({ status: "rejected" as const, reason }));
-    }
-  };
-  await Promise.all(Array.from({ length: n }, worker));
-  return out;
-}
 
 const models = [...new Set(Object.values(MODELS).flatMap((t) => [t.primary, t.second]))];
 const jobs = models.flatMap((model) => labels.map((l) => ({ model, file: `images/${l.file}` })));

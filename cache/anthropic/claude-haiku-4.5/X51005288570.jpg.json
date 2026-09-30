@@ -1,0 +1,43 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005288570.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SECURE PARKING CORPORATION S/B",
+    "date": "2018-03-23",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "Parking Fee",
+        "qty": null,
+        "unit_price": null,
+        "amount": 0.94
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 0.06
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 1,
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 2328,
+    "output": 157,
+    "cost": 0.003113
+  },
+  "ms": 5174
+}
