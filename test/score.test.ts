@@ -54,9 +54,17 @@ test("vendor differing only in case and punctuation is not a disagreement", () =
   assert.equal(score("f.jpg", receipt({ vendor: "BENS SDN. BHD" }), receipt({ vendor: "Bens Sdn Bhd" }), today).status, "HIGH");
 });
 
-test("line-item sum disagreement is MEDIUM", () => {
+test("line-item disagreement settled by arithmetic is a reason, not a downgrade", () => {
   const b = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 411.5, amount: 411.5 }, { description: "B", qty: 1, unit_price: 1, amount: 1 }] });
   const row = score("f.jpg", receipt(), b, today);
+  assert.equal(row.status, "HIGH");
+  assert.ok(row.reasons.includes("check line items: A=411.50 B=412.50, used A (items add up)"));
+});
+
+test("line-item disagreement where neither reading adds up is MEDIUM", () => {
+  const a = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 5, amount: 5 }] });
+  const b = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 6, amount: 6 }] });
+  const row = score("f.jpg", a, b, today);
   assert.equal(row.status, "MEDIUM");
   assert.deepEqual(row.flagged_fields, ["items"]);
 });
@@ -144,7 +152,7 @@ test("line items come from the reading whose items add up, even if the other sup
   const row = score("f.jpg", a, receipt(), today);
   assert.equal(row.source, "A");
   assert.equal(row.itemsSource, "B");
-  assert.equal(row.status, "MEDIUM");
+  assert.equal(row.status, "HIGH");
   assert.ok(row.reasons.includes("check line items: A=5.00 B=411.50, used B (items add up)"));
   assert.ok(!row.reasons.some((r) => r.includes("matches neither")));
 });

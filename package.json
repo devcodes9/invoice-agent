@@ -10,7 +10,8 @@
     "extract": "tsx --env-file=.env scripts/extract.ts",
     "typecheck": "tsc",
     "tier": "tsx --env-file=.env scripts/tier.ts",
-    "start": "tsx --env-file=.env src/index.ts"
+    "start": "tsx --env-file=.env src/index.ts",
+    "eval": "tsx scripts/eval.ts"
   },
   "keywords": [],
   "author": "",

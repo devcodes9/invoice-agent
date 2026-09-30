@@ -64,7 +64,8 @@ export function score(file: string, a: Receipt, b: Receipt, today = new Date()):
     const why = d.field === "items" ? (itemsOk(vi) ? " (items add up)" : "") : numeric && passes(vc) ? " (sums match)" : "";
     reasons.push(`check ${LABEL[d.field] ?? d.field}: A=${fmt(d.a)} B=${fmt(d.b)}, used ${used}${why}`);
     if (KEY.includes(d.field)) low.add(d.field);
-    else if (d.field === "vendor" || d.field === "items") medium.add(d.field);
+    else if (d.field === "vendor") medium.add(d.field);
+    // Item disagreement only downgrades via the items check below: arithmetic settles it otherwise.
   }
   if (va.currency && vb.currency && va.currency !== vb.currency) reasons.push(`check currency: A=${va.currency} B=${vb.currency}, used A`);
 
