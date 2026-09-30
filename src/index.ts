@@ -6,6 +6,7 @@ import { toCsv } from "./csv";
 import { findDuplicates } from "./dedupe";
 import { extract, type Extraction } from "./extract";
 import { pool } from "./pool";
+import { renderReview, type ItemRow } from "./review";
 import { emptyRow, scoreReadings, STATUSES, type Row } from "./score";
 
 const IMAGES = "images";
@@ -22,7 +23,7 @@ const jobs = unique.flatMap((file) => readers.map((model) => ({ file, model })))
 const settled = await pool(jobs, 8, (j) => extract(j.model, join(IMAGES, j.file)));
 
 const rows: Row[] = [];
-const items: Record<string, string | number | null>[] = [];
+const items: ItemRow[] = [];
 const debug: string[] = []; // per-model readings, for us, never shown to reviewers
 unique.forEach((file, i) => {
   const [a, b] = [settled[2 * i], settled[2 * i + 1]];
@@ -45,4 +46,5 @@ const cost = settled.reduce((t, r) => t + (r.status === "fulfilled" ? (r.value.u
 const counts = STATUSES.map((s) => `${s} ${rows.filter((r) => r.status === s).length}`);
 console.log(`${rows.length} receipts (${counts.join(", ")}), ${items.length} line items, $${cost.toFixed(3)} (incl. cached)`);
 writeFileSync("out/debug.jsonl", debug.join("\n") + "\n");
-console.log("wrote out/receipts.csv, out/line_items.csv, out/debug.jsonl");
+writeFileSync("out/review.html", renderReview(rows, items, `../${IMAGES}`));
+console.log("wrote out/receipts.csv, out/line_items.csv, out/debug.jsonl, out/review.html");
