@@ -1,46 +1,46 @@
 file,status,confidence,vendor,date,currency,subtotal,tax,total,flagged_fields,reasons
-X51005442334.jpg,LOW,1,UNIHAKKA INTERNATIONAL SDN BHD,,MYR,,0.46,8.2,date; subtotal,"check date: read as 2018-03-26 or 2018-03-28 (""26 Mar 2018 18:14""); check subtotal: 8.20 may not be printed (""Total Amount: $8.20""); currency inferred"
+X51005268408.jpg,LOW,1,99 SPEED MART S/B (519537-X),2017-11-20,MYR,,,169.8,tax; items; rounding,"check tax: 9.61 (""GST Summary Amount(RM) Tax(RM) | S = 6% 160.17 9.61"") or 9.81 (""GST Summary = 6% | Amount(RM) 160.17 | Tax(RM) 9.81""), different printed lines; check line items: totals read as 169.78 or 172.78, used 169.78 (matches total less adjustments and rounding 169.78); check rounding: 0.02 not found in printed line ""Rounding Adjustment RM .02""; subtotal computed (not printed)"
+X51005337867.jpg,LOW,1,Old Town Kopitiam Sdn Bhd,2018-03-22,MYR,25.94,1.71,30.25,items,check line items: 4 amounts could not be read
+X51005337877.jpg,LOW,1,UROKO JAPANESE CUISINE SDN BHD,2018-03-20,MYR,,3,53,subtotal,"check subtotal: 46.00 may not be printed (""Total : 46.00"")"
+X51005361912.jpg,LOW,1,,2018-01-29,MYR,1,0.06,1.05,vendor,"check vendor: TED HENG STATIONERY & BOOKS (""TED HENG STATIONERY & BOOKS"") or TEO HENG STATIONERY & BOOKS (""TEO HENG STATIONERY & BOOKS""), different printed lines"
+X51005365187.jpg,LOW,1,F&P PHARMACY,2018-03-02,MYR,30.68,1.22,31.9,items,check line items: totals read as 25.90 or 31.90
+X51005433518.jpg,LOW,1,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-07,MYR,,,8.2,tax,"check tax: read as 0.46 or 0.48 (""GST @6%: $0.46""); subtotal computed (not printed); currency inferred"
+X51005433543.jpg,LOW,1,,2018-03-13,,7.74,0.46,8.2,vendor; currency,"check vendor: UNIHAKKA INTERNATIONAL SDN BHD (""UNIHAKKA INTERNATIONAL SDN BHD"") or UNIHAKKA INTERNATIONAL SDN EHD (""UNIHAKKA INTERNATIONAL SDN EHD""), different printed lines; check currency: read as MYR or SGD; subtotal computed (not printed); currency inferred"
+X51005442334.jpg,LOW,1,UNIHAKKA INTERNATIONAL SDN BHD,,MYR,7.74,0.46,8.2,date,"check date: read as 2018-03-26 or 2018-03-28 (""26 Mar 2018 18:14""); subtotal computed (not printed); currency inferred"
 X51005442343.jpg,LOW,1,YONG TAT HARDWARE TRADING,,MYR,67.92,4.08,72,date,"check date: read as 2016-03-13 or 2018-03-13 (""Date: 13/03/2016"")"
-X51005442375.jpg,LOW,1,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-25,MYR,,0.48,,total; subtotal; items,"check subtotal: 6.50 may not be printed (""Total Amount: $6.50""); check total: read as 6.50 or 8.50 (""Nett Total: $6.50""); check line items: sum 8.50 matches neither subtotal 6.50 nor total 6.50; currency inferred"
-X00016469671.jpg,MEDIUM,2,OJC MARKETING SDN BHD,2019-01-02,MYR,,,170,subtotal,"check subtotal: 170.00 may not be printed (""Total Amount: 170.00""); currency inferred"
-X51005230616.jpg,MEDIUM,2,Gerbang Alaf Restaurants Sdn Bhd,2018-01-18,,36.7,2.2,38.9,currency; rounding,check currency: read as MYR or none; check rounding: 0.00 has no printed line; subtotal computed (not printed)
-X51005230621.jpg,MEDIUM,2,SIN LIANHAP SDN BHD,2018-02-05,MYR,7.3,0.41,7.3,items,check line items: totals read as 7.19 or 7.30
-X51005230657.jpg,MEDIUM,2,CROSS CHANNEL NETWORK SDN. BHD.,2017-12-31,MYR,,0.45,7.95,subtotal,"check subtotal: 7.95 may not be printed (""Total Amt Incl. GST @ 6% : 7.95"")"
-X51005268275.jpg,MEDIUM,2,LIGHTROOM GALLERY SDN BHD,2017-11-20,MYR,263.02,15.78,278.8,items,check line items: totals read as 262.82 or 263.02
-X51005268408.jpg,MEDIUM,2,99 SPEED MART S/B (519537-X),2017-11-20,MYR,,,169.8,tax; items; rounding,"check tax: 9.61 (""GST Summary Amount(RM) Tax(RM) | S = 6% 160.17 9.61"") or 9.81 (""GST Summary = 6% | Amount(RM) 160.17 | Tax(RM) 9.81""), different printed lines; check line items: totals read as 169.78 or 172.78; check rounding: 0.02 not found in printed line ""Rounding Adjustment RM .02""; subtotal computed (not printed)"
-X51005337867.jpg,MEDIUM,2,Old Town Kopitiam Sdn Bhd,2018-03-22,MYR,25.94,1.71,30.25,items,check line items: 4 amounts could not be read
-X51005337877.jpg,MEDIUM,2,UROKO JAPANESE CUISINE SDN BHD,2018-03-20,MYR,,3,53,subtotal,"check subtotal: 46.00 may not be printed (""Total : 46.00"")"
-X51005361912.jpg,MEDIUM,2,,2018-01-29,MYR,1,0.06,1.05,vendor,"check vendor: TED HENG STATIONERY & BOOKS (""TED HENG STATIONERY & BOOKS"") or TEO HENG STATIONERY & BOOKS (""TEO HENG STATIONERY & BOOKS""), different printed lines"
-X51005365187.jpg,MEDIUM,2,F&P PHARMACY,2018-03-02,MYR,30.68,1.22,31.9,items,check line items: totals read as 25.90 or 31.90
-X51005433518.jpg,MEDIUM,2,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-07,MYR,,,8.2,tax,"check tax: read as 0.46 or 0.48 (""GST @6%: $0.46""); subtotal computed (not printed); currency inferred"
-X51005433543.jpg,MEDIUM,2,,2018-03-13,,,0.46,8.2,vendor; subtotal; currency,"check vendor: UNIHAKKA INTERNATIONAL SDN BHD (""UNIHAKKA INTERNATIONAL SDN BHD"") or UNIHAKKA INTERNATIONAL SDN EHD (""UNIHAKKA INTERNATIONAL SDN EHD""), different printed lines; check subtotal: 8.20 may not be printed (""Total Amount: $8.20""); check currency: read as MYR or SGD; currency inferred"
-X51005433556.jpg,MEDIUM,2,YHM Aeon Tebrau City,2018-03-11,MYR,49.7,2.8,49.7,items,check line items: totals read as 49.50 or 49.70
-X51005442366.jpg,MEDIUM,2,Triple Six Point Enterprise 666,2018-03-22,MYR,22.6,,22.6,adjustments; items,"check adjustments: -0.30 may not be printed (""Discount 0.30""); check line items: totals read as 22.30 or 22.60; subtotal computed (not printed)"
-X51005442388.jpg,MEDIUM,2,CONTENTO,2018-03-20,MYR,,,21.6,subtotal; items,"check subtotal: 21.60 may not be printed (""***TOTAL RM 21.60""); check line items: totals read as 21.60 or 22.60"
-X51005444040.jpg,MEDIUM,2,BENS INDEPENDENT GROCER SDN. BHD,2018-03-09,,127.64,6.06,133.7,currency,check currency: read as MYR or none; subtotal computed (not printed)
-X51005444041.jpg,MEDIUM,2,BENS INDEPENDENT GROCER SDN. BHD,2018-03-08,MYR,79.26,1.74,81,rounding,check rounding: 0.00 has no printed line; subtotal computed (not printed); currency inferred
-X51005444046.jpg,MEDIUM,2,STAR GROCER SDN BHD,2018-03-25,,66.15,0,66.15,currency; items,check currency: read as MYR or none; check line items: sum 66.17 matches neither subtotal 66.15 nor total 66.15; subtotal computed (not printed)
-X51005447844.jpg,MEDIUM,2,JIAWEI HOUSE,2018-02-23,MYR,110,,110,items,check line items: totals read as 110.00 or 0.00; check line items: 7 amounts could not be read
-X51005568855.jpg,MEDIUM,2,POPULAR BOOK CO. (M) SDN BHD,2017-12-23,MYR,136.47,4.18,140.65,items,check line items: totals read as 140.65 or 140.83; subtotal computed (not printed)
-X51005568890.jpg,MEDIUM,2,HON HWA HARDWARE TRADING,2017-01-05,MYR,4.72,0.28,5,rounding,check rounding: 0.00 has no printed line; subtotal computed (not printed)
+X51005447844.jpg,LOW,1,JIAWEI HOUSE,2018-02-23,MYR,110,,110,items,check line items: totals read as 110.00 or 0.00; check line items: 7 amounts could not be read; subtotal computed (not printed)
+X51005230621.jpg,MEDIUM,2,SIN LIANHAP SDN BHD,2018-02-05,MYR,6.89,0.41,7.3,items,"check line items: totals read as 7.19 or 7.30, used 7.30 (matches total 7.30); subtotal computed (not printed)"
+X51005268275.jpg,MEDIUM,2,LIGHTROOM GALLERY SDN BHD,2017-11-20,MYR,263.02,15.78,278.8,items,"check line items: totals read as 262.82 or 263.02, used 263.02 (matches subtotal 263.02)"
+X51005433556.jpg,MEDIUM,2,YHM Aeon Tebrau City,2018-03-11,MYR,46.9,2.8,49.7,items,"check line items: totals read as 49.50 or 49.70, used 49.70 (matches total 49.70); subtotal computed (not printed)"
+X51005442366.jpg,MEDIUM,2,Triple Six Point Enterprise 666,2018-03-22,MYR,,,22.6,adjustments; items,"check adjustments: -0.30 may not be printed (""Discount 0.30""); check line items: totals read as 22.30 or 22.60, used 22.60 (matches total 22.60); subtotal computed (not printed)"
+X51005442375.jpg,MEDIUM,2,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-25,MYR,8.02,0.48,8.5,total,"check total: read as 6.50 or 8.50, used 8.50 (matches line items 8.50); subtotal computed (not printed); currency inferred"
+X51005442388.jpg,MEDIUM,2,CONTENTO,2018-03-20,MYR,21.6,,21.6,items,"check line items: totals read as 21.60 or 22.60, used 21.60 (matches total 21.60); subtotal computed (not printed)"
+X51005568855.jpg,MEDIUM,2,POPULAR BOOK CO. (M) SDN BHD,2017-12-23,MYR,136.47,4.18,140.65,items,"check line items: totals read as 140.65 or 140.83, used 140.65 (matches total 140.65); subtotal computed (not printed)"
+X00016469671.jpg,HIGH,3,OJC MARKETING SDN BHD,2019-01-02,MYR,170,,170,,subtotal computed (not printed); currency inferred
 X51005200931.jpg,HIGH,3,PERNIAGAAN ZHENG HUI,2018-02-09,MYR,411.5,24.69,436.2,,
 X51005230605.jpg,HIGH,3,ALSERKAM ENTERPRISE,2018-02-01,MYR,4.62,0.28,4.9,,subtotal computed (not printed)
-X51005230648.jpg,HIGH,3,CROSS CHANNEL NETWORK SDN. BHD.,2018-01-29,MYR,5.99,0.36,6.35,,subtotal computed (not printed)
+X51005230616.jpg,HIGH,3,Gerbang Alaf Restaurants Sdn Bhd,2018-01-18,MYR,36.7,2.2,38.9,,subtotal computed (not printed)
+X51005230648.jpg,HIGH,3,CROSS CHANNEL NETWORK SDN. BHD.,2018-01-29,MYR,6,0.36,6.35,,subtotal computed (not printed)
+X51005230657.jpg,HIGH,3,CROSS CHANNEL NETWORK SDN. BHD.,2017-12-31,MYR,7.5,0.45,7.95,,subtotal computed (not printed)
 X51005230659.jpg,HIGH,3,SWC ENTERPRISE SDN BHD,2018-01-08,MYR,7.55,0.45,8,,subtotal computed (not printed); currency inferred
 X51005288570.jpg,HIGH,3,SECURE PARKING CORPORATION S/B,2018-03-23,MYR,0.94,0.06,1,,subtotal computed (not printed)
 X51005361906.jpg,HIGH,3,TEO HENG STATIONERY & BOOKS,2018-01-27,MYR,25.8,1.55,27.35,,
 X51005361908.jpg,HIGH,3,TEO HENG STATIONERY & BOOKS,2018-03-15,MYR,120,7.2,127.2,,
 X51005361923.jpg,HIGH,3,SWC ENTERPRISE SDN BHD,2018-01-02,MYR,3.96,0.24,4.2,,subtotal computed (not printed); currency inferred
-X51005433548.jpg,HIGH,3,PASAR MINI JIN SENG,2018-03-03,MYR,33.8,0.77,33.8,,
+X51005433548.jpg,HIGH,3,PASAR MINI JIN SENG,2018-03-03,MYR,33.03,0.77,33.8,,subtotal computed (not printed)
 X51005442322.jpg,HIGH,3,GRAND COMPANIONS SDN BHD (295560-H),2018-03-03,MYR,231.06,15.25,269.4,,
 X51005442382.jpg,HIGH,3,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-20,MYR,6.23,0.37,6.6,,subtotal computed (not printed); currency inferred
+X51005444040.jpg,HIGH,3,BENS INDEPENDENT GROCER SDN. BHD,2018-03-09,MYR,127.64,6.06,133.7,,subtotal computed (not printed)
+X51005444041.jpg,HIGH,3,BENS INDEPENDENT GROCER SDN. BHD,2018-03-08,MYR,79.26,1.74,81,,subtotal computed (not printed); currency inferred
 X51005444044.jpg,HIGH,3,99 SPEED MART S/B (519537-X),2018-03-10,MYR,5.05,0.3,5.35,,subtotal computed (not printed)
+X51005444046.jpg,HIGH,3,STAR GROCER SDN BHD,2018-03-25,MYR,66.17,0,66.15,,subtotal computed (not printed)
 X51005447841.jpg,HIGH,3,PASARAYA BORONG PINTAR SDN BHD,2018-03-09,MYR,10.4,0,10.4,,subtotal computed (not printed)
 X51005447842.jpg,HIGH,3,PASARAYA BORONG PINTAR SDN BHD,2018-03-14,MYR,0.9,0,0.9,,subtotal computed (not printed)
 X51005447851.jpg,HIGH,3,PASARAYA BORONG PINTAR SDN BHD,2018-01-30,MYR,1.7,0,1.7,,subtotal computed (not printed)
 X51005447859.jpg,HIGH,3,PASARAYA BORONG PINTAR SDN BHD,2018-02-14,MYR,1.45,0,1.45,,subtotal computed (not printed)
-X51005568866.jpg,HIGH,3,POPULAR BOOK CO. (M) SDN BHD,2017-08-20,MYR,4.76,0.29,5.05,,subtotal computed (not printed)
+X51005568866.jpg,HIGH,3,POPULAR BOOK CO. (M) SDN BHD,2017-08-20,MYR,4.75,0.29,5.05,,subtotal computed (not printed)
 X51005568885.jpg,HIGH,3,EVERGREEN LIGHT SDN BHD,2017-07-10,MYR,52.84,3.17,56,,
 X51005568887.jpg,HIGH,3,HON HWA HARDWARE TRADING,2017-04-28,MYR,6.79,0.41,7.2,,subtotal computed (not printed)
 X51005568889.jpg,HIGH,3,HON HWA HARDWARE TRADING,2017-02-11,MYR,18.49,1.11,19.6,,subtotal computed (not printed)
+X51005568890.jpg,HIGH,3,HON HWA HARDWARE TRADING,2017-01-05,MYR,4.72,0.28,5,,subtotal computed (not printed)
 X51005301666.jpg,DUPLICATE,4,,,,,,,,duplicate of X51005268275.jpg

@@ -2,6 +2,21 @@
 
 A workflow by design: the model reads, code decides trust.
 
+## Confidence
+
+Two readers (Haiku, Flash) read each receipt. A value is filled when they agree, or when arithmetic on values they agree on picks one of two different numbers (never a number over an empty or illegible reading). Levels are by the action they ask for:
+
+- HIGH: readers agree and the sums pass. Nothing to check.
+- MEDIUM: every value filled, but a disagreement was settled by arithmetic. Confirm the highlighted value.
+- LOW: a value is empty (readers disagree, or illegible) or the sums fail. Read it from the image.
+
+## Limits
+
+- All numbers are in-sample: rules were tuned on the same 45 receipts, eval uses 15 labels from them.
+- One format: Malaysian GST receipts. Service charge, several tax rates or other layouts are untested.
+- Arithmetic picks were checked by hand on 7 receipts only.
+- Next for production: a held-out labelled set, and one targeted re-read for key-field disagreements.
+
 ## Tier choice (step 3, 2026-09-30)
 
 15 labelled receipts, in-sample. Correct = vendor (normalized), date (exact), total (±0.01).
