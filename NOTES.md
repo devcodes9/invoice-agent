@@ -27,7 +27,6 @@ Confidence, by action needed:
 
 - Two LLM readers instead of adding OCR: much less setup, but both can invent the same value.
 - Hosted models (via OpenRouter) instead of local open-source ones: quick setup and proven vision models, but receipt images leave the machine.
-- Empty cell over a guess: no wrong values in the CSV, but more rows need a human (10 LOW).
 - Fixed workflow instead of an agent that picks its own tools and loops: predictable, testable and cheap, but it can't try another route (crop, zoom, re-read) on a hard receipt.
 - Didn't explore an evaluator-optimizer loop (re-read a disputed field with the error as feedback): disputed fields go to a human instead of being settled automatically.
 - Confidence is simple rule-based levels; I wanted better handling there, e.g. per-field confidence, or a third reader to break ties.
