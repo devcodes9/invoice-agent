@@ -2,9 +2,8 @@ import { TOLERANCE } from "./config";
 import type { Receipt } from "./schema";
 
 export type Validation = {
-  subtotal: number | null; // printed, or computed when not printed
-  subtotalComputed: boolean;
-  totalCheck: "tax-added" | "tax-inclusive" | "fail" | "skipped";
+  subtotal: number | null; // before tax, as printed; never computed
+  totalCheck: "pass" | "fail" | "skipped";
   itemsCheck: "subtotal" | "total" | "fail" | "skipped";
   dateOk: boolean | null;
   currency: string | null; // from the printed symbol when known, else the model's code
@@ -33,28 +32,17 @@ export function validate(r: Receipt, today = new Date()): Validation {
   // The total before bill-level adjustments and rounding: what the items (with or without tax) add up to.
   const net = r.total === null ? null : round2(r.total - adj - rounding);
 
-  // Subtotal: printed, computed when not printed, unknown when illegible.
-  let subtotal = r.subtotal;
-  let subtotalComputed = false;
-  const subtotalIllegible = r.missing.some((m) => m.field === "subtotal" && m.reason === "illegible");
-  if (subtotal === null && !subtotalIllegible && net !== null) {
-    subtotal = round2(net - tax);
-    subtotalComputed = true;
-    reasons.push("subtotal computed (not printed)");
-  }
-
-  // Printed subtotal + adjustments + rounding, with or without tax on top, must reach the total.
+  // Printed subtotal (before tax) + tax + adjustments + rounding must reach the total. Skipped when no subtotal is printed.
+  const subtotal = r.subtotal;
   let totalCheck: Validation["totalCheck"] = "skipped";
-  if (r.total !== null && r.subtotal !== null) {
-    const base = r.subtotal + adj + rounding;
-    totalCheck = near(base + tax, r.total) ? "tax-added" : near(base, r.total) ? "tax-inclusive" : "fail";
-  }
+  if (r.total !== null && subtotal !== null) totalCheck = near(subtotal + tax + adj + rounding, r.total) ? "pass" : "fail";
 
   const amounts = r.line_items.map((i) => i.amount).filter((a): a is number => a !== null);
   let itemsCheck: Validation["itemsCheck"] = "skipped";
   if (amounts.length && !r.line_items.some((i) => i.illegible)) {
     const items = sum(amounts);
-    itemsCheck = subtotal !== null && near(items, subtotal) ? "subtotal" : net !== null && near(items, net) ? "total" : "fail";
+    // Items match the subtotal, or the total before adjustments and rounding, with or without tax.
+    itemsCheck = subtotal !== null && near(items, subtotal) ? "subtotal" : net !== null && (near(items, net) || near(items, net - tax)) ? "total" : "fail";
   }
 
   // Tax sanity: reasons only. Printed rates are not checked: mixed 6%/0% and service charge make it noise.
@@ -83,5 +71,5 @@ export function validate(r: Receipt, today = new Date()): Validation {
     reasons.push("currency inferred");
   }
 
-  return { subtotal, subtotalComputed, totalCheck, itemsCheck, dateOk, currency, currencyPrinted: !!fromSymbol, reasons };
+  return { subtotal, totalCheck, itemsCheck, dateOk, currency, currencyPrinted: !!fromSymbol, reasons };
 }

@@ -49,8 +49,7 @@ test("a value one reading didn't find keeps both readings in words, no strikethr
 });
 
 test("common notes become tags on the value, not bullets", () => {
-  const html = renderReview([row({ reasons: ["subtotal computed (not printed)", "currency inferred"] })], [], "../images");
-  assert.match(html, /<dt>subtotal<\/dt><dd>10\.00 <span class="tag">computed<\/span><\/dd>/);
+  const html = renderReview([row({ reasons: ["currency inferred"] })], [], "../images");
   assert.match(html, /<dt>currency<\/dt><dd>MYR <span class="tag">inferred<\/span><\/dd>/);
   assert.doesNotMatch(html, /<li>/);
 });
@@ -69,3 +68,4 @@ test("adjustments and rounding appear only when printed or disputed", () => {
   assert.match(html, /<dt>adjustments<\/dt><dd>2\.59<\/dd>/);
   assert.doesNotMatch(html, /<dt>rounding<\/dt>/);
 });
+

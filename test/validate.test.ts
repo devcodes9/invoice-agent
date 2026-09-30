@@ -6,17 +6,13 @@ import { item, receipt } from "./fixtures";
 const today = new Date("2026-09-30T00:00:00Z");
 
 test("total check: tax added, rounding counted (411.50 + 24.69 + 0.01 = 436.20)", () => {
-  assert.equal(validate(receipt(), today).totalCheck, "tax-added");
+  assert.equal(validate(receipt(), today).totalCheck, "pass");
 });
 
-test("total check: tax inclusive (81.00 incl. 1.74 GST)", () => {
-  const r = receipt({ subtotal: 81, taxes: [{ label: "GST", rate: 6, amount: 1.74 }], rounding: 0, total: 81, line_items: [] });
-  assert.equal(validate(r, today).totalCheck, "tax-inclusive");
-});
 
 test("total check: adjustments are added (discount -0.20)", () => {
   const r = receipt({ subtotal: 263.02, taxes: [{ label: "GST", rate: 6, amount: 15.78 }], adjustments: [{ label: "Discount", amount: -0.2 }], rounding: null, total: 278.6, line_items: [] });
-  assert.equal(validate(r, today).totalCheck, "tax-added");
+  assert.equal(validate(r, today).totalCheck, "pass");
 });
 
 test("total check: fails when neither form adds up (credit note 278.80)", () => {
@@ -33,27 +29,10 @@ test("total check: skipped when total is null", () => {
   assert.equal(validate(receipt({ total: null }), today).totalCheck, "skipped");
 });
 
-test("absent subtotal is computed as total - taxes, and the total check is skipped", () => {
+test("no printed subtotal: none computed, total check skipped", () => {
   const r = receipt({ subtotal: null, missing: [{ field: "subtotal", reason: "absent" }], taxes: [{ label: "GST", rate: 6, amount: 0.24 }], rounding: null, total: 4.2, line_items: [] });
   const v = validate(r, today);
-  assert.equal(v.subtotal, 3.96);
-  assert.equal(v.subtotalComputed, true);
-  assert.equal(v.totalCheck, "skipped");
-  assert.ok(v.reasons.includes("subtotal computed (not printed)"));
-});
-
-test("null subtotal without a missing entry counts as absent", () => {
-  const r = receipt({ subtotal: null, taxes: [], rounding: null, total: 8, line_items: [] });
-  const v = validate(r, today);
-  assert.equal(v.subtotal, 8);
-  assert.equal(v.subtotalComputed, true);
-});
-
-test("illegible subtotal is not computed; total check skipped", () => {
-  const r = receipt({ subtotal: null, missing: [{ field: "subtotal", reason: "illegible" }] });
-  const v = validate(r, today);
   assert.equal(v.subtotal, null);
-  assert.equal(v.subtotalComputed, false);
   assert.equal(v.totalCheck, "skipped");
 });
 
@@ -144,9 +123,9 @@ test("items check: skipped when an item amount is illegible", () => {
   assert.equal(validate(r, today).itemsCheck, "skipped");
 });
 
-test("computed subtotal and the items check take rounding and adjustments out of the total", () => {
-  const r = receipt({ subtotal: null, missing: [{ field: "subtotal", reason: "absent" }], taxes: [], adjustments: [{ label: "Discount", amount: -1 }], rounding: -0.02, total: 65.15, line_items: [item(60), item(6.17)] });
-  const v = validate(r, new Date("2026-09-30T00:00:00Z"));
-  assert.equal(v.subtotal, 66.17);
-  assert.equal(v.itemsCheck, "subtotal");
+test("items check without a printed subtotal: items match the total less adjustments and rounding, with or without tax", () => {
+  const base = { subtotal: null, missing: [{ field: "subtotal" as const, reason: "absent" as const }], adjustments: [{ label: "Discount", amount: -1 }], rounding: -0.02, total: 65.15 };
+  assert.equal(validate(receipt({ ...base, taxes: [], line_items: [item(60), item(6.17)] }), today).itemsCheck, "total");
+  assert.equal(validate(receipt({ ...base, taxes: [{ label: "GST", rate: 6, amount: 3.75 }], line_items: [item(60), item(2.42)] }), today).itemsCheck, "total");
+  assert.equal(validate(receipt({ ...base, taxes: [], line_items: [item(60)] }), today).itemsCheck, "fail");
 });

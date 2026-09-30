@@ -47,3 +47,8 @@ export function compare(a: Receipt, b: Receipt): FieldDiff[] {
   const va = fieldValues(a), vb = fieldValues(b);
   return FIELDS.map((field) => ({ field, a: va[field], b: vb[field], agree: field === "items" ? sameItems(a, b) : sameValue(va[field], vb[field]) }));
 }
+
+// Numbers compared as numbers, sign ignored: "RM1,436.20" shows 1436.20, "(0.20)" shows -0.20, "RM .02" shows 0.02.
+// A leading-dot number only after a non-number, so "A.....6.00" is 6.00, not .6 and .00.
+export const inQuote = (v: number, ev: string) =>
+  (ev.replace(/,/g, "").match(/\d+(?:\.\d+)?|(?<![\d.])\.\d+/g) ?? []).some((n) => Math.abs(Number(n) - Math.abs(v)) < 0.005);

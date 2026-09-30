@@ -17,7 +17,7 @@ export const Receipt = z.object({
       illegible: z.boolean().describe("true if a value of this item is printed but cannot be read, e.g. cut off or faded"),
     }),
   ),
-  subtotal: money.describe("Exactly as printed; may include tax"),
+  subtotal: money.describe("Before-tax amount exactly as printed; null if not printed, never computed"),
   taxes: z.array(z.object({ label: z.string().nullable(), rate: z.number().nullable(), amount: money })),
   adjustments: z
     .array(z.object({ label: z.string().nullable(), amount: money }))

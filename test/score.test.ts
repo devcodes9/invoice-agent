@@ -32,12 +32,19 @@ test("misread: same printed line, different number → LOW, total empty, both re
   noModelNames(row.reasons);
 });
 
-test("different line: each reading quotes a different printed line → LOW, subtotal empty", () => {
+test("one reading takes a line that includes tax as the subtotal: dropped, the other's before-tax subtotal settles it, MEDIUM", () => {
   const b = withEvidence(receipt({ subtotal: 436.19 }), { subtotal: "Total Sales (Inclusive of GST) : 436.19" });
   const row = score("f.jpg", receipt(), b, today);
-  assert.equal(row.status, "LOW");
+  assert.equal(row.status, "MEDIUM");
+  assert.equal(row.subtotal, 411.5);
+});
+
+test("different line: two before-tax subtotals from different printed lines → LOW, subtotal empty", () => {
+  const b = withEvidence(receipt({ subtotal: 410.5, total: 435.2 }), { subtotal: "Amount (RM) : 410.50", total: "Total (RM) : 435.20" });
+  const a = withEvidence(receipt({ total: 435.2 }), { total: "Total (RM) : 435.20" });
+  const row = score("f.jpg", a, b, today);
   assert.equal(row.subtotal, null);
-  assert.ok(row.reasons.includes('check subtotal: 411.50 ("(Excluded GST) Sub Total (RM) : 411.50") or 436.19 ("Total Sales (Inclusive of GST) : 436.19"), different printed lines'));
+  assert.ok(row.reasons.includes('check subtotal: 410.50 ("Amount (RM) : 410.50") or 411.50 ("(Excluded GST) Sub Total (RM) : 411.50"), different printed lines'), row.reasons.join(" | "));
 });
 
 test("one-sided subtotal printed in its quoted line and fitting the agreed sums: filled, MEDIUM (X51005337877: \"Total : 46.00\")", () => {
@@ -51,12 +58,12 @@ test("one-sided subtotal printed in its quoted line and fitting the agreed sums:
   }
 });
 
-test("one-sided subtotal not in its quoted line is not accepted, even when it fits: it may be total minus tax", () => {
+test("a subtotal not in its own quoted line was computed, not printed: dropped, never filled", () => {
   const a = withEvidence(receipt(), { subtotal: "Sub Total (RM) :" });
   const b = withEvidence(receipt({ subtotal: null }), { subtotal: null });
   const row = score("f.jpg", a, b, today);
-  assert.equal(row.status, "LOW");
   assert.equal(row.subtotal, null);
+  assert.ok(!row.flagged_fields.includes("subtotal"));
 });
 
 test("one-sided subtotal that doesn't fit is LOW, empty, and asks whether that printed line is the subtotal", () => {
@@ -76,10 +83,10 @@ test("a value missing from its own quoted line is flagged as possibly made up", 
 });
 
 test("a value with no quoted line at all is flagged", () => {
-  const r = withEvidence(receipt(), { subtotal: null });
+  const r = withEvidence(receipt(), { total: null });
   const row = score("f.jpg", r, r, today);
   assert.equal(row.status, "MEDIUM");
-  assert.ok(row.reasons.includes("check subtotal: 411.50 has no printed line"));
+  assert.ok(row.reasons.includes("check total: 436.20 has no printed line"));
 });
 
 test('a number printed without its leading zero still matches: "RM .02" shows 0.02 (X51005268408)', () => {
@@ -163,12 +170,12 @@ test("agreeing items that match neither subtotal nor total are LOW (sums fail)",
   assert.ok(row.reasons.includes("check line items: sum 5.00 matches neither subtotal 411.50 nor total 436.20"));
 });
 
-test("agreed subtotal not printed is computed and filled", () => {
+test("agreed subtotal not printed stays empty, never computed, not flagged", () => {
   const r = withEvidence(receipt({ subtotal: null, rounding: null, total: 436.19, missing: [{ field: "subtotal", reason: "absent" }] }), { subtotal: null, rounding: null, total: "Total (RM) : 436.19" });
   const row = score("f.jpg", r, r, today);
   assert.equal(row.status, "HIGH");
-  assert.equal(row.subtotal, 411.5);
-  assert.ok(row.reasons.includes("subtotal computed (not printed)"));
+  assert.equal(row.subtotal, null);
+  assert.deepEqual(row.reasons, []);
 });
 
 test("null total is LOW", () => {
@@ -228,13 +235,24 @@ test("same item total but different line amounts is LOW with a line-level reason
 
 // Normalization: readings that mean the same thing compare equal.
 
-test('a "subtotal" equal to the total is the total printed twice, not a disagreement (X51005442334)', () => {
-  const t = { subtotal: "Total Amount: $8.20", total: "Nett Total: $8.20", rounding: null };
-  const a = withEvidence(receipt({ subtotal: 8.2, taxes: [{ label: "GST", rate: 6, amount: 0.46 }], rounding: null, total: 8.2, line_items: [item(7.1), item(1.1)] }), t);
-  const b = withEvidence({ ...a, subtotal: null, missing: [{ field: "subtotal", reason: "absent" }] }, { subtotal: null });
-  const row = score("f.jpg", a, b, today);
+const inclusive = (over: Partial<Receipt> = {}) =>
+  withEvidence(receipt({ subtotal: 8.2, taxes: [{ label: "GST", rate: 6, amount: 0.46 }], rounding: null, total: 8.2, line_items: [item(7.1), item(1.1)], ...over }), {
+    subtotal: "Total Amount: $8.20",
+    total: "Nett Total: $8.20",
+    rounding: null,
+  });
+
+test("a \"subtotal\" that includes tax (both readings took \"Total Amount\") is not before tax: empty, HIGH (X51005230621)", () => {
+  const row = score("f.jpg", inclusive(), inclusive(), today);
   assert.equal(row.status, "HIGH");
-  assert.equal(row.subtotal, 7.74);
+  assert.equal(row.subtotal, null);
+});
+
+test("one reading takes \"Total Amount\" (includes tax) as the subtotal, the other finds none: agreement, HIGH (X51005442334)", () => {
+  const b = withEvidence(inclusive({ subtotal: null, missing: [{ field: "subtotal", reason: "absent" }] }), { subtotal: null });
+  const row = score("f.jpg", inclusive(), b, today);
+  assert.equal(row.status, "HIGH");
+  assert.equal(row.subtotal, null);
 });
 
 test("a rounding of 0 with no printed line is not flagged", () => {
@@ -280,11 +298,12 @@ test("total disagreement no agreed value can settle stays LOW and empty", () => 
 
 test("item misread (1.887 vs 2.00): the items matching the agreed subtotal are used, MEDIUM (X51005230621)", () => {
   const base = { subtotal: 7.3, taxes: [], rounding: null, total: 7.3 };
-  const a = receipt({ ...base, line_items: [item(1.887), item(5.3)] }), b = receipt({ ...base, line_items: [item(2), item(5.3)] });
+  const e = { subtotal: "Subtotal : 7.30", tax: null, rounding: null, total: "Payment : 7.30" };
+  const a = withEvidence(receipt({ ...base, line_items: [item(1.887), item(5.3)] }), e), b = withEvidence(receipt({ ...base, line_items: [item(2), item(5.3)] }), e);
   const row = score("f.jpg", a, b, today);
   assert.equal(row.status, "MEDIUM");
   assert.deepEqual(row.lineItems?.map((i) => i.amount), [2, 5.3]);
-  assert.ok(row.reasons.includes("check line items: totals read as 7.19 or 7.30, used 7.30 (matches total 7.30)"));
+  assert.ok(row.reasons.includes("check line items: totals read as 7.19 or 7.30, used 7.30 (matches subtotal 7.30)"));
 });
 
 test("a discount counted twice: the reading without the extra line matches the agreed total (X51005442366)", () => {
@@ -325,7 +344,7 @@ const rounded = (over: Partial<Receipt> = {}) =>
 test("agreed items 66.17 with rounding -0.02 reach the total 66.15: HIGH, not a failed sum (X51005444046)", () => {
   const row = score("f.jpg", rounded(), rounded(), today);
   assert.equal(row.status, "HIGH");
-  assert.equal(row.subtotal, 66.17);
+  assert.equal(row.subtotal, null);
 });
 
 test("settling items uses the total before rounding", () => {
@@ -369,7 +388,7 @@ test("disputed adjustment (a discount counted twice): items still settle on the 
   const row = score("f.jpg", a, b, today);
   assert.deepEqual(row.lineItems?.map((i) => i.amount), [10, 6.5, 4.2, 1.9]);
   assert.equal(row.status, "MEDIUM");
-  assert.equal(row.subtotal, null); // computed only from agreed values; the discount is disputed
+  assert.equal(row.subtotal, null); // not printed, never computed
 });
 
 test("set items with no printed price marked illegible by one reading: readable amounts reach the agreed subtotal, filled, MEDIUM (X51005337867)", () => {
@@ -401,4 +420,22 @@ test("vendor output drops the registration number next to the name", () => {
 test("unreadable item amounts give one reason, not also a sum over the rest (X51005447844)", () => {
   const row = score("f.jpg", receipt({ line_items: [item(110), item(null, true)] }), receipt({ line_items: [item(null, true), item(null, true)] }), today);
   assert.deepEqual(row.reasons.filter((r) => r.includes("line items")), ["check line items: 2 amounts could not be read"]);
+});
+
+test("a subtotal quoted from the same printed line as the total is the total, not a subtotal (X51005442388)", () => {
+  const a = withEvidence(receipt({ subtotal: 21.6, taxes: [], rounding: null, total: 21.6, line_items: [item(21.6)] }), { subtotal: "***TOTAL RM 21.60", tax: null, rounding: null, total: "***TOTAL RM 21.60" });
+  const b = withEvidence({ ...a, subtotal: null, missing: [{ field: "subtotal", reason: "absent" }] }, { subtotal: null });
+  const row = score("f.jpg", a, b, today);
+  assert.equal(row.status, "HIGH");
+  assert.ok(!row.flagged_fields.includes("subtotal"));
+});
+
+test('a number after a run of dots is read whole: "SR @ A......6.00" shows 6.00 (X51005230648)', () => {
+  const r = withEvidence(receipt({ subtotal: 6, taxes: [{ label: "GST", rate: 6, amount: 0.36 }], rounding: -0.01, total: 6.35, line_items: [item(6.36)] }), {
+    subtotal: "SR @ A...............................6.00",
+    tax: "GST 0.36",
+    rounding: "Rounding -0.01",
+    total: "Total 6.35",
+  });
+  assert.equal(score("f.jpg", r, r, today).subtotal, 6);
 });

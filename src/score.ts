@@ -1,4 +1,4 @@
-import { compare, normText, sameValue, type Field, type Value } from "./compare";
+import { compare, inQuote, normText, sameValue, type Field, type Value } from "./compare";
 import type { Receipt } from "./schema";
 import { validate } from "./validate";
 import { TOLERANCE } from "./config";
@@ -37,10 +37,6 @@ const illegible = (r: Receipt) => r.missing.filter((m) => m.reason === "illegibl
 const quote = (r: Receipt, f: Field): string | null => r.evidence.find((e) => e.field === f)?.text ?? null;
 // The printed label without its number: "Total (RM) : 436.20" → "total".
 const lineLabel = (ev: string) => normText(ev.replace(/[\d.,-]+/g, " "));
-// Numbers compared as numbers, sign ignored: "RM1,436.20" shows 1436.20, "(0.20)" shows -0.20, "RM .02" shows 0.02.
-const inQuote = (v: number, ev: string) =>
-  (ev.replace(/,/g, "").match(/\d*\.?\d+/g) ?? []).some((n) => Math.abs(Number(n) - Math.abs(v)) < 0.005);
-
 function describe(field: Field, x: Value, evx: string | null, y: Value, evy: string | null): string {
   const label = LABEL[field] ?? field;
   // A summed 0 with no printed line means "nothing found".
@@ -114,7 +110,7 @@ export function score(file: string, rawA: Receipt, rawB: Receipt, today = new Da
     const ev = quote(noSub === a ? b : a, "subtotal");
     const net = sum([a.total, -sum(a.adjustments.map((j) => j.amount)), -(a.rounding ?? 0)]);
     const tax = sum(a.taxes.map((t) => t.amount));
-    const fits = Math.abs(x - net) <= TOLERANCE.sums + 1e-9 || Math.abs(x + tax - net) <= TOLERANCE.sums + 1e-9;
+    const fits = Math.abs(x + tax - net) <= TOLERANCE.sums + 1e-9; // before tax: subtotal + tax + adjustments + rounding = total
     if (ev && inQuote(x, ev) && fits) {
       settledSubtotal = { value: x, ev };
       sub.agree = true; // the values below use it as agreed; the flag and reason are added with the other disagreements
@@ -243,7 +239,7 @@ export function score(file: string, rawA: Receipt, rawB: Receipt, today = new Da
   }
   for (const r of va.reasons) if (vb.reasons.includes(r) && !reasons.includes(r)) reasons.push(r);
 
-  const subtotal = !agrees("subtotal") ? null : agreedSubtotal ?? (total !== null && agrees("tax") && extras !== null ? vr.subtotal : null);
+  const subtotal = agreedSubtotal; // as printed, never computed
   const out = {
     // The registration number next to the name identifies the vendor; it is not part of the name.
     vendor: agrees("vendor") && a.vendor !== null ? a.vendor.replace(/\s*\([^)]*\d[^)]*\)\s*$/, "") : null,

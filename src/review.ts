@@ -9,7 +9,6 @@ const cell = (v: string | number | null) => (v === null ? "" : esc(String(v)));
 
 // Notes that apply to many receipts and change nothing: a tag next to the value, not a bullet.
 const TAGS: Record<string, [string, string]> = {
-  "subtotal computed (not printed)": ["subtotal", "computed"],
   "currency inferred": ["currency", "inferred"],
 };
 const REVIEW = ["UNREADABLE", "LOW", "MEDIUM"];
