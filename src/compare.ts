@@ -35,7 +35,14 @@ export function sameValue(a: Value, b: Value): boolean {
   return normText(String(a)) === normText(String(b));
 }
 
+// Line items agree when the same amounts appear, in any order.
+export function sameItems(a: Receipt, b: Receipt): boolean {
+  const amounts = (r: Receipt) => r.line_items.map((i) => i.amount ?? 0).sort((x, y) => x - y);
+  const [x, y] = [amounts(a), amounts(b)];
+  return x.length === y.length && x.every((v, i) => sameValue(v, y[i]));
+}
+
 export function compare(a: Receipt, b: Receipt): FieldDiff[] {
   const va = fieldValues(a), vb = fieldValues(b);
-  return FIELDS.map((field) => ({ field, a: va[field], b: vb[field], agree: sameValue(va[field], vb[field]) }));
+  return FIELDS.map((field) => ({ field, a: va[field], b: vb[field], agree: field === "items" ? sameItems(a, b) : sameValue(va[field], vb[field]) }));
 }

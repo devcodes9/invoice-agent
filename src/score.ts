@@ -1,4 +1,4 @@
-import { compare, normText, type Field, type Value } from "./compare";
+import { compare, normText, sameValue, type Field, type Value } from "./compare";
 import type { Receipt } from "./schema";
 import { validate } from "./validate";
 
@@ -49,7 +49,8 @@ function describe(field: Field, x: Value, evx: string | null, y: Value, evy: str
     { v: eff(x, evx), ev: evx },
     { v: eff(y, evy), ev: evy },
   ].sort((m, n) => fmt(m.v).localeCompare(fmt(n.v), undefined, { numeric: true }));
-  if (field === "items") return `check line items: totals read as ${fmt(p.v ?? 0)} or ${fmt(q.v ?? 0)}`;
+  if (field === "items")
+    return sameValue(x, y) ? `check line items: same total ${fmt(x)}, but line amounts differ` : `check line items: totals read as ${fmt(p.v ?? 0)} or ${fmt(q.v ?? 0)}`;
   if (p.v === null || q.v === null) {
     const one = p.v === null ? q : p;
     return `check ${label}: ${fmt(one.v)} may not be printed${one.ev ? ` ("${one.ev}")` : ""}`;

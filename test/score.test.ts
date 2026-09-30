@@ -191,3 +191,10 @@ test("no reason ever names a model or a reading", () => {
   const a = receipt({ vendor: "X", date: "2016-01-01", total: 1, currency: "SGD", currency_symbol_seen: "$", line_items: [item(null, true)] });
   noModelNames(score("f.jpg", a, receipt(), today).reasons);
 });
+
+test("same item total but different line amounts is MEDIUM with a line-level reason", () => {
+  const row = score("f.jpg", receipt(), receipt({ line_items: [item(300), item(111.5)] }), today);
+  assert.equal(row.status, "MEDIUM");
+  assert.equal(row.itemsAgreed, false);
+  assert.ok(row.reasons.includes("check line items: same total 411.50, but line amounts differ"));
+});
