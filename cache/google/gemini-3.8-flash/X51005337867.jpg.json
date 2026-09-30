@@ -1,0 +1,73 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "2b060905be73",
+  "file": "X51005337867.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "Old Town Kopitiam Sdn Bhd",
+    "date": "2018-03-22",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "ST30",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 13.87
+      },
+      {
+        "description": "BR10 Stm Ginger R",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null
+      },
+      {
+        "description": "TF2 (H) Teh Tarik",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null
+      },
+      {
+        "description": "HS4",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 12.07
+      },
+      {
+        "description": "SN5 Curry Mee",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null
+      },
+      {
+        "description": "TF7 (C) Lemon T",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null
+      }
+    ],
+    "subtotal": 25.94,
+    "taxes": [
+      {
+        "label": "GST @6%",
+        "rate": 6,
+        "amount": 1.71
+      }
+    ],
+    "adjustments": [
+      {
+        "label": "10% Srv Chg",
+        "amount": 2.59
+      }
+    ],
+    "rounding": 0.01,
+    "total": 30.25,
+    "missing": []
+  },
+  "usage": {
+    "input": 1473,
+    "output": 792,
+    "cost": 0.00407475
+  },
+  "ms": 6566
+}

@@ -1,0 +1,51 @@
+{
+  "model": "google/gemini-3.1-pro-preview",
+  "prompt": "2b060905be73",
+  "file": "X51005361923.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SWC ENTERPRISE SDN BHD",
+    "date": "2018-01-02",
+    "currency": null,
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "5X8 500G",
+        "qty": 1,
+        "unit_price": 4.2,
+        "amount": 4.2
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 0.24
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 4.2,
+    "missing": [
+      {
+        "field": "currency",
+        "reason": "absent"
+      },
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 2381,
+    "output": 1728,
+    "cost": 0.025498
+  },
+  "ms": 16929
+}

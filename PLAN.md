@@ -29,21 +29,24 @@ currency_symbol_seen: string | null  // raw text on receipt, e.g. "RM"
 line_items: { description, qty, unit_price, amount }[]
 subtotal: number | null
 taxes: { label, rate | null, amount }[]
-adjustments: { label, amount }[]   // rounding, discount, service charge, tip
+adjustments: { label, amount }[]   // discount, service charge, tip
+rounding: number | null            // printed rounding adj, e.g. -0.01
 total: number | null
 missing: { field, reason: "absent" | "illegible" }[]
 ```
 
 Prompt rule: "If you cannot read a value, return null and mark it illegible. If it is not printed, return null and mark it absent. Never guess."
 
+Vendor rule (prompt and labels): the vendor is the name printed next to the company registration number (e.g. "(123456-X)", "Co. No.", "ROC No."), since receipts often show several names (brand, outlet, legal entity). If no registration number is printed, use the name at the top.
+
 ## Steps
 
 1. **Dedupe:** hash each image; the second copy of an exact duplicate gets status `DUPLICATE` (reason `duplicate of <file>`). Known pair: X51005268275 = X51005301666.
 2. **Extract ×2:** same prompt and schema, temperature 0. Cache results in `cache/<model>/<file>.json`.
 3. **Compare per field:** numbers equal within 0.01; strings normalized (lowercase, punctuation and extra spaces stripped); line items compared by net sum only (discounts are negative items). On disagreement, the CSV gets the value that passes the arithmetic checks, else the primary's.
-4. **Validate** (tolerance ±0.05). Subtotal is copied exactly as printed (may include tax).
+4. **Validate** (tolerance ±0.01, float noise only; rounding is an extracted field). Subtotal is copied exactly as printed (may include tax).
    - Subtotal not printed (`absent`): compute `total − Σtaxes`, label "subtotal computed (not printed)", no status downgrade, skip the (circular) sum check below
-   - pass if `subtotal + Σtaxes + Σadjustments = total` (tax added) OR `subtotal + Σadjustments = total` (tax-inclusive); record which matched
+   - pass if `subtotal + Σtaxes + Σadjustments + rounding = total` (tax added) OR `subtotal + Σadjustments + rounding = total` (tax-inclusive); record which matched
    - `Σ line_items.amount = subtotal` (tax-exclusive) OR `= total` (tax-inclusive); record which matched
    - tax sanity (reason only, no downgrade): 0 ≤ tax ≤ 30% of subtotal; printed-rate mismatch noted (mixed 6%/0% items are common)
    - date parses and is not in the future
@@ -62,7 +65,7 @@ Prompt rule: "If you cannot read a value, return null and mark it illegible. If 
 ## Project layout
 
 ```
-src/config.ts     models, tolerances
+src/config.ts     models, tolerance
 src/schema.ts     Zod schema
 src/extract.ts    generateObject + cache + usage logging
 src/compare.ts    field-by-field agreement

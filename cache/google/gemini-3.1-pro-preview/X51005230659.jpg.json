@@ -1,0 +1,53 @@
+{
+  "model": "google/gemini-3.1-pro-preview",
+  "prompt": "2b060905be73",
+  "file": "X51005230659.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SWC ENTERPRISE SDN BHD",
+    "date": "2018-01-08",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "20X30 BEG 1KG(1X30)",
+        "qty": null,
+        "unit_price": null,
+        "amount": null
+      },
+      {
+        "description": "20X30 1KG",
+        "qty": 1,
+        "unit_price": 8,
+        "amount": 8
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "G 6% Included In Total",
+        "rate": 6,
+        "amount": 0.45
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 8,
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 2389,
+    "output": 1990,
+    "cost": 0.028658
+  },
+  "ms": 16672
+}

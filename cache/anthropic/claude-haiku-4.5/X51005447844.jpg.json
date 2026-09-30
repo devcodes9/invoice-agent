@@ -1,0 +1,68 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005447844.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "JIAWEI HOUSE",
+    "date": "2018-02-23",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "Red Cat Fish Steamed",
+        "qty": 1,
+        "unit_price": 42,
+        "amount": 42
+      },
+      {
+        "description": "Ginger Clams (S)",
+        "qty": 1,
+        "unit_price": 20,
+        "amount": 20
+      },
+      {
+        "description": "Beancurd W Dao Gan (S)",
+        "qty": 1,
+        "unit_price": 18,
+        "amount": 18
+      },
+      {
+        "description": "G. Dragon Chives (S)",
+        "qty": 1,
+        "unit_price": 16,
+        "amount": 16
+      },
+      {
+        "description": "Pu Er (1-3) STIR FRIED HOT (1-3)",
+        "qty": 1,
+        "unit_price": 5,
+        "amount": 5
+      },
+      {
+        "description": "Rice (B)",
+        "qty": null,
+        "unit_price": 0.5,
+        "amount": 6
+      },
+      {
+        "description": "Rice Small",
+        "qty": null,
+        "unit_price": 1,
+        "amount": 3
+      }
+    ],
+    "subtotal": 110,
+    "taxes": [],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 110,
+    "missing": []
+  },
+  "usage": {
+    "input": 3128,
+    "output": 357,
+    "cost": 0.004913
+  },
+  "ms": 6084
+}

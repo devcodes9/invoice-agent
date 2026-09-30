@@ -1,0 +1,73 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005365187.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "F&P PHARMACY",
+    "date": "2018-03-02",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "HOMECARE GASCOAL 50MG",
+        "qty": 1,
+        "unit_price": 5.66,
+        "amount": 6
+      },
+      {
+        "description": "P P NAPROXEN NA 275 MG",
+        "qty": 1,
+        "unit_price": 4.3,
+        "amount": 4.3
+      },
+      {
+        "description": "YELLOW LOTION 30 ML",
+        "qty": 1,
+        "unit_price": 3.58,
+        "amount": 3.8
+      },
+      {
+        "description": "PANADOL SOLUBLE TABLET",
+        "qty": 1,
+        "unit_price": 6.13,
+        "amount": 6.5
+      },
+      {
+        "description": "PMS GAUZE BANDAGE 5CM X 4M",
+        "qty": 1,
+        "unit_price": 5,
+        "amount": 5.3
+      },
+      {
+        "description": "DETTOL 50 ML",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null
+      }
+    ],
+    "subtotal": 30.68,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": 6,
+        "amount": 1.22
+      },
+      {
+        "label": "ZRL",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 31.9,
+    "missing": []
+  },
+  "usage": {
+    "input": 3072,
+    "output": 371,
+    "cost": 0.004927
+  },
+  "ms": 8245
+}

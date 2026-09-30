@@ -1,0 +1,70 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "2b060905be73",
+  "file": "X51005337877.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "UROKO JAPANESE CUISINE SDN BHD",
+    "date": "2018-03-20",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "KO NABE INANIWA UDON",
+        "qty": 1,
+        "unit_price": 24,
+        "amount": 24
+      },
+      {
+        "description": "GREEN TEA",
+        "qty": 1,
+        "unit_price": 1,
+        "amount": 1
+      },
+      {
+        "description": "GYOZA 5pcs",
+        "qty": 1,
+        "unit_price": 15,
+        "amount": 15
+      },
+      {
+        "description": "GARLIC CHAHAN",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 6
+      }
+    ],
+    "subtotal": 46,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 3
+      }
+    ],
+    "adjustments": [
+      {
+        "label": "Discount",
+        "amount": 0
+      },
+      {
+        "label": "Service Chg 10.00%",
+        "amount": 4
+      }
+    ],
+    "rounding": null,
+    "total": 53,
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1494,
+    "output": 832,
+    "cost": 0.0042405
+  },
+  "ms": 6291
+}

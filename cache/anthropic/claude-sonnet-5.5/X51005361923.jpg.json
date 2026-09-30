@@ -1,0 +1,51 @@
+{
+  "model": "anthropic/claude-sonnet-5.5",
+  "prompt": "2b060905be73",
+  "file": "X51005361923.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SWC ENTERPRISE SDN BHD",
+    "date": "2018-01-02",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "5X8 500G",
+        "qty": 1,
+        "unit_price": 4.2,
+        "amount": 4.2
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "GST @6% Included In Total",
+        "rate": 6,
+        "amount": 0.24
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 4.2,
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      },
+      {
+        "field": "currency",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 6744,
+    "output": 229,
+    "cost": 0.015778
+  },
+  "ms": 4965
+}

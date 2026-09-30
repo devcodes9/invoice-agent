@@ -1,0 +1,44 @@
+{
+  "model": "anthropic/claude-sonnet-5.5",
+  "prompt": "2b060905be73",
+  "file": "X51005230621.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SIN LIANHAP SDN BHD",
+    "date": "2018-02-05",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "PPD 4MM DENLIME",
+        "qty": 1,
+        "unit_price": 1.887,
+        "amount": 2
+      },
+      {
+        "description": "6023# GARDEN",
+        "qty": 1,
+        "unit_price": 5,
+        "amount": 5.3
+      }
+    ],
+    "subtotal": 7.3,
+    "taxes": [
+      {
+        "label": "GST SR",
+        "rate": 6,
+        "amount": 0.41
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 7.3,
+    "missing": []
+  },
+  "usage": {
+    "input": 3396,
+    "output": 218,
+    "cost": 0.008972
+  },
+  "ms": 3399
+}

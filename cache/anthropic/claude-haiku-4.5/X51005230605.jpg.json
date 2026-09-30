@@ -1,0 +1,44 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "2b060905be73",
+  "file": "X51005230605.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "ALSERKAM ENTERPRISE",
+    "date": "2018-02-01",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "double ,mint te",
+        "qty": 2,
+        "unit_price": null,
+        "amount": 3
+      },
+      {
+        "description": "sandwich venill",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 1.9
+      }
+    ],
+    "subtotal": 4.62,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 0.28
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 4.9,
+    "missing": []
+  },
+  "usage": {
+    "input": 2728,
+    "output": 177,
+    "cost": 0.003613
+  },
+  "ms": 5371
+}

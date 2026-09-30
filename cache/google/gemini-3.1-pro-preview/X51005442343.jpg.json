@@ -1,0 +1,43 @@
+{
+  "model": "google/gemini-3.1-pro-preview",
+  "prompt": "2b060905be73",
+  "file": "X51005442343.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "YONG TAT HARDWARE TRADING",
+    "date": "2018-03-13",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "8603 0.8MM X 50\" X 50\" AR RED GASKET",
+        "qty": 1,
+        "unit_price": 72,
+        "amount": 72
+      }
+    ],
+    "subtotal": 67.92,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": 6,
+        "amount": 4.08
+      }
+    ],
+    "adjustments": [
+      {
+        "label": "Discount",
+        "amount": 0
+      }
+    ],
+    "rounding": 0,
+    "total": 72,
+    "missing": []
+  },
+  "usage": {
+    "input": 2381,
+    "output": 1845,
+    "cost": 0.026902
+  },
+  "ms": 14655
+}
