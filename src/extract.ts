@@ -26,7 +26,7 @@ Rules:
 - evidence: one entry per field that has a value (vendor, date, subtotal, tax, adjustments, rounding, total): the printed line it came from, exactly as printed, including its label and number (e.g. "Total (RM) : 436.20"). For tax and adjustments, join several lines with " | ". A field with no printed line gets no entry, and its value must be null.
 - legible: false only if the receipt as a whole cannot be read.`;
 
-// Cached results from an older prompt are ignored.
+// Replay ignores saved responses from an older prompt.
 const PROMPT_HASH = createHash("sha256").update(PROMPT).update(JSON.stringify(z.toJSONSchema(Receipt))).digest("hex").slice(0, 12);
 
 export type Extraction = {
@@ -44,14 +44,15 @@ export function cachePath(model: string, file: string) {
   return join("cache", model, `${basename(file)}.json`);
 }
 
+// Live by default: always calls the model and saves the response to cache/.
 // replay: read from cache/ only, never call the model.
 export async function extract(model: string, file: string, { replay = false } = {}): Promise<Extraction> {
   const path = cachePath(model, file);
-  if (existsSync(path)) {
-    const cached: Extraction = JSON.parse(readFileSync(path, "utf8"));
-    if (cached.prompt === PROMPT_HASH) return cached;
+  if (replay) {
+    const cached: Extraction | undefined = existsSync(path) ? JSON.parse(readFileSync(path, "utf8")) : undefined;
+    if (cached?.prompt !== PROMPT_HASH) throw new Error(`no cached response for the current prompt: ${path}`);
+    return cached;
   }
-  if (replay) throw new Error(`no cached response for the current prompt: ${path}`);
 
   const t0 = Date.now();
   const res = await generateText({

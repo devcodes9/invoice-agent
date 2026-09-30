@@ -18,7 +18,7 @@ pnpm install
 pnpm replay
 ```
 
-**Live:** calls the models via OpenRouter. Responses already in `cache/` are reused; delete `cache/` for a full fresh run (about $0.90).
+**Live:** calls the models via OpenRouter for every receipt (about $0.90) and saves the responses to `cache/`, so a later `pnpm replay` reproduces that run.
 
 ```sh
 cp .env.example .env   # set OPENROUTER_API_KEY
