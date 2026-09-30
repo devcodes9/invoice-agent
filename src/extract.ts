@@ -23,7 +23,7 @@ Rules:
 - adjustments: bill-level discounts (negative), service charge, tip. Not rounding. Not discounts already listed as line items. Not summary lines such as "Total Savings". Not payment lines (cash, card, change).
 - rounding: the printed rounding adjustment, signed. Null if not printed.
 - total: the final amount payable, after rounding. Not cash tendered, not change.
-- evidence: for each field, copy the printed line the value came from, exactly as printed, including its label and number (e.g. "Total (RM) : 436.20"). For tax and adjustments, join several lines with " | ". Null when the value is null. If you cannot point to a printed line, the value must be null.
+- evidence: one entry per field that has a value (vendor, date, subtotal, tax, adjustments, rounding, total): the printed line it came from, exactly as printed, including its label and number (e.g. "Total (RM) : 436.20"). For tax and adjustments, join several lines with " | ". A field with no printed line gets no entry, and its value must be null.
 - legible: false only if the receipt as a whole cannot be read.`;
 
 // Cached results from an older prompt are ignored.

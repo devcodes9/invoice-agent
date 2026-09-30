@@ -21,7 +21,6 @@ export type Row = {
   itemsAgreed: boolean; // line items are written only when both readings agree
 };
 
-type Evidence = Receipt["evidence"];
 const KEY: Field[] = ["total", "date"];
 const SUMMED: Field[] = ["tax", "adjustments", "rounding", "items"];
 const QUOTED = ["subtotal", "rounding", "total"] as const; // single printed numbers we can find in their line
@@ -30,7 +29,7 @@ const LABEL: Partial<Record<Field, string>> = { items: "line items" };
 const fmt = (v: Value) => (v === null ? "none" : typeof v === "number" ? v.toFixed(2) : v);
 const sum = (xs: (number | null)[]) => Math.round(xs.reduce<number>((t, x) => t + (x ?? 0), 0) * 100) / 100;
 const illegible = (r: Receipt) => r.missing.filter((m) => m.reason === "illegible").map((m) => m.field as string);
-const quote = (r: Receipt, f: Field): string | null => (f in r.evidence ? r.evidence[f as keyof Evidence] : null);
+const quote = (r: Receipt, f: Field): string | null => r.evidence.find((e) => e.field === f)?.text ?? null;
 // The printed label without its number: "Total (RM) : 436.20" → "total".
 const lineLabel = (ev: string) => normText(ev.replace(/[\d.,-]+/g, " "));
 // "RM1,436.20" contains 1436.20; "(0.20)" or "-0.20" contains -0.20.
@@ -94,7 +93,7 @@ export function score(file: string, a: Receipt, b: Receipt, today = new Date()):
   const quoteReasons = new Set<string>();
   for (const f of QUOTED)
     for (const r of [a, b]) {
-      const v = r[f], ev = r.evidence[f];
+      const v = r[f], ev = quote(r, f);
       if (v === null) continue;
       if (!ev) quoteReasons.add(`check ${f}: ${fmt(v)} has no printed line`);
       else if (!inQuote(v, ev)) quoteReasons.add(`check ${f}: ${fmt(v)} not found in printed line "${ev}"`);

@@ -18,22 +18,27 @@ export function receipt(over: Partial<Receipt> = {}): Receipt {
     rounding: 0.01,
     total: 436.2,
     missing: [],
-    evidence: {
+    evidence: toList({
       vendor: "PERNIAGAAN ZHENG HUI",
       date: "Date: 09/02/2018",
       subtotal: "(Excluded GST) Sub Total (RM) : 411.50",
       tax: "Total GST (RM) : 24.69",
-      adjustments: null,
       rounding: "Rounding (RM) : 0.01",
       total: "Total (RM) : 436.20",
-    },
+    }),
     ...over,
   };
 }
 
-// Same receipt with one evidence line replaced.
-export function withEvidence(r: Receipt, over: Partial<Receipt["evidence"]>): Receipt {
-  return { ...r, evidence: { ...r.evidence, ...over } };
+type EvidenceField = Receipt["evidence"][number]["field"];
+type EvidenceMap = Partial<Record<EvidenceField, string | null>>;
+const toList = (m: EvidenceMap): Receipt["evidence"] =>
+  Object.entries(m).flatMap(([field, text]) => (text ? [{ field: field as EvidenceField, text }] : []));
+
+// Same receipt with evidence lines replaced (null removes the line).
+export function withEvidence(r: Receipt, over: EvidenceMap): Receipt {
+  const current = Object.fromEntries(r.evidence.map((e) => [e.field, e.text]));
+  return { ...r, evidence: toList({ ...current, ...over }) };
 }
 
 export const item = (amount: number | null, illegible = false) => ({ description: "X", qty: 1, unit_price: amount, amount, illegible });
