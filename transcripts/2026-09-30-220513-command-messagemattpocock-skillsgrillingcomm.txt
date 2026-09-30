@@ -1,0 +1,524 @@
+ ▐▛███▛█   Claude Code v2.1.285
+▝▜██████▀  Opus 5.5 · Claude Max
+ ▝▝   ▝▝   ~/personal-workspace/S4/images
+
+
+❯ /mattpocock-skills:grilling @PLAN.md                                          
+  ⎿  Read PLAN.md (99 lines)
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Let me read the assignment brief so the questions are grounded in what's
+  actually required.
+
+  Read 1 file, ran 1 shell command (ctrl+o to expand)
+
+⏺ Using the grilling skill on PLAN.md, checked against the brief (S4.pdf). Two
+  things I confirmed first:
+
+  - The duplicate pair is real: X51005268275 and X51005301666 are
+    byte-identical, and they're the only exact duplicate among the 45 images.
+  - Line 44 of PLAN.md is cut off: it reads Σ line_items.amount = subto.
+
+  Round 1: these questions don't depend on each other.
+
+  ---
+
+  ❓ Q1 - What goes in the confidence column: The brief says "sort by
+  confidence." Your status values sort alphabetically as HIGH, LOW, MEDIUM,
+  UNREADABLE when someone clicks sort in Excel or Sheets. That's the wrong
+  order, and a reviewer will probably try exactly that. Options:
+  (a) Keep text statuses only and rely on the order already in the file.
+  (b) Add a numeric confidence column (for example UNREADABLE=0, LOW=1,
+  MEDIUM=2, HIGH=3) next to status.
+  (c) Use a fake-precision score like 0.87.
+
+  ➡️ (b). The rule-based tiers stay the real signal, and the number exists only
+  so sorting works. Say that directly in NOTES.md so it doesn't read as dodging
+  the brief's word "score."
+
+  ❓ Q2 - Which values go in the CSV when the models disagree: The plan puts
+  both values in reasons but never says which one fills the total cell.
+  (a) Always the primary (Claude).
+  (b) Whichever value passes the arithmetic checks.
+  (c) Leave the cell empty.
+
+  ➡️ (b), falling back to the primary. It's cheap, and it's a real use of
+  validation, not a cosmetic one. The row still stays LOW because the models
+  disagreed.
+
+  ❓ Q3 - Tax-inclusive receipts and the items-to-subtotal rule: Many Malaysian
+  GST receipts list line items with GST already included, or print no subtotal
+  at all. As written, Σitems = subtotal would flag clean receipts as MEDIUM and
+  hurt your calibration score. It's also the line that got cut off. Options:
+  (a) Strict: items must equal the subtotal.
+  (b) Pass if items equal the subtotal OR items equal the total (tax-inclusive),
+  and record which one matched.
+  (c) Drop the check.
+
+  ➡️ (b). Put the matched mode (excl / incl) in reasons so a reviewer can see
+  it.
+
+  ❓ Q4 - "Not printed" vs "can't read": Right now null means both "this value
+  isn't on the receipt" and "I couldn't read it." That leaves two problems.
+  Under your rules, a clean receipt with no printed subtotal becomes MEDIUM.
+  Worse, the UNREADABLE rule ("2+ key fields null") can fire on a clean receipt
+  that simply prints fewer fields.
+  (a) Leave it as is.
+  (b) Add a field that lists the missing fields with a reason per field (absent
+  or illegible), and treat only illegible as a signal.
+  (c) When subtotal is missing, compute it as total minus tax and mark it as
+  derived.
+
+  ➡️ (b) plus (c). This is the difference between "can't read this" and "not on
+  the receipt," which the brief tests directly with the near-illegible case.
+
+  ❓ Q5 - The currency check is cosmetic: "currency is set and valid" always
+  passes, because the model will just write MYR. To actually test whether the
+  currency makes sense, you need evidence from the receipt.
+  (a) Keep the current check.
+  (b) Have the model also return currency_symbol_seen (the raw text, like "RM")
+  and check that it matches the ISO code. If no symbol was seen, the currency
+  counts as inferred and gets a note in reasons.
+
+  ➡️ (b). One more schema field, and the check becomes real.
+
+  ❓ Q6 - How you label the eval set: Calibration is only credible if you pick
+  the 15 labels without being biased by what the models output.
+  (a) Label 15 after looking at the model outputs.
+  (b) Before running anything: pick about 10 at random plus the 3 to 5
+  worst-looking images, and label them only from the image.
+
+  ➡️ (b). Also say plainly that the one tuning pass used the same 15 labels.
+  That makes it in-sample, so treat the numbers as optimistic.
+
+  ❓ Q7 - Calling it an "agent": The brief says "agent." Your plan says "fixed
+  pipeline, not an agent loop," and that's a choice you'll need to defend.
+  Options:
+  (a) Pure pipeline, with the reasoning in NOTES.md and the Loom.
+  (b) Add one bounded step: when the models disagree on a key field, ask the
+  primary model one targeted question ("look again at the total line; what is
+  printed?") and record the answer.
+
+  ➡️ (a). The pipeline is easier to defend, and a re-ask mostly just repeats the
+  model's first answer. Present it in the Loom as a deliberate decision. If you
+  finish early, (b) is the one thing I'd add.
+
+  ❓ Q8 - What status non-receipts and duplicates get: The plan only says these
+  are "flagged in reasons," so an is_receipt: false image could still come out
+  HIGH. Duplicates:
+  (a) Both copies are scored normally and both carry a flag.
+  (b) The second copy gets a status like DUPLICATE that points to the first, and
+  its values aren't counted twice.
+
+  For non-receipts: force LOW with reason not a receipt.
+
+  ➡️ Duplicates: (b). Non-receipts: forced LOW. A HIGH row that isn't a receipt
+  breaks calibration.
+
+  ❓ Q9 - The "tried that didn't work" part of the Loom: The brief asks for
+  something you actually tried. "The OCR cross-check was tried in design" is
+  thin, because it was never run.
+  (a) Use it anyway.
+  (b) Keep an honest log during the build and choose afterward. Good candidates
+  are things you'll try anyway: same-model self-consistency (two runs of Claude)
+  against two vendors, or legible self-reports turning out to be useless.
+
+  ➡️ (b). A quick run of Claude twice against Claude plus Gemini on 5 images
+  also gives your two-model choice evidence.
+
+  ---
+
+  Answer by number, and "rec" for any where you accept my recommendation. Round
+  2 will cover the scoring thresholds, the CSV columns, and the eval metrics,
+  since those depend on these answers.
+
+✻ Crunched for 1m 3s · done 9:35 AM
+
+❯ Ask genuine questions from this using AskUserQuestion with recommendation in  
+  option                                                                        
+
+⏺ User answered Claude's questions:
+  ⎿  · What should the confidence column contain? Text statuses sort 
+     alphabetically as HIGH, LOW, MEDIUM, UNREADABLE in Excel/Sheets. → Status +
+     numeric (Recommended)
+     · When the two models disagree on a field, which value goes in the CSV 
+     cell? → passes arithmetic, and we'd also state a reason right?eg: checkk 
+     this particular value
+     · How should the items-vs-subtotal rule handle Malaysian GST receipts where
+     items include tax or no subtotal is printed? → Match excl OR incl 
+     (Recommended)
+     · How should the schema tell 'not printed on receipt' apart from 'couldn't 
+     read it'? Today both are null, so clean receipts with fewer fields can trip
+     MEDIUM or even UNREADABLE. → Reason per field + derive (Recommended)
+
+⏺ Q2: yes. The reason names the field, both values, and which one was picked and
+  why, for example check total: A=48.70 B=47.70, used A (sums match). The
+  reviewer sees exactly which cell to check.
+
+⏺ User answered Claude's questions:
+  ⎿  · The currency check always passes because the model just writes MYR. How 
+     should it test whether the currency makes sense? → 1, but I think vision 
+     model i.e. llm can handle it fine
+     · How do you pick and label the ~15 eval receipts? → Blind, before running 
+     (Recommended)
+     · The brief says 'agent'; the plan is a fixed pipeline. Do you add any 
+     agentic step? → I dont think agent = agent loop, ours can't be said agent?
+     · What status do duplicates and non-receipts get? Today they're only 
+     mentioned in reasons, so a non-receipt could come out HIGH. → what is 
+     is_receipt false, we can just say duplicate of X?
+
+⏺ Currency check now has the model return the symbol it saw so code can verify
+  it against the ISO code, keeping the check substantive rather than cosmetic.
+  I'll keep "agent" as the term per the brief but add a NOTES.md line clarifying
+  it's a workflow by design (model reads, code decides trust); duplicates get
+  status = DUPLICATE with a reason citing the matching receipt ID; and
+  is_receipt: false guards against non-receipt images inventing data, though it
+  likely won't trigger since all 45 images are genuine SROIE receipts.
+
+⏺ User answered Claude's questions:
+  ⎿  · Keep the is_receipt field? All 45 images appear to be receipts, so it 
+     likely never fires. → Drop it (Recommended)
+     · What will you show as 'one thing you tried that didn't work' in the Loom?
+     'OCR cross-check tried in design' was never actually run. → Log during 
+     build, pick later (Recommended)
+
+⏺ I've locked in the round-1 decisions (confidence scoring, disagreement
+  handling, subtotal matching, missing values, currency checks, blind eval
+  labels, agent-as-workflow, duplicate status, dropping is_receipt, and logging
+  real failures). Now moving on to round 2, which builds on these.
+
+⏺ User answered Claude's questions:
+  ⎿  · UNREADABLE trigger: now that nulls carry absent/illegible, what fires 
+     UNREADABLE? → Either model, 2+ illegible (Recommended)
+     · If subtotal wasn't printed and you derive it as total - tax, does that 
+     affect status? → not sure, because we already said don't extract values 
+     that are not printed, can we confidently say, subtotal missing?
+     · In the eval, what counts as a 'correct' row against your labels? → Per 
+     field + all-3 (Recommended)
+     · Which model tier for the two readers? (Exact IDs and OpenRouter support 
+     get checked in Step 0.) → we can check, if we can get correct results with 
+     cheaper
+
+⏺ I'll leave subtotal empty with reason not printed when it isn't derivable,
+  keeping the check consistent since the items-vs-total rule already covers
+  tax-inclusive receipts. For models, I'll test cheaper ones first but set a
+  fixed accuracy bar upfront so "correct enough" isn't judged after seeing
+  results.
+
+⏺ User answered Claude's questions:
+  ⎿  · Subtotal not printed: what happens? → why don't downgrade? or maybe 
+     subtotal can be calculated? inclusive or exclusinve?
+     · How do you decide cheap vs strong models? → Test on labeled 15 
+     (Recommended)
+
+❯ what was final verdict on "agent" thing?                                      
+
+⏺ I'll keep it a fixed pipeline but still call it an "agent" per the brief,
+  adding a NOTES.md line clarifying it's a workflow where code decides trust.
+  For the subtotal, I won't downgrade rows missing it since that's a receipt
+  quirk, not an extraction error—I'll compute it as total minus tax (labeled as
+  computed) and shift validation for those rows to checking items against the
+  total instead.
+
+⏺ User answered Claude's questions:
+  ⎿  · Subtotal not printed (defined as pre-tax amount): final handling? → 
+     Compute, label, no downgrade (Recommended)
+
+⏺ Every branch has an answer now, so the questions are done. Here's the full set
+  of changes to PLAN.md, for you to confirm before I edit anything:
+
+  Schema
+  - Drop is_receipt.
+  - Add currency_symbol_seen, the raw text printed on the receipt (like "RM").
+  - Add a missing-field list where each field is marked absent or illegible.
+
+  Validation
+  - Fix the cut-off rule on line 44: the items must equal the subtotal or the
+    total. reasons records which one matched.
+  - A subtotal that wasn't printed is computed as total − tax (pre-tax). It's
+    labeled as computed, doesn't lower the status, and the circular subtotal +
+    tax = total check is skipped for that row.
+  - Currency passes only if the printed symbol matches the ISO code. When no
+    symbol was seen, reasons notes that the currency was inferred.
+
+  Scoring
+  - UNREADABLE when either model says legible: false, or when either model marks
+    2 or more of {vendor, date, total} as illegible. These rows get no values.
+  - Add a numeric confidence column: 0=UNREADABLE, 1=LOW, 2=MEDIUM, 3=HIGH.
+  - When the models disagree, the CSV cell gets the value that passes the
+    arithmetic checks, or the primary model's value if neither does. The row
+    stays LOW, and the reason says what to check, for example check total: 
+    A=48.70 B=47.70, used A (sums match).
+  - The second copy of the duplicate pair gets status DUPLICATE, with the reason
+    duplicate of X51005268275.
+
+  Eval and models
+  - Label 15 receipts before running anything, looking only at the images: about
+    10 at random plus the 3 to 5 worst-looking.
+  - Report accuracy per field. A row counts as correct only if all three fields
+    match. The one tuning pass uses the same 15, so the numbers are optimistic,
+    and NOTES.md says so.
+  - Run the cheap pair (Haiku and Flash) against the strong pair on those 15.
+    Use the cheap pair if it's within about 1 receipt of the strong pair's
+    accuracy. The result goes in NOTES.md.
+
+  Framing
+  - Call it an agent in the README. NOTES.md adds "a workflow by design: the
+    model reads, code decides trust."
+  - Keep a running log of real failures during the build, and pick the Loom's
+    "tried that didn't work" story from it afterward.
+
+  Build order: labeling moves from step 5 to right after step 0, and the model
+  comparison runs straight after labeling.
+
+  Is this our shared understanding? If yes, I'll update PLAN.md.
+
+✻ Worked for 1m 37s · done 9:47 AM
+
+❯ ok update the parts genuinely needed                                          
+
+⏺ Write(~/personal-workspace/S4/PLAN.md)
+  ⎿  Added 29 lines, removed 22 lines
+       4  
+       5  ## Approach
+       6  
+       7 -A fixed pipeline, not an agent loop. The LLM reads the image; c
+         -ode decides how far to trust it.                               
+       7 +A fixed pipeline, not an agent loop. The LLM reads the image; c
+         +ode decides how far to trust it. (Called an agent per the brief
+         +; NOTES.md: "a workflow by design: the model reads, code decide
+         +s trust.")                                                     
+       8  
+       9  ```
+      10  image → dedupe → extract ×2 (two vision models) → compare → val
+          idate → score + gate → CSV
+     ...
+      15  - TypeScript, Vercel AI SDK `generateObject`, Zod schema
+      16  - OpenRouter via `@openrouter/ai-sdk-provider` (one key, switch
+           models by string)
+      17  - Models (in config): primary = Claude, second reader = Gemini 
+          (different vendor, so errors are more independent)
+      18 +- Tier picked by test: run cheap pair (Haiku + Flash) and stron
+         +g pair on the 15 labeled receipts; ship cheap if its all-3 row 
+         +accuracy is within ~1 receipt of strong. Result goes in NOTES.m
+         +d.                                                             
+      19  - Step 0: check both models support structured output + images 
+          on OpenRouter
+      20  
+      21  ## Schema (Zod, every field nullable)
+      22  
+      23  ```
+      23 -is_receipt: boolean                                            
+      24  legible: boolean
+      25  vendor: string | null
+      26  date: string | null            // ISO yyyy-mm-dd
+      27  currency: string | null        // ISO code, e.g. MYR
+      28 +currency_symbol_seen: string | null  // raw text on receipt, e.
+         +g. "RM"                                                        
+      29  line_items: { description, qty, unit_price, amount }[]
+      30  subtotal: number | null
+      31  taxes: { label, rate | null, amount }[]
+      32  adjustments: { label, amount }[]   // rounding, discount, servi
+          ce charge, tip
+      33  total: number | null
+      34 +missing: { field, reason: "absent" | "illegible" }[]           
+      35  ```
+      36  
+      35 -Prompt rule: "If you cannot read a value, return null. Never gu
+         -ess."                                                          
+      37 +Prompt rule: "If you cannot read a value, return null and mark 
+         +it illegible. If it is not printed, return null and mark it abs
+         +ent. Never guess."                                             
+      38  
+      39  ## Steps
+      40  
+      39 -1. **Dedupe:** hash each image and flag exact duplicates (e.g. 
+         -X51005268275 = X51005301666).                                  
+      41 +1. **Dedupe:** hash each image; the second copy of an exact dup
+         +licate gets status `DUPLICATE` (reason `duplicate of <file>`). 
+         +Known pair: X51005268275 = X51005301666.                       
+      42  2. **Extract ×2:** same prompt and schema, temperature 0. Cache
+           results in `cache/<model>/<file>.json`.
+      41 -3. **Compare per field:** numbers equal within 0.01; strings no
+         -rmalized (lowercase, trimmed); line items compared by count and
+         - sum.                                                          
+      42 -4. **Validate** (tolerance ±0.05):                             
+      43 +3. **Compare per field:** numbers equal within 0.01; strings no
+         +rmalized (lowercase, trimmed); line items compared by count and
+         + sum. On disagreement, the CSV gets the value that passes the a
+         +rithmetic checks, else the primary's.                          
+      44 +4. **Validate** (tolerance ±0.05). Subtotal means pre-tax amoun
+         +t.                                                             
+      45 +   - Subtotal not printed (`absent`): compute `total − Σtaxes`,
+         + label "subtotal computed (not printed)", no status downgrade, 
+         +skip the (circular) sum check below                            
+      46     - `subtotal + Σtaxes + Σadjustments = total`
+      44 -   - `Σ line_items.amount = subto                              
+      47 +   - `Σ line_items.amount = subtotal` (tax-exclusive) OR `= tot
+         +al` (tax-inclusive); record which matched                      
+      48     - tax matches the printed rate if one exists, else 0 ≤ tax ≤
+           30% of subtotal
+      49     - date parses and is not in the future
+      47 -   - currency is set and valid                                 
+      50 +   - currency matches `currency_symbol_seen` (e.g. RM → MYR); n
+         +o symbol seen → "currency inferred" in reasons                 
+      51  5. **Score** (rules, not a weighted number):
+      49 -   - **UNREADABLE:** either model says `legible: false`, or 2+ 
+         -key fields null. Values left empty.                            
+      52 +   - **UNREADABLE:** either model says `legible: false`, or eit
+         +her marks 2+ of {vendor, date, total} `illegible`. Values left 
+         +empty.                                                         
+      53     - **LOW:** a key field (total, date) disagrees, `subtotal + 
+          tax ≠ total`, or total is null
+      51 -   - **MEDIUM:** vendor or line items disagree, items ≠ subtota
+         -l, tax out of range, non-key field null                        
+      52 -   - **HIGH:** none of the above                               
+      53 -   - `is_receipt: false` or duplicate → flagged in reasons     
+      54 +   - **MEDIUM:** vendor or line items disagree, items match nei
+         +ther subtotal nor total, tax out of range, a non-key field `ill
+         +egible`                                                        
+      55 +   - **HIGH:** none of the above (`absent` fields do not downgr
+         +ade)                                                           
+      56 +   - **DUPLICATE:** see step 1                                 
+      57  6. **Output:**
+      55 -   - `out/receipts.csv`: file, status, vendor, date, currency, 
+         -subtotal, tax, total, flagged_fields, reasons (includes both mo
+         -dels' values, e.g. `total: A=48.70 B=47.70`). Sorted UNREADABLE
+         - → LOW → MEDIUM → HIGH.                                        
+      58 +   - `out/receipts.csv`: file, status, confidence (UNREADABLE=0
+         +, LOW=1, MEDIUM=2, HIGH=3, so sorting works), vendor, date, cur
+         +rency, subtotal, tax, total, flagged_fields, reasons. Reasons s
+         +ay what to check, with both models' values, e.g. `check total: 
+         +A=48.70 B=47.70, used A (sums match)`. Sorted by confidence asc
+         +ending.                                                        
+      59     - `out/line_items.csv`: file, description, qty, unit_price, 
+          amount
+      57 -7. **Eval:** hand-label about 15 receipts (clean + bad) in `lab
+         -els/labels.csv` (vendor, date, total). Report accuracy per stat
+         -us level, flag recall, and false-flag rate per signal. Log toke
+         -ns and cost per call.                                          
+      60 +7. **Eval:** before any model run, pick ~10 random + 3-5 worst-
+         +looking receipts and label them from the image only in `labels/
+         +labels.csv` (vendor, date, total). Report per-field accuracy (t
+         +otal within 0.01, date exact, vendor normalized) and all-3 row 
+         +accuracy per status level, flag recall, and false-flag rate per
+         + signal. The one tuning pass uses the same 15, so numbers are i
+         +n-sample. Log tokens and cost per call.                        
+      61  
+      62  ## Project layout
+      63  
+     ...
+      78  | # | Step | Time |
+      79  |---|---|---|
+      80  | 0 | OpenRouter + generateObject on 1 image, both models | 10m
+           |
+      78 -| 1 | Schema + prompt, run on 5 images | 15m |                 
+      79 -| 2 | Second model + compare | 15m |                           
+      80 -| 3 | Validation rules | 20m |                                 
+      81 -| 4 | Score + gate + CSVs | 20m |                              
+      82 -| 5 | Label 15, run eval, adjust once | 25m |                  
+      83 -| 6 | README, NOTES.md, prompts.md | 15m |                     
+      81 +| 1 | Label 15 blind (before seeing outputs) | 15m |           
+      82 +| 2 | Schema + prompt, run on 5 images | 15m |                 
+      83 +| 3 | Second model + compare; cheap vs strong pair on the 15 | 
+         +20m |                                                          
+      84 +| 4 | Validation rules | 20m |                                 
+      85 +| 5 | Score + gate + CSVs | 20m |                              
+      86 +| 6 | Run eval, adjust once | 10m |                            
+      87 +| 7 | README, NOTES.md, prompts.md | 15m |                     
+      88  
+      89 +Keep a running log of real failures during the build; pick the 
+         +Loom "tried that didn't work" from it.                         
+      90 +                                                               
+      91  ## Later / with more time
+      92  
+      87 -- Model comparison on cost vs accuracy (small vs strong model) 
+      93  - OCR mean word confidence as a deterministic gate signal (only
+           if bad images slip past disagreement)
+      94 +- `is_receipt` guard for non-receipt input                     
+      95 +- Targeted re-ask on key-field disagreement                    
+      96  - Small review UI
+      97  - Multi-page and PDF input
+      98  
+     ...
+      101  - Two models can make up the same value; agreement is not proo
+           f
+      102  - Consistent made-up numbers pass the sum checks
+      103  - `legible: true` carries no information; only `false` is trus
+           ted
+      104 +- Computed subtotals can't be checked against the total; only 
+          +items-vs-total validates them                                 
+      105  - Rules tested on 45 SROIE-style receipts (Malaysian, MYR, GST
+           ); other formats are untested
+       98 -- OCR cross-check tried in design, dropped for simplicity     
+
+⏺ I've updated PLAN.md with everything we agreed. Changes by section:
+
+  - Schema: dropped is_receipt. Added currency_symbol_seen and a missing list
+    that marks each missing field as absent or illegible. The prompt rule now
+    says which one to use.
+  - Validation: fixed the cut-off line 44, so items can match either the
+    subtotal or the total. A subtotal that wasn't printed is computed as total −
+    tax, labeled as computed, and doesn't lower the status. The currency check
+    now compares against the printed symbol.
+  - Scoring: added the new UNREADABLE trigger and the DUPLICATE status. Fields
+    marked absent never lower a row's status.
+  - CSV: added a numeric confidence column so sorting works. The reasons text
+    now says which value to check.
+  - Eval: labeling is done blind before any model run, with accuracy per field
+    plus an all-3 row score. The same 15 labels are used for tuning, so the
+    numbers are optimistic, and the plan says so.
+  - Build order: labeling is now step 1. The cheap vs strong model comparison
+    runs in step 3, and the eval step shrank to 10 minutes, so the total is
+    still about 2 hours.
+  - Later / Known limits: dropped "model comparison", since it now runs during
+    the build. Added the is_receipt guard and the targeted re-ask to Later.
+    Added the limit that computed subtotals can't be checked against the total.
+
+  The Approach section now has the "workflow by design" line, and there's a note
+  to keep a failure log during the build.
+
+✻ Brewed for 26s · done 9:50 AM
+
+❯ [Image #1] what should we do here, one liner, just asking                     
+  ⎿  [Image #1]
+⏺ Apply the tax-inclusive fix, the DUPLICATE confidence number, the net-sum
+  comparison and the reason-only tax rate; handle vendor names by stripping
+  punctuation instead of fuzzy matching, and skip date_raw (just assume dd/mm
+  for Malaysian receipts and say so in NOTES.md).
+
+✻ Cogitated for 5s · done 9:51 AM
+
+❯ i.e. same as what it recommended?                                             
+
+⏺ Not quite. I'd take its tax-inclusive fix, net-sum comparison, reason-only tax
+  rate and DUPLICATE number as it proposed them, but change two items:
+
+  - Vendor: strip punctuation and whitespace ("SDN. BHD." becomes "sdn bhd")
+    instead of adding fuzzy matching. It fixes the same case with less to
+    defend.
+  - Dates: skip date_raw. Just assume dd/mm for Malaysian receipts and say so in
+    NOTES.md.
+
+✻ Crunched for 4s · done 9:51 AM
+
+❯ explain the above problem in one line                                         
+
+⏺ Some receipts print a "SUBTOTAL" that already includes tax, so a correct
+  extraction fails the subtotal + tax = total check and the row wrongly lands in
+  LOW.
+
+✻ Cogitated for 3s · done 9:52 AM
+
+❯ and whats the solution in one line simply                                     
+
+⏺ Copy the subtotal exactly as printed, and pass the check if either subtotal +
+  tax = total or subtotal = total.
+
+✻ Baked for 2s · done 9:53 AM
+
+※ recap: We're firming up PLAN.md for the receipt extraction take-home, and I've already added all the decisions from the grilling session. Next I'll add the review fixes to PLAN.md (tax-inclusive subtotal check and the other small gaps) once you confirm. (disable recaps in /config)
+
+❯ /export                                                                       
+  ⎿  Conversation copied to clipboard
