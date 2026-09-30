@@ -8,3 +8,8 @@ dist/
 
 # brief from the company, keep private
 S4.pdf
+
+# generated
+labels/review.html
+.superpowers/
+cache/

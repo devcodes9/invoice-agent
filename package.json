@@ -1,0 +1,30 @@
+{
+  "name": "S4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "smoke": "tsx --env-file=.env scripts/smoke.ts",
+    "labels:review": "tsx scripts/review-labels.ts",
+    "extract": "tsx --env-file=.env scripts/extract.ts",
+    "typecheck": "tsc",
+    "tier": "tsx --env-file=.env scripts/tier.ts",
+    "start": "tsx --env-file=.env src/index.ts",
+    "eval": "tsx scripts/eval.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openrouter/ai-sdk-provider": "^3.1.0",
+    "ai": "^7.0.118",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "type": "module"
+}
