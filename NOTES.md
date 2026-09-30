@@ -1,45 +1,33 @@
 # Notes
 
-A workflow by design: the model reads, code decides trust.
+## Approach
 
-## Confidence
+A fixed workflow, not an agent loop. The models only read the receipt; code checks and scores the result.
 
-Two readers (Haiku, Flash) read each receipt. A value is filled when they agree, or when arithmetic on values they agree on picks one of two different numbers (never a number over an empty or illegible reading). Levels are by the action they ask for:
+- Two vision models from different vendors (Claude Haiku 4.5, Gemini Flash) read each receipt. For each value they return the printed line it came from. If they can't read a value, they return null.
+- A value goes to the CSV only if both models agree. Otherwise the cell is empty and flagged.
+- If they read different numbers, code uses the one that makes the receipt add up (total 6.50 vs 8.50, items sum to 8.50). If one model returned null, nothing is chosen.
 
-- HIGH: readers agree and the sums pass. Nothing to check.
-- MEDIUM: every value filled, but a disagreement was settled by arithmetic. Confirm the highlighted value.
-- LOW: a value is empty (readers disagree, or illegible) or the sums fail. Read it from the image.
+Confidence, by action needed:
 
-## Limits
+- HIGH: models agree and sums add up. Nothing to check.
+- MEDIUM: code chose a value by the sums. Confirm it.
+- LOW: a cell is empty or sums fail. Read it from the image.
+- UNREADABLE: the receipt can't be read. No values.
 
-- All numbers are in-sample: rules were tuned on the same 45 receipts, eval uses 15 labels from them.
-- One format: Malaysian GST receipts. Service charge, several tax rates or other layouts are untested.
-- Arithmetic picks were checked by hand on 7 receipts only.
-- Next for production: a held-out labelled set, and one targeted re-read for key-field disagreements.
+## For production
 
-## Tier choice (step 3, 2026-09-30)
+- Privacy: run local open-source vision models, or use zero-retention providers and mask card/phone numbers before sending.
+- Guardrails: reject non-receipts; escape CSV cells starting with = + - @.
+- Independent check: OCR on quoted evidence lines, since two LLMs can invent the same value.
+- Reliability: rate limiting, retries with backoff, a cost cap per run.
+- Evals: set up evals with tracking of time, tokens and cost per receipt, to tune the prompt and models on output quality, speed and cost together.
 
-15 labelled receipts, in-sample. Correct = vendor (normalized), date (exact), total (±0.01).
+## Tradeoffs (2-hour budget)
 
-| Model | vendor | date | total | all 3 | cost / 15 | avg s |
-|---|---|---|---|---|---|---|
-| claude-haiku-4.5 | 15 | 14 | 15 | 14 | $0.067 | 8.0 |
-| gemini-3.8-flash | 15 | 15 | 15 | 15 | $0.132 | 10.4 |
-| claude-sonnet-5.5 | 13 | 15 | 15 | 13 | $0.180 | 5.6 |
-| gemini-3.1-pro-preview | 15 | 15 | 15 | 15 | $0.476 | 19.6 |
-
-Both pairs: every primary error showed up as a key-field disagreement, with no false flags on key fields.
-Cheap pair costs ~$0.013 per receipt (both models) vs ~$0.044 for strong. **Ship cheap.**
-
-## Failure log
-
-- Haiku put "Total Savings" (a summary line) into adjustments, double-counting item discounts. Fixed in prompt.
-- Haiku then put the "Mastercard -140.65" payment line into adjustments. Fixed in prompt: no payment lines.
-- Haiku returned the brand name (OLDTOWN WHITE COFFEE) instead of the name next to the company number. Fixed in prompt.
-- Haiku marked set items without prices as `illegible`. Fixed: `missing` limited to top-level fields.
-- Haiku read the faded subtotal on X51005268408 as 169.78 on one run and 169.76 on the next, at temperature 0.
-- Haiku read 2018 as 2016 on X51005442343. Caught by disagreement with Flash.
-- Sonnet ignored the vendor rule on 2/15 (used the top name). Caught by disagreement with Gemini Pro.
-- Gemini Flash leaves `currency` null when only "RM" is printed; Haiku returns MYR.
-- Haiku fills `subtotal` with the total when no subtotal line is printed; Flash returns null as instructed.
-- Line-item sums disagree often (unit price read as amount, a missed item, amounts cut off at the image edge).
+- Two LLM readers instead of adding OCR: much less setup, but both can invent the same value.
+- Hosted models (via OpenRouter) instead of local open-source ones: quick setup and proven vision models, but receipt images leave the machine.
+- Empty cell over a guess: no wrong values in the CSV, but more rows need a human (10 LOW).
+- Fixed workflow instead of an agent that picks its own tools and loops: predictable, testable and cheap, but it can't try another route (crop, zoom, re-read) on a hard receipt.
+- Didn't explore an evaluator-optimizer loop (re-read a disputed field with the error as feedback): disputed fields go to a human instead of being settled automatically.
+- Confidence is simple rule-based levels; I wanted better handling there, e.g. per-field confidence, or a third reader to break ties.
