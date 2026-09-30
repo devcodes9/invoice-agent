@@ -64,9 +64,9 @@ export function score(file: string, a: Receipt, b: Receipt, today = new Date()):
     const used = d.field === "items" ? itemsSource : numeric ? source : "A";
     const why = d.field === "items" ? (itemsOk(vi) ? " (items add up)" : "") : numeric ? BACKED[strength(vc)] : "";
     reasons.push(`check ${LABEL[d.field] ?? d.field}: A=${fmt(d.a)} B=${fmt(d.b)}, used ${used}${why}`);
+    // Arithmetic picks the value shown, never the status: a made-up value is usually made to add up.
     if (KEY.includes(d.field)) low.add(d.field);
-    else if (d.field === "vendor") medium.add(d.field);
-    // Item disagreement only downgrades via the items check below: arithmetic settles it otherwise.
+    else medium.add(d.field);
   }
   if (va.currency && vb.currency && va.currency !== vb.currency) {
     medium.add("currency");
@@ -83,6 +83,12 @@ export function score(file: string, a: Receipt, b: Receipt, today = new Date()):
   if (vi.itemsCheck === "fail") {
     medium.add("items");
     reasons.push(`check line items: sum ${fmt(sum(ci.line_items.map((i) => i.amount)))} matches neither subtotal ${fmt(vi.subtotal)} nor total ${fmt(ci.total)}`);
+  }
+  for (const [name, r] of [["A", a], ["B", b]] as const) {
+    const n = r.line_items.filter((i) => i.illegible).length;
+    if (!n) continue;
+    medium.add("items");
+    reasons.push(`check line items: ${name} could not read ${n} amount${n > 1 ? "s" : ""}`);
   }
   for (const f of new Set([...illegible(a), ...illegible(b)])) {
     (KEY.includes(f as Field) ? low : medium).add(f);

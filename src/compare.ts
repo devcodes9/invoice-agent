@@ -11,8 +11,8 @@ export type FieldDiff = { field: Field; a: Value; b: Value; agree: boolean };
 export const normText = (s: string | null) =>
   s === null ? null : s.toLowerCase().replace(/\([^)]*\)/g, " ").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
 
-const sum = (xs: (number | null)[]) =>
-  xs.length ? Math.round(xs.reduce<number>((t, x) => t + (x ?? 0), 0) * 100) / 100 : null;
+// Summed fields: no lines and a printed 0.00 both mean 0, so they don't show as a disagreement.
+const sum = (xs: (number | null)[]) => Math.round(xs.reduce<number>((t, x) => t + (x ?? 0), 0) * 100) / 100;
 
 // The comparable view of one extraction. Line items are compared by net sum only.
 export function fieldValues(r: Receipt): Record<Field, Value> {
@@ -23,7 +23,7 @@ export function fieldValues(r: Receipt): Record<Field, Value> {
     subtotal: r.subtotal,
     tax: sum(r.taxes.map((t) => t.amount)),
     adjustments: sum(r.adjustments.map((a) => a.amount)),
-    rounding: r.rounding,
+    rounding: r.rounding ?? 0,
     total: r.total,
     items: sum(r.line_items.map((i) => i.amount)),
   };

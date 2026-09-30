@@ -22,7 +22,7 @@ const jobs = unique.flatMap((file) => [primary, second].map((model) => ({ file, 
 const settled = await pool(jobs, 8, (j) => extract(j.model, join(IMAGES, j.file)));
 
 const rows: Row[] = [];
-const items: Record<string, string | number | null>[] = [];
+const items: Record<string, string | number | boolean | null>[] = [];
 unique.forEach((file, i) => {
   const [a, b] = [settled[2 * i], settled[2 * i + 1]];
   const row = scoreReadings(file, reading(a), reading(b));
@@ -37,7 +37,7 @@ rows.sort((x, y) => x.confidence - y.confidence || x.file.localeCompare(y.file))
 mkdirSync("out", { recursive: true });
 const COLUMNS = ["file", "status", "confidence", "vendor", "date", "currency", "subtotal", "tax", "total", "flagged_fields", "reasons"];
 writeFileSync("out/receipts.csv", toCsv(COLUMNS, rows));
-writeFileSync("out/line_items.csv", toCsv(["file", "description", "qty", "unit_price", "amount"], items));
+writeFileSync("out/line_items.csv", toCsv(["file", "description", "qty", "unit_price", "amount", "illegible"], items));
 
 const cost = settled.reduce((t, r) => t + (r.status === "fulfilled" ? (r.value.usage.cost ?? 0) : 0), 0);
 const counts = STATUSES.map((s) => `${s} ${rows.filter((r) => r.status === s).length}`);

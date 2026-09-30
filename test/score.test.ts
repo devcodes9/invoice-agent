@@ -54,10 +54,11 @@ test("vendor differing only in case and punctuation is not a disagreement", () =
   assert.equal(score("f.jpg", receipt({ vendor: "BENS SDN. BHD" }), receipt({ vendor: "Bens Sdn Bhd" }), today).status, "HIGH");
 });
 
-test("line-item disagreement settled by arithmetic is a reason, not a downgrade", () => {
+test("line-item disagreement is MEDIUM even when one reading adds up (it may be made up to fit)", () => {
   const b = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 411.5, amount: 411.5 }, { description: "B", qty: 1, unit_price: 1, amount: 1 }] });
   const row = score("f.jpg", receipt(), b, today);
-  assert.equal(row.status, "HIGH");
+  assert.equal(row.status, "MEDIUM");
+  assert.deepEqual(row.flagged_fields, ["items"]);
   assert.ok(row.reasons.includes("check line items: A=411.50 B=412.50, used A (items add up)"));
 });
 
@@ -69,9 +70,10 @@ test("line-item disagreement where neither reading adds up is MEDIUM", () => {
   assert.deepEqual(row.flagged_fields, ["items"]);
 });
 
-test("a subtotal-only disagreement is a reason but does not downgrade", () => {
+test("subtotal disagreement is MEDIUM (e.g. one model copies the total into a subtotal that isn't printed)", () => {
   const row = score("f.jpg", receipt(), receipt({ subtotal: null }), today);
-  assert.equal(row.status, "HIGH");
+  assert.equal(row.status, "MEDIUM");
+  assert.deepEqual(row.flagged_fields, ["subtotal"]);
   assert.ok(row.reasons.includes("check subtotal: A=411.50 B=none, used A (sums match)"));
 });
 
@@ -152,15 +154,17 @@ test("line items come from the reading whose items add up, even if the other sup
   const row = score("f.jpg", a, receipt(), today);
   assert.equal(row.source, "A");
   assert.equal(row.itemsSource, "B");
-  assert.equal(row.status, "HIGH");
+  assert.equal(row.status, "MEDIUM");
   assert.ok(row.reasons.includes("check line items: A=5.00 B=411.50, used B (items add up)"));
   assert.ok(!row.reasons.some((r) => r.includes("matches neither")));
 });
 
-test("adjustment disagreement is a reason (credit note: one model dropped the -0.20 discount)", () => {
+test("adjustment disagreement is MEDIUM (credit note: one model dropped the -0.20 discount)", () => {
   const a = receipt({ adjustments: [{ label: "Item Discount", amount: -0.2 }] });
   const row = score("f.jpg", a, receipt(), today);
-  assert.ok(row.reasons.includes("check adjustments: A=-0.20 B=none, used B (sums match)"));
+  assert.equal(row.status, "MEDIUM");
+  assert.deepEqual(row.flagged_fields, ["adjustments"]);
+  assert.ok(row.reasons.includes("check adjustments: A=-0.20 B=0.00, used B (sums match)"));
 });
 
 test("currency disagreement is MEDIUM (X51005433543: Haiku SGD, Flash MYR, symbol '$')", () => {
@@ -183,4 +187,30 @@ test("when the used reading passes only through its items, the reason says items
   const row = score("f.jpg", a, b, today);
   assert.equal(row.source, "B");
   assert.ok(row.reasons.includes("check subtotal: A=411.50 B=none, used B (items add up)"));
+});
+
+test("no adjustments vs a printed 0.00 adjustment is not a disagreement", () => {
+  const row = score("f.jpg", receipt({ adjustments: [{ label: "Discount", amount: 0 }] }), receipt(), today);
+  assert.equal(row.status, "HIGH");
+  assert.deepEqual(row.reasons, []);
+});
+
+test("no rounding line vs a printed 0.00 rounding is not a disagreement", () => {
+  const r = receipt({ rounding: 0, total: 436.19 });
+  const row = score("f.jpg", r, { ...r, rounding: null }, today);
+  assert.equal(row.status, "HIGH");
+});
+
+test("a line item one model could not read is MEDIUM, and that reading is not treated as wrong (X51005447844: cut-off amounts)", () => {
+  const b = receipt({
+    line_items: [
+      { description: "A", qty: 1, unit_price: 400, amount: 400, illegible: false },
+      { description: "B", qty: 1, unit_price: 11.5, amount: null, illegible: true },
+    ],
+  });
+  const row = score("f.jpg", receipt(), b, today);
+  assert.equal(row.status, "MEDIUM");
+  assert.ok(row.flagged_fields.includes("items"));
+  assert.ok(row.reasons.includes("check line items: B could not read 1 amount"));
+  assert.ok(!row.reasons.some((r) => r.includes("matches neither")));
 });

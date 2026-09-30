@@ -49,7 +49,7 @@ export function validate(r: Receipt, today = new Date()): Validation {
 
   const amounts = r.line_items.map((i) => i.amount).filter((a): a is number => a !== null);
   let itemsCheck: Validation["itemsCheck"] = "skipped";
-  if (amounts.length) {
+  if (amounts.length && !r.line_items.some((i) => i.illegible)) {
     const items = sum(amounts);
     itemsCheck = subtotal !== null && near(items, subtotal) ? "subtotal" : r.total !== null && near(items, r.total) ? "total" : "fail";
   }

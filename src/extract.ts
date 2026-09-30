@@ -17,7 +17,7 @@ Rules:
 - "missing" covers only the top-level fields listed in its schema, not line items.
 - vendor: the business name printed on the same line as, or directly above, the company registration number (e.g. "(123456-X)", "Co. No."). This may be a legal name like "... Sdn Bhd" rather than the brand name at the top. If no registration number is printed, the name at the top.
 - date: the transaction date as yyyy-mm-dd. Printed dates are day-first (dd/mm/yy or dd/mm/yyyy).
-- line_items: one entry per product. A discount printed under an item is its own entry with a negative amount. An item with no printed price (e.g. part of a set) gets null unit_price and amount.
+- line_items: one entry per product. A discount printed under an item is its own entry with a negative amount. An item with no printed price (e.g. part of a set) gets null unit_price and amount. If an item's amount is printed but cut off or unreadable, set amount null and illegible true; never fill it from qty × unit price.
 - subtotal: the printed subtotal line, as printed (it may include tax). Null if not printed.
 - taxes: each tax amount printed (e.g. GST, SST). Include it even if the receipt says it is already included in the total.
 - adjustments: bill-level discounts (negative), service charge, tip. Not rounding. Not discounts already listed as line items. Not summary lines such as "Total Savings". Not payment lines (cash, card, change).
