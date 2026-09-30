@@ -13,7 +13,7 @@ const TAGS: Record<string, [string, string]> = {
   "currency inferred": ["currency", "inferred"],
 };
 const REVIEW = ["UNREADABLE", "LOW", "MEDIUM"];
-const LEGEND = "LOW: a value is missing, read it from the image · MEDIUM: all filled, confirm the highlighted value · HIGH: nothing to check";
+const LEGEND = "LOW: a value is missing, read it from the image · MEDIUM: values filled, confirm the highlighted one · HIGH: nothing to check";
 
 // Empty and flagged: check. Empty and not flagged: both readings agree it isn't printed.
 function value(r: Row, k: keyof Row["readAs"], v: string | null): string {
@@ -23,7 +23,10 @@ function value(r: Row, k: keyof Row["readAs"], v: string | null): string {
   const tag = Object.entries(TAGS).find(([note, [f]]) => f === k && r.reasons.includes(note));
   const tagged = tag ? ` <span class="tag">${tag[1][1]}</span>` : "";
   if (v === null) return flagged || both ? `<dd class="check">check${read}</dd>` : `<dd class="none" title="not printed">—</dd>`;
-  return `<dd${flagged || both ? ' class="flag"' : ""}>${esc(v)}${read}${tagged}</dd>`;
+  // Settled between two numbers: the dropped reading struck through, so the choice shows at a glance.
+  const dropped = both && both.includes(v) && both.every((x) => x !== "none") ? both.find((x) => x !== v) : undefined;
+  const shown = dropped ? ` <s class="drop" title="other reading, not used">${esc(dropped)}</s>` : read;
+  return `<dd${flagged || both ? ' class="flag"' : ""}>${esc(v)}${shown}${tagged}</dd>`;
 }
 
 function card(r: Row, items: ItemRow[], images: string): string {
@@ -34,6 +37,10 @@ function card(r: Row, items: ItemRow[], images: string): string {
     ["currency", r.currency],
     ["subtotal", r.subtotal === null ? null : money(r.subtotal)],
     ["tax", r.tax === null ? null : money(r.tax)],
+    // Only when printed (or disputed), so subtotal + tax + adjustments + rounding visibly reaches the total.
+    ...(["adjustments", "rounding"] as const)
+      .filter((k) => r[k] !== null || r.flagged_fields.includes(k))
+      .map((k): [keyof Row["readAs"], string | null] => [k, r[k] === null ? null : money(r[k])]),
     ["total", r.total === null ? null : money(r.total)],
   ];
   const dl = r.status === "DUPLICATE" ? "" : `<dl>${values.map(([k, v]) => `<dt>${k}</dt>${value(r, k, v)}`).join("")}</dl>`;
@@ -67,10 +74,10 @@ button.on{border-color:var(--fg)}
 ${STATUSES.map((s) => `.${s}{--c:var(--${s})}`).join("")}
 h2{font-size:15px;margin:0 0 8px}
 .badge{color:var(--bg);background:var(--c);padding:1px 7px;border-radius:4px;font-size:12px}
-dl{display:grid;grid-template-columns:80px 1fr;gap:2px 8px;margin:0 0 8px}dt{color:var(--muted)}dd{margin:0}
+dl{display:grid;grid-template-columns:96px 1fr;gap:2px 8px;margin:0 0 8px}dt{color:var(--muted)}dd{margin:0}
 dd.check,dd.flag{color:var(--c);font-weight:600}dd.none{color:var(--muted)}
 .legend{flex-basis:100%;margin:2px 0 0;color:var(--muted);font-size:13px}
-.read{color:var(--muted);font-weight:400}.tag{color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px;font-size:12px}
+.read,.drop{color:var(--muted);font-weight:400}.tag{color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px;font-size:12px}
 ul{margin:0 0 8px;padding-left:18px}table{border-collapse:collapse}td{padding:2px 8px 2px 0}
 @media (max-width:640px){.card{flex-direction:column}.card img{width:100%}}
 </style></head><body>

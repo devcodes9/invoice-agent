@@ -38,9 +38,14 @@ test("empty and not flagged means not printed: a dash, not check", () => {
   assert.match(renderReview([row({ tax: null })], [], "../images"), /<dt>tax<\/dt><dd class="none" title="not printed">—<\/dd>/);
 });
 
-test("a settled value shows both readings next to it", () => {
+test("a value settled between two numbers shows the dropped reading struck through", () => {
   const html = renderReview([row({ status: "MEDIUM", total: 8.5, flagged_fields: ["total"], readAs: { total: ["6.50", "8.50"] } })], [], "../images");
-  assert.match(html, /<dt>total<\/dt><dd class="flag">8\.50 <span class="read">\(read 6\.50 \/ 8\.50\)<\/span><\/dd>/);
+  assert.match(html, /<dt>total<\/dt><dd class="flag">8\.50 <s class="drop" title="other reading, not used">6\.50<\/s><\/dd>/);
+});
+
+test("a value one reading didn't find keeps both readings in words, no strikethrough of \"none\"", () => {
+  const html = renderReview([row({ status: "MEDIUM", subtotal: 46, flagged_fields: ["subtotal"], readAs: { subtotal: ["none", "46.00"] } })], [], "../images");
+  assert.match(html, /<dt>subtotal<\/dt><dd class="flag">46\.00 <span class="read">\(read none \/ 46\.00\)<\/span><\/dd>/);
 });
 
 test("common notes become tags on the value, not bullets", () => {
@@ -56,5 +61,11 @@ test("opens on Needs review (UNREADABLE, LOW, MEDIUM)", () => {
 });
 
 test("a legend says what each level asks the reviewer to do", () => {
-  assert.match(renderReview([row({})], [], "../images"), /<p class="legend">LOW: a value is missing, read it from the image · MEDIUM: all filled, confirm the highlighted value · HIGH: nothing to check<\/p>/);
+  assert.match(renderReview([row({})], [], "../images"), /<p class="legend">LOW: a value is missing, read it from the image · MEDIUM: values filled, confirm the highlighted one · HIGH: nothing to check<\/p>/);
+});
+
+test("adjustments and rounding appear only when printed or disputed", () => {
+  const html = renderReview([row({ adjustments: 2.59, rounding: null })], [], "../images");
+  assert.match(html, /<dt>adjustments<\/dt><dd>2\.59<\/dd>/);
+  assert.doesNotMatch(html, /<dt>rounding<\/dt>/);
 });
