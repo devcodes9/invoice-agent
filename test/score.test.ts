@@ -162,3 +162,25 @@ test("adjustment disagreement is a reason (credit note: one model dropped the -0
   const row = score("f.jpg", a, receipt(), today);
   assert.ok(row.reasons.includes("check adjustments: A=-0.20 B=none, used B (sums match)"));
 });
+
+test("currency disagreement is MEDIUM (X51005433543: Haiku SGD, Flash MYR, symbol '$')", () => {
+  const row = score("f.jpg", receipt({ currency: "SGD", currency_symbol_seen: "$" }), receipt({ currency: "MYR", currency_symbol_seen: "$" }), today);
+  assert.equal(row.status, "MEDIUM");
+  assert.deepEqual(row.flagged_fields, ["currency"]);
+  assert.ok(row.reasons.includes("check currency: A=SGD B=MYR, used A"));
+});
+
+test("a reading whose sums were checked beats one that only has items backing it", () => {
+  const a = receipt({ total: null, missing: [{ field: "total", reason: "illegible" }] });
+  const row = score("f.jpg", a, receipt(), today);
+  assert.equal(row.total, 436.2);
+  assert.ok(row.reasons.includes("check total: A=none B=436.20, used B (sums match)"));
+});
+
+test("when the used reading passes only through its items, the reason says items, not sums", () => {
+  const a = receipt({ total: 440 });
+  const b = receipt({ subtotal: null, taxes: [], rounding: null, total: 411.5, missing: [{ field: "subtotal", reason: "absent" }] });
+  const row = score("f.jpg", a, b, today);
+  assert.equal(row.source, "B");
+  assert.ok(row.reasons.includes("check subtotal: A=411.50 B=none, used B (items add up)"));
+});

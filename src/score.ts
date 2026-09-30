@@ -29,9 +29,10 @@ const fmt = (v: Value) => (v === null ? "none" : typeof v === "number" ? v.toFix
 const sum = (xs: (number | null)[]) => Math.round(xs.reduce<number>((t, x) => t + (x ?? 0), 0) * 100) / 100;
 const illegible = (r: Receipt) => r.missing.filter((m) => m.reason === "illegible").map((m) => m.field as string);
 
-// Numbers add up, or (when the total check can't run) the items back them up.
-const passes = (v: Validation) =>
-  v.totalCheck === "tax-added" || v.totalCheck === "tax-inclusive" || (v.totalCheck === "skipped" && (v.itemsCheck === "subtotal" || v.itemsCheck === "total"));
+// How well a reading's numbers are backed: 2 = sums add up, 1 = sums not checkable but items back them, 0 = neither.
+const strength = (v: Validation) =>
+  v.totalCheck === "tax-added" || v.totalCheck === "tax-inclusive" ? 2 : v.totalCheck === "skipped" && (v.itemsCheck === "subtotal" || v.itemsCheck === "total") ? 1 : 0;
+const BACKED = ["", " (items add up)", " (sums match)"];
 
 export function emptyRow(file: string, status: Status, reasons: string[]): Row {
   return { file, status, confidence: STATUSES.indexOf(status), vendor: null, date: null, currency: null, subtotal: null, tax: null, total: null, flagged_fields: [], reasons, source: null, itemsSource: null };
@@ -47,7 +48,7 @@ export function score(file: string, a: Receipt, b: Receipt, today = new Date()):
   if (unreadable.length) return emptyRow(file, "UNREADABLE", unreadable);
 
   const va = validate(a, today), vb = validate(b, today);
-  const source = passes(va) || !passes(vb) ? "A" : "B";
+  const source = strength(vb) > strength(va) ? "B" : "A";
   const [c, vc] = source === "A" ? [a, va] : [b, vb];
   // Line items: the numbers' reading unless its items don't add up and the other's do.
   const itemsOk = (v: Validation) => v.itemsCheck !== "fail";
@@ -61,13 +62,16 @@ export function score(file: string, a: Receipt, b: Receipt, today = new Date()):
     if (d.agree || d.field === "currency") continue;
     const numeric = NUMERIC.includes(d.field);
     const used = d.field === "items" ? itemsSource : numeric ? source : "A";
-    const why = d.field === "items" ? (itemsOk(vi) ? " (items add up)" : "") : numeric && passes(vc) ? " (sums match)" : "";
+    const why = d.field === "items" ? (itemsOk(vi) ? " (items add up)" : "") : numeric ? BACKED[strength(vc)] : "";
     reasons.push(`check ${LABEL[d.field] ?? d.field}: A=${fmt(d.a)} B=${fmt(d.b)}, used ${used}${why}`);
     if (KEY.includes(d.field)) low.add(d.field);
     else if (d.field === "vendor") medium.add(d.field);
     // Item disagreement only downgrades via the items check below: arithmetic settles it otherwise.
   }
-  if (va.currency && vb.currency && va.currency !== vb.currency) reasons.push(`check currency: A=${va.currency} B=${vb.currency}, used A`);
+  if (va.currency && vb.currency && va.currency !== vb.currency) {
+    medium.add("currency");
+    reasons.push(`check currency: A=${va.currency} B=${vb.currency}, used ${source}`);
+  }
 
   if (vc.totalCheck === "fail") {
     low.add("total");

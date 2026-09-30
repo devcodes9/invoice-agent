@@ -3,7 +3,7 @@ X51005442334.jpg,LOW,1,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-28,MYR,8.2,0.46,8.
 X51005442343.jpg,LOW,1,YONG TAT HARDWARE TRADING,2016-03-13,MYR,67.92,4.08,72,date,"check date: A=2016-03-13 B=2018-03-13, used A; currency inferred"
 X51005200931.jpg,MEDIUM,2,GOGIANT ENGINEERING (M) SDN BHD,2018-02-09,MYR,411.5,24.69,436.2,vendor,"check vendor: A=GOGIANT ENGINEERING (M) SDN BHD B=PERNIAGAAN ZHENG HUI, used A; check adjustments: A=0.00 B=none, used A (sums match)"
 X51005361912.jpg,MEDIUM,2,TED HENG STATIONERY & BOOKS,2018-01-29,MYR,1,0.06,1.05,vendor,"check vendor: A=TED HENG STATIONERY & BOOKS B=TEO HENG STATIONERY & BOOKS, used A"
-X51005433543.jpg,MEDIUM,2,UNIHAKKA INTERNATIONAL SDN EHD,2018-03-13,SGD,8.2,0.46,8.2,vendor,"check vendor: A=UNIHAKKA INTERNATIONAL SDN EHD B=UNIHAKKA INTERNATIONAL SDN BHD, used A; check currency: A=SGD B=MYR, used A; currency inferred"
+X51005433543.jpg,MEDIUM,2,UNIHAKKA INTERNATIONAL SDN EHD,2018-03-13,SGD,8.2,0.46,8.2,vendor; currency,"check vendor: A=UNIHAKKA INTERNATIONAL SDN EHD B=UNIHAKKA INTERNATIONAL SDN BHD, used A; check currency: A=SGD B=MYR, used A; currency inferred"
 X00016469671.jpg,HIGH,3,OJC MARKETING SDN BHD,2019-01-02,MYR,170,,170,,currency inferred
 X51005230605.jpg,HIGH,3,ALSERKAM ENTERPRISE,2018-02-01,MYR,4.62,0.28,4.9,,"check subtotal: A=4.62 B=none, used A (sums match)"
 X51005230616.jpg,HIGH,3,Gerbang Alaf Restaurants Sdn Bhd,2018-01-18,MYR,38.9,2.2,38.9,,currency inferred
@@ -24,7 +24,7 @@ X51005433518.jpg,HIGH,3,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-07,MYR,8.2,0.46,8
 X51005433548.jpg,HIGH,3,PASAR MINI JIN SENG,2018-03-03,MYR,33.8,0.77,33.8,,
 X51005433556.jpg,HIGH,3,YHM Aeon Tebrau City,2018-03-11,MYR,49.7,2.8,49.7,,"check line items: A=49.50 B=49.70, used B (items add up)"
 X51005442322.jpg,HIGH,3,GRAND COMPANIONS SDN BHD (289560-H),2018-03-03,MYR,231.06,15.25,269.4,,currency inferred
-X51005442366.jpg,HIGH,3,Triple Six Point Enterprise 666,2018-03-22,MYR,22.6,,22.6,,"check subtotal: A=22.60 B=none, used B (sums match); check adjustments: A=-0.30 B=none, used B (sums match); check line items: A=22.30 B=22.60, used B (items add up); subtotal computed (not printed)"
+X51005442366.jpg,HIGH,3,Triple Six Point Enterprise 666,2018-03-22,MYR,22.6,,22.6,,"check subtotal: A=22.60 B=none, used B (items add up); check adjustments: A=-0.30 B=none, used B (items add up); check line items: A=22.30 B=22.60, used B (items add up); subtotal computed (not printed)"
 X51005442375.jpg,HIGH,3,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-25,MYR,8.5,0.48,8.5,,currency inferred
 X51005442382.jpg,HIGH,3,UNIHAKKA INTERNATIONAL SDN BHD,2018-03-20,MYR,6.6,0.37,6.6,,currency inferred
 X51005442388.jpg,HIGH,3,CONTENTO,2018-03-20,MYR,21.6,,21.6,,"check subtotal: A=21.60 B=none, used A (sums match); check line items: A=22.60 B=21.60, used B (items add up)"
