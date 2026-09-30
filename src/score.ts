@@ -22,7 +22,7 @@ export type Row = {
 };
 
 const KEY: Field[] = ["total", "date"];
-const NUMERIC: Field[] = ["subtotal", "tax", "rounding", "total", "items"];
+const NUMERIC: Field[] = ["subtotal", "tax", "adjustments", "rounding", "total", "items"];
 const LABEL: Partial<Record<Field, string>> = { items: "line items" };
 
 const fmt = (v: Value) => (v === null ? "none" : typeof v === "number" ? v.toFixed(2) : v);

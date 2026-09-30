@@ -156,3 +156,9 @@ test("line items come from the reading whose items add up, even if the other sup
   assert.ok(row.reasons.includes("check line items: A=5.00 B=411.50, used B (items add up)"));
   assert.ok(!row.reasons.some((r) => r.includes("matches neither")));
 });
+
+test("adjustment disagreement is a reason (credit note: one model dropped the -0.20 discount)", () => {
+  const a = receipt({ adjustments: [{ label: "Item Discount", amount: -0.2 }] });
+  const row = score("f.jpg", a, receipt(), today);
+  assert.ok(row.reasons.includes("check adjustments: A=-0.20 B=none, used B (sums match)"));
+});

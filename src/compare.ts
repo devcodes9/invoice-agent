@@ -1,7 +1,7 @@
 import { TOLERANCE } from "./config";
 import type { Receipt } from "./schema";
 
-export const FIELDS = ["vendor", "date", "currency", "subtotal", "tax", "rounding", "total", "items"] as const;
+export const FIELDS = ["vendor", "date", "currency", "subtotal", "tax", "adjustments", "rounding", "total", "items"] as const;
 export type Field = (typeof FIELDS)[number];
 export type Value = string | number | null;
 export type FieldDiff = { field: Field; a: Value; b: Value; agree: boolean };
@@ -22,6 +22,7 @@ export function fieldValues(r: Receipt): Record<Field, Value> {
     currency: r.currency,
     subtotal: r.subtotal,
     tax: sum(r.taxes.map((t) => t.amount)),
+    adjustments: sum(r.adjustments.map((a) => a.amount)),
     rounding: r.rounding,
     total: r.total,
     items: sum(r.line_items.map((i) => i.amount)),
