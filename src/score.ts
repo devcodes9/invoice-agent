@@ -17,6 +17,8 @@ export type Row = {
   currency: string | null;
   subtotal: number | null;
   tax: number | null;
+  adjustments: number | null; // service charge, bill discount: shown so subtotal + tax + adjustments + rounding visibly reaches the total
+  rounding: number | null;
   total: number | null;
   flagged_fields: string[];
   reasons: string[]; // user-facing: about the receipt, never about models
@@ -27,6 +29,7 @@ export type Row = {
 const SUMMED: Field[] = ["tax", "adjustments", "rounding", "items"];
 const QUOTED = ["subtotal", "rounding", "total"] as const; // single printed numbers we can find in their line
 const LABEL: Partial<Record<Field, string>> = { items: "line items" };
+const NOUN: Partial<Record<Field, string>> = { adjustments: "an adjustment" };
 
 const fmt = (v: Value) => (v === null ? "none" : typeof v === "number" ? v.toFixed(2) : v);
 const sum = (xs: (number | null)[]) => Math.round(xs.reduce<number>((t, x) => t + (x ?? 0), 0) * 100) / 100;
@@ -34,12 +37,9 @@ const illegible = (r: Receipt) => r.missing.filter((m) => m.reason === "illegibl
 const quote = (r: Receipt, f: Field): string | null => r.evidence.find((e) => e.field === f)?.text ?? null;
 // The printed label without its number: "Total (RM) : 436.20" → "total".
 const lineLabel = (ev: string) => normText(ev.replace(/[\d.,-]+/g, " "));
-// "RM1,436.20" contains 1436.20; "(0.20)" or "-0.20" contains -0.20.
-const inQuote = (v: number, ev: string) => {
-  const text = ev.replace(/,/g, "");
-  const abs = Math.abs(v);
-  return text.includes(abs.toFixed(2)) || new RegExp(`(^|[^\\d.])${abs}([^\\d]|$)`).test(text);
-};
+// Numbers compared as numbers, sign ignored: "RM1,436.20" shows 1436.20, "(0.20)" shows -0.20, "RM .02" shows 0.02.
+const inQuote = (v: number, ev: string) =>
+  (ev.replace(/,/g, "").match(/\d*\.?\d+/g) ?? []).some((n) => Math.abs(Number(n) - Math.abs(v)) < 0.005);
 
 function describe(field: Field, x: Value, evx: string | null, y: Value, evy: string | null): string {
   const label = LABEL[field] ?? field;
@@ -54,7 +54,8 @@ function describe(field: Field, x: Value, evx: string | null, y: Value, evy: str
     return sameValue(x, y) ? `check line items: same total ${fmt(x)}, but line amounts differ` : `check line items: totals read as ${fmt(p.v ?? 0)} or ${fmt(q.v ?? 0)}`;
   if (p.v === null || q.v === null) {
     const one = p.v === null ? q : p;
-    return `check ${label}: ${fmt(one.v)} may not be printed${one.ev ? ` ("${one.ev}")` : ""}`;
+    // The line is printed; the question is whether it is this field.
+    return one.ev ? `check ${label}: is "${one.ev}" ${NOUN[field] ?? `the ${label}`}? (${fmt(one.v)})` : `check ${label}: ${fmt(one.v)} may not be printed`;
   }
   if (p.ev && q.ev && lineLabel(p.ev) !== lineLabel(q.ev))
     return `check ${label}: ${fmt(p.v)} ("${p.ev}") or ${fmt(q.v)} ("${q.ev}"), different printed lines`;
@@ -63,7 +64,7 @@ function describe(field: Field, x: Value, evx: string | null, y: Value, evy: str
 }
 
 export function emptyRow(file: string, status: Status, reasons: string[]): Row {
-  return { file, status, confidence: STATUSES.indexOf(status), vendor: null, date: null, currency: null, subtotal: null, tax: null, total: null, flagged_fields: [], reasons, readAs: {}, lineItems: null };
+  return { file, status, confidence: STATUSES.indexOf(status), vendor: null, date: null, currency: null, subtotal: null, tax: null, adjustments: null, rounding: null, total: null, flagged_fields: [], reasons, readAs: {}, lineItems: null };
 }
 
 type Anchor = { value: number; label: string };
@@ -102,7 +103,25 @@ export function score(file: string, rawA: Receipt, rawB: Receipt, today = new Da
 
   const diffs = compare(a, b);
   const agrees = (f: Field) => diffs.find((d) => d.field === f)!.agree;
-  const unreadableItems = Math.max(...[a, b].map((r) => r.line_items.filter((i) => i.illegible).length));
+  // One reading takes a printed line as the subtotal, the other finds none (e.g. "Total : 46.00" above service
+  // charge and GST). Settled when the number is in its quoted line (so it is printed, not total minus tax)
+  // and fits the sums of values both agree on. Still a disagreement: MEDIUM, not HIGH.
+  const sub = diffs.find((d) => d.field === "subtotal")!;
+  const noSub = a.subtotal === null ? a : b.subtotal === null ? b : null;
+  let settledSubtotal: { value: number; ev: string } | null = null;
+  if (!sub.agree && noSub && !illegible(noSub).includes("subtotal") && (["total", "tax", "adjustments", "rounding"] as Field[]).every(agrees) && a.total !== null) {
+    const x = (a.subtotal ?? b.subtotal)!;
+    const ev = quote(noSub === a ? b : a, "subtotal");
+    const net = sum([a.total, -sum(a.adjustments.map((j) => j.amount)), -(a.rounding ?? 0)]);
+    const tax = sum(a.taxes.map((t) => t.amount));
+    const fits = Math.abs(x - net) <= TOLERANCE.sums + 1e-9 || Math.abs(x + tax - net) <= TOLERANCE.sums + 1e-9;
+    if (ev && inQuote(x, ev) && fits) {
+      settledSubtotal = { value: x, ev };
+      sub.agree = true; // the values below use it as agreed; the flag and reason are added with the other disagreements
+    }
+  }
+  const agreedSubtotal = agrees("subtotal") ? a.subtotal ?? b.subtotal : null;
+  let unreadableItems = Math.max(...[a, b].map((r) => r.line_items.filter((i) => i.illegible).length));
 
   // Settle total, then line items, by values both readings agree on.
   const extras = agrees("adjustments") && agrees("rounding") ? sum([...a.adjustments.map((x) => x.amount), a.rounding]) : null;
@@ -113,7 +132,7 @@ export function score(file: string, rawA: Receipt, rawB: Receipt, today = new Da
   let total = agrees("total") ? a.total : null;
   const settledTotal = agrees("total")
     ? null
-    : pick([a, b], (r) => r.total, [...(itemsKnown ? plus(itemsSum(a), "line items") : []), ...(agrees("subtotal") && a.subtotal !== null ? plus(a.subtotal, "subtotal") : [])]);
+    : pick([a, b], (r) => r.total, [...(itemsKnown ? plus(itemsSum(a), "line items") : []), ...(agreedSubtotal !== null ? plus(agreedSubtotal, "subtotal") : [])]);
   if (settledTotal) total = settledTotal.winner.total;
 
   let lineItems = itemsKnown ? a.line_items : null;
@@ -122,10 +141,19 @@ export function score(file: string, rawA: Receipt, rawB: Receipt, today = new Da
   const net = total === null ? null : sum([total, -(extras ?? 0)]);
   const netLabel = extras ? "total less adjustments and rounding" : "total";
   const itemAnchors: Anchor[] = [
-    ...(agrees("subtotal") && a.subtotal !== null ? [{ value: a.subtotal, label: "subtotal" }] : []),
+    ...(agreedSubtotal !== null ? [{ value: agreedSubtotal, label: "subtotal" }] : []),
     ...(net !== null ? [{ value: net, label: netLabel }] : []),
     ...(net !== null && tax ? [{ value: sum([net, -tax]), label: `${netLabel} - tax` }] : []),
   ];
+  // Amounts marked unreadable can't hide a value when the readable ones, read the same by both, already reach
+  // an agreed value (e.g. set items with no printed price marked illegible). Their amounts stay empty.
+  const explained = unreadableItems && agrees("items") && itemCount(a) ? itemAnchors.find((an) => near(an.value, itemsSum(a))) : undefined;
+  if (explained) {
+    flag("items");
+    reasons.push(`check line items: ${unreadableItems} line${unreadableItems > 1 ? "s" : ""} marked unreadable, but the read amounts already add up to ${explained.label} ${fmt(explained.value)}`);
+    unreadableItems = 0;
+    lineItems = a.line_items;
+  }
   const settledItems =
     agrees("items") || unreadableItems ? null : pick([a, b], (r) => (itemCount(r) ? itemsSum(r) : null), itemAnchors);
   // The winner may not have more amounts than the loser: it never fills a line the other reading left empty.
@@ -149,8 +177,15 @@ export function score(file: string, rawA: Receipt, rawB: Receipt, today = new Da
       flag(d.field);
       continue;
     }
-    reasons.push(describe(d.field, d.a, quote(a, d.field), d.b, quote(b, d.field)));
     flag(d.field);
+    // Unreadable amounts get their own reason; a sum over the rest would read like a second problem.
+    if (d.field === "items" && unreadableItems) continue;
+    reasons.push(describe(d.field, d.a, quote(a, d.field), d.b, quote(b, d.field)));
+  }
+  if (settledSubtotal) {
+    flag("subtotal");
+    readAs.subtotal = ["none", fmt(settledSubtotal.value)];
+    reasons.push(`check subtotal: read as ${fmt(settledSubtotal.value)} or none, used ${fmt(settledSubtotal.value)} ("${settledSubtotal.ev}" fits the total)`);
   }
   // Currency is inferred when no symbol is printed: one reading leaving it empty is not a disagreement.
   const inferredOnly = !va.currencyPrinted && !vb.currencyPrinted && (va.currency === null || vb.currency === null);
@@ -169,21 +204,21 @@ export function score(file: string, rawA: Receipt, rawB: Receipt, today = new Da
       const v = r[f], ev = quote(r, f);
       if (v === null) continue;
       if (!ev) quoteReasons.add(`check ${f}: ${fmt(v)} has no printed line`);
-      else if (!inQuote(v, ev)) quoteReasons.add(`check ${f}: ${fmt(v)} not found in printed line "${ev}"`);
+      else if (!inQuote(v, ev)) quoteReasons.add(`check ${f}: quoted line "${ev}" doesn't show ${fmt(v)}`);
       else continue;
       flag(f);
     }
   reasons.push(...[...quoteReasons].sort());
 
   // Checks on agreed (or settled) values.
-  const resolved: Receipt = { ...a, total, line_items: lineItems ?? a.line_items };
+  const resolved: Receipt = { ...a, subtotal: agreedSubtotal ?? a.subtotal, total, line_items: lineItems ?? a.line_items };
   const vr = validate(resolved, today);
   const moneyKnown = (["subtotal", "tax", "adjustments", "rounding"] as Field[]).every(agrees) && (agrees("total") || !!settledTotal);
   if (moneyKnown && vr.totalCheck === "fail") {
     flag("total");
     sumsFail = true;
     const adj = sum(a.adjustments.map((x) => x.amount)), rnd = a.rounding ?? 0, t = sum(a.taxes.map((x) => x.amount));
-    reasons.push(`check sums: subtotal ${fmt(a.subtotal)} + tax ${fmt(t)} + adjustments ${fmt(adj)} + rounding ${fmt(rnd)} = ${fmt(sum([a.subtotal, t, adj, rnd]))}, total ${fmt(total)}`);
+    reasons.push(`check sums: subtotal ${fmt(resolved.subtotal)} + tax ${fmt(t)} + adjustments ${fmt(adj)} + rounding ${fmt(rnd)} = ${fmt(sum([resolved.subtotal, t, adj, rnd]))}, total ${fmt(total)}`);
   }
   if (agrees("total") && a.total === null) flag("total");
   if (agrees("date") && va.dateOk === false) {
@@ -208,17 +243,21 @@ export function score(file: string, rawA: Receipt, rawB: Receipt, today = new Da
   }
   for (const r of va.reasons) if (vb.reasons.includes(r) && !reasons.includes(r)) reasons.push(r);
 
-  const subtotal = !agrees("subtotal") ? null : a.subtotal ?? (total !== null && agrees("tax") && extras !== null ? vr.subtotal : null);
+  const subtotal = !agrees("subtotal") ? null : agreedSubtotal ?? (total !== null && agrees("tax") && extras !== null ? vr.subtotal : null);
   const out = {
-    vendor: agrees("vendor") ? a.vendor : null,
+    // The registration number next to the name identifies the vendor; it is not part of the name.
+    vendor: agrees("vendor") && a.vendor !== null ? a.vendor.replace(/\s*\([^)]*\d[^)]*\)\s*$/, "") : null,
     date: agrees("date") ? a.date : null,
     currency,
     subtotal,
     tax: agrees("tax") && (a.taxes.length || b.taxes.length) ? sum(a.taxes.map((t) => t.amount)) : null,
+    adjustments: agrees("adjustments") ? sum(a.adjustments.map((x) => x.amount)) || null : null,
+    rounding: agrees("rounding") ? a.rounding : null,
     total,
   };
-  // Adjustments and rounding are not output values: doubt there only asks to confirm the total.
-  const empty = (f: string) => (f === "items" ? lineItems === null : f === "taxes" ? out.tax === null : f in out && out[f as keyof typeof out] === null);
+  const context = ["adjustments", "rounding"]; // shown so the sums visibly add up; doubt there only asks to confirm
+  const empty = (f: string) =>
+    f === "items" ? lineItems === null : f === "taxes" ? out.tax === null : !context.includes(f) && f in out && out[f as keyof typeof out] === null;
   const status: Status = sumsFail || [...flagged].some(empty) ? "LOW" : flagged.size ? "MEDIUM" : "HIGH";
   return {
     file,

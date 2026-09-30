@@ -40,20 +40,39 @@ test("different line: each reading quotes a different printed line → LOW, subt
   assert.ok(row.reasons.includes('check subtotal: 411.50 ("(Excluded GST) Sub Total (RM) : 411.50") or 436.19 ("Total Sales (Inclusive of GST) : 436.19"), different printed lines'));
 });
 
-test("one-sided: one reading has a value the other didn't find → LOW, empty, says it may not be printed", () => {
+test("one-sided subtotal printed in its quoted line and fitting the agreed sums: filled, MEDIUM (X51005337877: \"Total : 46.00\")", () => {
   const b = withEvidence(receipt({ subtotal: null }), { subtotal: null });
-  const row = score("f.jpg", receipt(), b, today);
+  for (const [x, y] of [[receipt(), b], [b, receipt()]]) {
+    const row = score("f.jpg", x, y, today);
+    assert.equal(row.status, "MEDIUM");
+    assert.equal(row.subtotal, 411.5);
+    assert.deepEqual(row.flagged_fields, ["subtotal"]);
+    assert.ok(row.reasons.includes('check subtotal: read as 411.50 or none, used 411.50 ("(Excluded GST) Sub Total (RM) : 411.50" fits the total)'), row.reasons.join(" | "));
+  }
+});
+
+test("one-sided subtotal not in its quoted line is not accepted, even when it fits: it may be total minus tax", () => {
+  const a = withEvidence(receipt(), { subtotal: "Sub Total (RM) :" });
+  const b = withEvidence(receipt({ subtotal: null }), { subtotal: null });
+  const row = score("f.jpg", a, b, today);
   assert.equal(row.status, "LOW");
   assert.equal(row.subtotal, null);
-  assert.deepEqual(row.flagged_fields, ["subtotal"]);
-  assert.ok(row.reasons.includes('check subtotal: 411.50 may not be printed ("(Excluded GST) Sub Total (RM) : 411.50")'));
+});
+
+test("one-sided subtotal that doesn't fit is LOW, empty, and asks whether that printed line is the subtotal", () => {
+  const a = withEvidence(receipt({ subtotal: 400 }), { subtotal: "Total : 400.00" });
+  const b = withEvidence(receipt({ subtotal: null }), { subtotal: null });
+  const row = score("f.jpg", a, b, today);
+  assert.equal(row.status, "LOW");
+  assert.equal(row.subtotal, null);
+  assert.ok(row.reasons.includes('check subtotal: is "Total : 400.00" the subtotal? (400.00)'), row.reasons.join(" | "));
 });
 
 test("a value missing from its own quoted line is flagged as possibly made up", () => {
   const r = withEvidence(receipt(), { total: "Total (RM) :" });
   const row = score("f.jpg", r, r, today);
   assert.equal(row.status, "MEDIUM");
-  assert.ok(row.reasons.includes('check total: 436.20 not found in printed line "Total (RM) :"'));
+  assert.ok(row.reasons.includes('check total: quoted line "Total (RM) :" doesn\'t show 436.20'));
 });
 
 test("a value with no quoted line at all is flagged", () => {
@@ -61,6 +80,11 @@ test("a value with no quoted line at all is flagged", () => {
   const row = score("f.jpg", r, r, today);
   assert.equal(row.status, "MEDIUM");
   assert.ok(row.reasons.includes("check subtotal: 411.50 has no printed line"));
+});
+
+test('a number printed without its leading zero still matches: "RM .02" shows 0.02 (X51005268408)', () => {
+  const r = withEvidence(receipt({ rounding: 0.02, total: 436.21 }), { rounding: "Rounding Adjustment RM .02", total: "Total (RM) : 436.21" });
+  assert.equal(score("f.jpg", r, r, today).status, "HIGH");
 });
 
 test("quoted line with thousands separator or negative sign still matches", () => {
@@ -98,7 +122,7 @@ test("adjustment disagreement is MEDIUM (credit note: one reading has the -0.20 
   const row = score("f.jpg", a, receipt(), today);
   assert.equal(row.status, "MEDIUM");
   assert.deepEqual(row.flagged_fields, ["adjustments"]);
-  assert.ok(row.reasons.includes('check adjustments: -0.20 may not be printed ("Item Discount : RM 0.20")'));
+  assert.ok(row.reasons.includes('check adjustments: is "Item Discount : RM 0.20" an adjustment? (-0.20)'));
 });
 
 test("no adjustments vs a printed 0.00 is not a disagreement", () => {
@@ -346,4 +370,35 @@ test("disputed adjustment (a discount counted twice): items still settle on the 
   assert.deepEqual(row.lineItems?.map((i) => i.amount), [10, 6.5, 4.2, 1.9]);
   assert.equal(row.status, "MEDIUM");
   assert.equal(row.subtotal, null); // computed only from agreed values; the discount is disputed
+});
+
+test("set items with no printed price marked illegible by one reading: readable amounts reach the agreed subtotal, filled, MEDIUM (X51005337867)", () => {
+  const base = { subtotal: 25.94, taxes: [], rounding: null, total: 25.94 };
+  const set = (illegible: boolean) => [item(13.87), item(null, illegible), item(null, illegible), item(12.07), item(null, illegible)];
+  const a = receipt({ ...base, subtotal: 25.94, total: 28.53, adjustments: [{ label: "Srv Chg", amount: 2.59 }], line_items: set(true) });
+  const b = { ...a, line_items: set(false) };
+  const e = { subtotal: "Subtotal: 25.94", total: "Total: 28.53", adjustments: "10% Srv Chg: 2.59" };
+  const row = score("f.jpg", withEvidence(a, e), withEvidence(b, e), today);
+  assert.equal(row.status, "MEDIUM");
+  assert.ok(row.reasons.includes("check line items: 3 lines marked unreadable, but the read amounts already add up to subtotal 25.94"), row.reasons.join(" | "));
+  assert.equal(row.lineItems?.length, 5);
+  assert.deepEqual(row.lineItems?.map((i) => i.amount), [13.87, null, null, 12.07, null]);
+});
+
+test("unreadable amounts whose readable rest falls short of the agreed total stay LOW (cut off)", () => {
+  const base = { subtotal: null, taxes: [], rounding: null, total: 30 };
+  const r = receipt({ ...base, line_items: [item(10), item(null, true)] });
+  const row = score("f.jpg", r, { ...r, line_items: [item(10), item(null)] }, today);
+  assert.equal(row.status, "LOW");
+  assert.equal(row.lineItems, null);
+});
+
+test("vendor output drops the registration number next to the name", () => {
+  const r = receipt({ vendor: "99 SPEED MART S/B (519537-X)" });
+  assert.equal(score("f.jpg", r, r, today).vendor, "99 SPEED MART S/B");
+});
+
+test("unreadable item amounts give one reason, not also a sum over the rest (X51005447844)", () => {
+  const row = score("f.jpg", receipt({ line_items: [item(110), item(null, true)] }), receipt({ line_items: [item(null, true), item(null, true)] }), today);
+  assert.deepEqual(row.reasons.filter((r) => r.includes("line items")), ["check line items: 2 amounts could not be read"]);
 });

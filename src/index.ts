@@ -50,7 +50,7 @@ for (const [file, of] of dupes) rows.push(emptyRow(file, "DUPLICATE", [`duplicat
 rows.sort((x, y) => x.confidence - y.confidence || x.file.localeCompare(y.file));
 
 mkdirSync("out", { recursive: true });
-const COLUMNS = ["file", "status", "confidence", "vendor", "date", "currency", "subtotal", "tax", "total", "flagged_fields", "reasons"];
+const COLUMNS = ["file", "status", "confidence", "vendor", "date", "currency", "subtotal", "tax", "adjustments", "rounding", "total", "flagged_fields", "reasons"];
 writeFileSync("out/receipts.csv", toCsv(COLUMNS, rows.map(({ lineItems, readAs, ...r }) => r)));
 writeFileSync("out/line_items.csv", toCsv(["file", "description", "qty", "unit_price", "amount"], items));
 
