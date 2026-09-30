@@ -1,4 +1,4 @@
-# Receipt Extraction
+# Invoice Extraction
 
 Reads receipt images with two models, keeps values they agree on, checks the arithmetic, and flags what a person should review. See `NOTES.md` for how confidence works.
 
