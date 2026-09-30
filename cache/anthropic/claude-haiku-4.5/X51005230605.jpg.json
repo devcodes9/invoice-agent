@@ -1,0 +1,68 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005230605.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "PETROH BKT LANJAN SB",
+    "date": "2018-02-01",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "double ,mint te",
+        "qty": 2,
+        "unit_price": null,
+        "amount": 3,
+        "illegible": false
+      },
+      {
+        "description": "sandwich venill",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 1.9,
+        "illegible": false
+      }
+    ],
+    "subtotal": 4.62,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 0.28
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 4.9,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "PETROH BKT LANJAN SB"
+      },
+      {
+        "field": "date",
+        "text": "01/02/2018"
+      },
+      {
+        "field": "subtotal",
+        "text": "GST Summary Amount (RM) A=6.00% 4.62"
+      },
+      {
+        "field": "tax",
+        "text": "GST RM: 0.28"
+      },
+      {
+        "field": "total",
+        "text": "Total RM inc.GST: 4.90"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 3241,
+    "output": 315,
+    "cost": 0.004816
+  },
+  "ms": 6804
+}

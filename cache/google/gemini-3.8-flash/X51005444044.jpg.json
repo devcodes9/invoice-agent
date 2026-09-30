@@ -1,0 +1,66 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005444044.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "99 SPEED MART S/B",
+    "date": "2018-03-10",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "104 SUNQUICK OREN 330ML",
+        "qty": null,
+        "unit_price": null,
+        "amount": 5.35,
+        "illegible": false
+      }
+    ],
+    "subtotal": 5.05,
+    "taxes": [
+      {
+        "label": "s = 6%",
+        "rate": 6,
+        "amount": 0.3
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 5.35,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "99 SPEED MART S/B (519537-X)"
+      },
+      {
+        "field": "date",
+        "text": "02:27PM 570285 10-03-18"
+      },
+      {
+        "field": "subtotal",
+        "text": "s = 6% 5.05 .30"
+      },
+      {
+        "field": "tax",
+        "text": "s = 6% 5.05 .30"
+      },
+      {
+        "field": "total",
+        "text": "Total Sales (Inclusive GST) RM 5.35"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1754,
+    "output": 1536,
+    "cost": 0.0070755
+  },
+  "ms": 7319
+}

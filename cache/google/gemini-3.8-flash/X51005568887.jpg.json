@@ -1,0 +1,65 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005568887.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "HON HWA HARDWARE TRADING",
+    "date": "2017-04-28",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "3/4\" ALUMINIUM ROD",
+        "qty": 1.2,
+        "unit_price": 6,
+        "amount": 7.2,
+        "illegible": false
+      }
+    ],
+    "subtotal": 6.79,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": null,
+        "amount": 0.41
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 7.2,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "HON HWA HARDWARE TRADING"
+      },
+      {
+        "field": "date",
+        "text": "28/04/2017 11:01:38 AM"
+      },
+      {
+        "field": "subtotal",
+        "text": "Total 6.79 0.41 7.20"
+      },
+      {
+        "field": "tax",
+        "text": "SR SR 6.79 0.41 7.20"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding Adj 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total Inclusive GST: 7.20"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 1759,
+    "output": 1595,
+    "cost": 0.0073005
+  },
+  "ms": 6933
+}

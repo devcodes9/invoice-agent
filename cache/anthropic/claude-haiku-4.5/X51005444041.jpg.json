@@ -1,0 +1,103 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005444041.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "BENS INDEPENDENT GROCER SDN. BHD",
+    "date": "2018-03-08",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "Dole Pineapple Pcs",
+        "qty": 3,
+        "unit_price": 7.9,
+        "amount": 23.7,
+        "illegible": false
+      },
+      {
+        "description": "Farmhouse Fresh Milk Twin Pack 2x1L",
+        "qty": 1,
+        "unit_price": 19.9,
+        "amount": 19.9,
+        "illegible": false
+      },
+      {
+        "description": "Fresh Cut Honey Kiwifruit Peeled 400g",
+        "qty": 3,
+        "unit_price": 8.9,
+        "amount": 26.7,
+        "illegible": false
+      },
+      {
+        "description": "Nestle Bliss Yog Drink Strawberry 700g",
+        "qty": 1,
+        "unit_price": 5.8,
+        "amount": 5.8,
+        "illegible": false
+      },
+      {
+        "description": "Vitagen Assorted 5x125ml",
+        "qty": 1,
+        "unit_price": 4.9,
+        "amount": 4.9,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "S = 6%",
+        "rate": 6,
+        "amount": 1.74
+      },
+      {
+        "label": "Z = 0%",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 81,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "BENS INDEPENDENT GROCER SDN. BHD"
+      },
+      {
+        "field": "date",
+        "text": "08/03/18"
+      },
+      {
+        "field": "tax",
+        "text": "S = 6% 28.86 1.74 | Z = 0% 50.40 0.00"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total 81.00"
+      }
+    ],
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "currency",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3417,
+    "output": 541,
+    "cost": 0.006122
+  },
+  "ms": 7323
+}

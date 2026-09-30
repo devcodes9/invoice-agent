@@ -1,0 +1,66 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005230659.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SWC ENTERPRISE SDN BHD",
+    "date": "2018-01-08",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "20X30 1KG",
+        "qty": 1,
+        "unit_price": 8,
+        "amount": 8,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "G",
+        "rate": null,
+        "amount": 0.45
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 8,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "SWC ENTERPRISE SDN BHD (1125830-V)"
+      },
+      {
+        "field": "date",
+        "text": "08/01/2018"
+      },
+      {
+        "field": "tax",
+        "text": "G 6% Included In Total 0.45"
+      },
+      {
+        "field": "total",
+        "text": "TOTAL AMOUNT 8.00"
+      }
+    ],
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 2962,
+    "output": 276,
+    "cost": 0.004342
+  },
+  "ms": 5152
+}

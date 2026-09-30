@@ -1,0 +1,107 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005444046.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "STAR GROCER SDN BHD",
+    "date": "2018-03-25",
+    "currency": "MYR",
+    "currency_symbol_seen": "Z",
+    "line_items": [
+      {
+        "description": "CARROT S/M 500GM CH (PKT)",
+        "qty": 8,
+        "unit_price": 1.59,
+        "amount": 12.72,
+        "illegible": false
+      },
+      {
+        "description": "JAMBU BATU (GUAVA SEEDLESS/ MUTIARA) KG",
+        "qty": 0.214,
+        "unit_price": 6.92,
+        "amount": 1.48,
+        "illegible": false
+      },
+      {
+        "description": "MANGO HONEY (SUSU) (KG)",
+        "qty": 0.528,
+        "unit_price": 4.91,
+        "amount": 2.59,
+        "illegible": false
+      },
+      {
+        "description": "PINEAPPLE LOCAL 1S",
+        "qty": 2,
+        "unit_price": 8.6,
+        "amount": 17.2,
+        "illegible": false
+      },
+      {
+        "description": "TIMUN JEPUN (JAPANESE CUCUMBER) KG",
+        "qty": 0.837,
+        "unit_price": 1.29,
+        "amount": 1.08,
+        "illegible": false
+      },
+      {
+        "description": "US GREEN APPLE (175) 10S",
+        "qty": 1,
+        "unit_price": 7.5,
+        "amount": 7.5,
+        "illegible": false
+      },
+      {
+        "description": "VALENCIA SA (105) 8S",
+        "qty": 4,
+        "unit_price": 5.9,
+        "amount": 23.6,
+        "illegible": false
+      }
+    ],
+    "subtotal": 66.17,
+    "taxes": [
+      {
+        "label": "GST @ 6%",
+        "rate": 6,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": -0.02,
+    "total": 66.15,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "STAR GROCER SDN BHD (1171881-W)"
+      },
+      {
+        "field": "date",
+        "text": "25/03/18"
+      },
+      {
+        "field": "subtotal",
+        "text": "Total with GST @ 6% 66.17"
+      },
+      {
+        "field": "tax",
+        "text": "GST Analysis S = 6% Goods 0.00 Tax Amount 0.00 | Z = 0% Goods 66.17 Tax Amount 0.00"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding -0.02"
+      },
+      {
+        "field": "total",
+        "text": "Total 66.15"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 3753,
+    "output": 631,
+    "cost": 0.006908
+  },
+  "ms": 6974
+}

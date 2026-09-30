@@ -1,0 +1,99 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005433548.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "PASAR MINI JIN SENG",
+    "date": "2018-03-03",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "VEGETABLES",
+        "qty": 1,
+        "unit_price": 16,
+        "amount": 16,
+        "illegible": false
+      },
+      {
+        "description": "TELUR / TELUR NASIN",
+        "qty": 1,
+        "unit_price": 2.4,
+        "amount": 2.4,
+        "illegible": false
+      },
+      {
+        "description": "VEGETABLES",
+        "qty": 1,
+        "unit_price": 1.8,
+        "amount": 1.8,
+        "illegible": false
+      },
+      {
+        "description": "GL STEWED PORK 200G",
+        "qty": 1,
+        "unit_price": 6.8,
+        "amount": 6.8,
+        "illegible": false
+      },
+      {
+        "description": "BQTAN IKAN SARDIN 425G",
+        "qty": 1,
+        "unit_price": 6.8,
+        "amount": 6.8,
+        "illegible": false
+      }
+    ],
+    "subtotal": 33.8,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": 6,
+        "amount": 0.77
+      },
+      {
+        "label": "ZRL",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 33.8,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "PASAR MINI JIN SENG"
+      },
+      {
+        "field": "date",
+        "text": "03/03/18"
+      },
+      {
+        "field": "subtotal",
+        "text": "SUBTOTAL: 33.80"
+      },
+      {
+        "field": "tax",
+        "text": "SR (6%) 13.60 0.77 | ZRL (0%) 20.20 0.00"
+      },
+      {
+        "field": "total",
+        "text": "TL:RM 33.80"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3736,
+    "output": 489,
+    "cost": 0.006181
+  },
+  "ms": 5927
+}

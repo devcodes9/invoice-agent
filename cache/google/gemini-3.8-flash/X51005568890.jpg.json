@@ -1,0 +1,65 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005568890.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "HON HWA HARDWARE TRADING",
+    "date": "2017-01-05",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "PVC WALLPLUG\n(50PCS)",
+        "qty": 5,
+        "unit_price": 1,
+        "amount": 5,
+        "illegible": false
+      }
+    ],
+    "subtotal": 4.72,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": null,
+        "amount": 0.28
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 5,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "HON HWA HARDWARE TRADING"
+      },
+      {
+        "field": "date",
+        "text": "05/01/2017 4:47:51 PM"
+      },
+      {
+        "field": "subtotal",
+        "text": "Total 4.72 0.28 5.00"
+      },
+      {
+        "field": "tax",
+        "text": "Total 4.72 0.28 5.00"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding Adj 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total Inclusive GST: 5.00"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 1759,
+    "output": 1997,
+    "cost": 0.008808
+  },
+  "ms": 9884
+}

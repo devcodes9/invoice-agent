@@ -1,0 +1,94 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005268408.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "99 SPEED MART S/B (519253-X)",
+    "date": "2017-11-20",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "2973 FLOPISSURE COMPLETE 5KG",
+        "qty": null,
+        "unit_price": null,
+        "amount": 117.9,
+        "illegible": false
+      },
+      {
+        "description": "089 WILD 2KG",
+        "qty": null,
+        "unit_price": null,
+        "amount": 34.9,
+        "illegible": false
+      },
+      {
+        "description": "2709 ZING HEING OAT & WHEAT",
+        "qty": null,
+        "unit_price": null,
+        "amount": 4.1,
+        "illegible": false
+      },
+      {
+        "description": "2893 DISNEY OSII2 WIDE NECK",
+        "qty": null,
+        "unit_price": null,
+        "amount": 8.89,
+        "illegible": false
+      },
+      {
+        "description": "4385 JOHNSONS PWS.5 2IN1 BO",
+        "qty": null,
+        "unit_price": null,
+        "amount": 6.99,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 9.61
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0.02,
+    "total": 169.8,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "99 SPEED MART S/B (519253-X)"
+      },
+      {
+        "field": "date",
+        "text": "20-11-17"
+      },
+      {
+        "field": "tax",
+        "text": "GST Summary = 6/6 Amount(RM) 160.17 Tax(RM) 9.61"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding Adjustment RM .02"
+      },
+      {
+        "field": "total",
+        "text": "Rounding RM 169.80"
+      }
+    ],
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3753,
+    "output": 493,
+    "cost": 0.006218
+  },
+  "ms": 7032
+}

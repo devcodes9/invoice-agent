@@ -1,0 +1,73 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005433518.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+    "date": "2018-03-07",
+    "currency": "MYR",
+    "currency_symbol_seen": "$",
+    "line_items": [
+      {
+        "description": "SR 1001000035- 1 Meat + 3 Vege",
+        "qty": 1,
+        "unit_price": 7.1,
+        "amount": 7.1,
+        "illegible": false
+      },
+      {
+        "description": "SR 1001000015- Vegetable",
+        "qty": 1,
+        "unit_price": 1.1,
+        "amount": 1.1,
+        "illegible": false
+      }
+    ],
+    "subtotal": 8.2,
+    "taxes": [
+      {
+        "label": "GST @6%",
+        "rate": 6,
+        "amount": 0.46
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 8.2,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "UNIHAKKA INTERNATIONAL SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "07 Mar 2018 18:22"
+      },
+      {
+        "field": "subtotal",
+        "text": "Total Amount: $8.20"
+      },
+      {
+        "field": "tax",
+        "text": "GST @6%: $0.46"
+      },
+      {
+        "field": "total",
+        "text": "Net Total: $8.20"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3736,
+    "output": 346,
+    "cost": 0.005466
+  },
+  "ms": 5454
+}

@@ -1,0 +1,113 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005444046.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "STAR GROCER SDN BHD",
+    "date": "2018-03-25",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "CARROT S/M 500GM CH (PKT)",
+        "qty": 8,
+        "unit_price": 1.59,
+        "amount": 12.72,
+        "illegible": false
+      },
+      {
+        "description": "JAMBU BATU (GUAVA SEEDLESS/ MUTIARA) KG",
+        "qty": 0.214,
+        "unit_price": 6.92,
+        "amount": 1.48,
+        "illegible": false
+      },
+      {
+        "description": "MANGO HONEY (SUSU) (KG)",
+        "qty": 0.528,
+        "unit_price": 4.91,
+        "amount": 2.59,
+        "illegible": false
+      },
+      {
+        "description": "PINEAPPLE LOCAL 1S",
+        "qty": 2,
+        "unit_price": 8.6,
+        "amount": 17.2,
+        "illegible": false
+      },
+      {
+        "description": "TIMUN JEPUN (JAPANESE CUCUMBER) KG",
+        "qty": 0.837,
+        "unit_price": 1.29,
+        "amount": 1.08,
+        "illegible": false
+      },
+      {
+        "description": "US GREEN APPLE (175) 10S",
+        "qty": 1,
+        "unit_price": 7.5,
+        "amount": 7.5,
+        "illegible": false
+      },
+      {
+        "description": "VALENCIA SA (105) 8S",
+        "qty": 4,
+        "unit_price": 5.9,
+        "amount": 23.6,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "S = 6%",
+        "rate": 6,
+        "amount": 0
+      },
+      {
+        "label": "Z = 0%",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": -0.02,
+    "total": 66.15,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "STAR GROCER SDN BHD (1171881-W)"
+      },
+      {
+        "field": "date",
+        "text": "25/03/18"
+      },
+      {
+        "field": "tax",
+        "text": "S = 6%          0.00        0.00 | Z = 0%         66.17        0.00"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding          -0.02"
+      },
+      {
+        "field": "total",
+        "text": "Total             66.15"
+      }
+    ],
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1760,
+    "output": 1683,
+    "cost": 0.00763125
+  },
+  "ms": 7260
+}

@@ -1,0 +1,66 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005447859.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+    "date": "2018-02-14",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "100PLUS LIME 325ML",
+        "qty": 1,
+        "unit_price": 1.45,
+        "amount": 1.45,
+        "illegible": false
+      }
+    ],
+    "subtotal": 1.45,
+    "taxes": [
+      {
+        "label": "ZRL = 0 %",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 1.45,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "PASARAYA BORONG PINTAR SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "14/02/2018 5:37 44PM"
+      },
+      {
+        "field": "subtotal",
+        "text": "ZRL = 0 % | 1.45"
+      },
+      {
+        "field": "tax",
+        "text": "Total Includes GST 0% | 1.45"
+      },
+      {
+        "field": "total",
+        "text": "Total Includes GST 0% | 1.45"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3751,
+    "output": 317,
+    "cost": 0.005336
+  },
+  "ms": 5094
+}

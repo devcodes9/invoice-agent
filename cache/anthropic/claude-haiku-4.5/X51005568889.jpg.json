@@ -1,0 +1,72 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005568889.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "HON HWA HARDWARE TRADING",
+    "date": "2017-02-11",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "3/4\" ALUMINIUM ROD",
+        "qty": 1.38,
+        "unit_price": 5.8,
+        "amount": 19.6,
+        "illegible": false
+      },
+      {
+        "description": "Item Discount",
+        "qty": null,
+        "unit_price": null,
+        "amount": 0,
+        "illegible": false
+      }
+    ],
+    "subtotal": 18.49,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": null,
+        "amount": 1.11
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 19.6,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "HON HWA HARDWARE TRADING"
+      },
+      {
+        "field": "date",
+        "text": "11/02/2017 9:35:48 AM"
+      },
+      {
+        "field": "subtotal",
+        "text": "Net Amt 18.49"
+      },
+      {
+        "field": "tax",
+        "text": "GST 1.11"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding Adj 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total Inclusive GST: 19.60"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 3722,
+    "output": 333,
+    "cost": 0.005387
+  },
+  "ms": 6021
+}

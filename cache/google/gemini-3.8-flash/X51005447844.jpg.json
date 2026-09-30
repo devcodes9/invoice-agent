@@ -1,0 +1,111 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005447844.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "JIAWEI HOUSE",
+    "date": "2018-02-23",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "Red Cat Fish",
+        "qty": 1,
+        "unit_price": 42,
+        "amount": null,
+        "illegible": true
+      },
+      {
+        "description": "Ginger Clams (S)",
+        "qty": 1,
+        "unit_price": 20,
+        "amount": null,
+        "illegible": true
+      },
+      {
+        "description": "Beancurd W Dao Gan(S)",
+        "qty": 1,
+        "unit_price": 18,
+        "amount": null,
+        "illegible": true
+      },
+      {
+        "description": "G. Dragon Chives(S)",
+        "qty": 1,
+        "unit_price": 16,
+        "amount": null,
+        "illegible": true
+      },
+      {
+        "description": "Pu Er (1-3)",
+        "qty": 1,
+        "unit_price": 5,
+        "amount": null,
+        "illegible": true
+      },
+      {
+        "description": "Rice (B)",
+        "qty": null,
+        "unit_price": null,
+        "amount": null,
+        "illegible": true
+      },
+      {
+        "description": "Rice Small",
+        "qty": null,
+        "unit_price": 1,
+        "amount": null,
+        "illegible": true
+      }
+    ],
+    "subtotal": 110,
+    "taxes": [],
+    "adjustments": [
+      {
+        "label": "Service Charge",
+        "amount": 0
+      }
+    ],
+    "rounding": 0,
+    "total": 110,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "JIAWEI HOUSE"
+      },
+      {
+        "field": "date",
+        "text": "Date : 23/2/2018 20:04:08"
+      },
+      {
+        "field": "subtotal",
+        "text": "Sub Total Before Discount    RM 110.00"
+      },
+      {
+        "field": "adjustments",
+        "text": "Service Charge               RM 0.00"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding Adjustment :        RM 0.00"
+      },
+      {
+        "field": "total",
+        "text": "TOTAL                        RM 110.00"
+      }
+    ],
+    "missing": [
+      {
+        "field": "taxes",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1757,
+    "output": 20816,
+    "cost": 0.07937775
+  },
+  "ms": 84387
+}

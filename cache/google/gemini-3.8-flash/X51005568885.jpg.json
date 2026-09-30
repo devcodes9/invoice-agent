@@ -1,0 +1,65 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005568885.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "EVERGREEN LIGHT SDN BHD",
+    "date": "2017-07-10",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "PROBMK 10W LED STICK",
+        "qty": 4,
+        "unit_price": 13.21,
+        "amount": 52.84,
+        "illegible": false
+      }
+    ],
+    "subtotal": 52.84,
+    "taxes": [
+      {
+        "label": "s-SR(E)",
+        "rate": 6,
+        "amount": 3.17
+      }
+    ],
+    "adjustments": [],
+    "rounding": -0.01,
+    "total": 56,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "EVERGREEN LIGHT SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "10/07/2017 18:02"
+      },
+      {
+        "field": "subtotal",
+        "text": "SUB-TOTAL 52.84"
+      },
+      {
+        "field": "tax",
+        "text": "s-SR(E) - 6% 52.84 3.17"
+      },
+      {
+        "field": "rounding",
+        "text": "ROUNDING ADJUST -0.01"
+      },
+      {
+        "field": "total",
+        "text": "Total Incl GST 56.00"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 1757,
+    "output": 1125,
+    "cost": 0.0055365
+  },
+  "ms": 5926
+}

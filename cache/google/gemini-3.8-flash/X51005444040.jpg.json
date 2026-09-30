@@ -1,0 +1,78 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005444040.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "BENS INDEPENDENT GROCER SDN. BHD",
+    "date": "2018-03-09",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "Evian Mineral Water 6x1.25L",
+        "qty": 2,
+        "unit_price": 53.5,
+        "amount": 107,
+        "illegible": false
+      },
+      {
+        "description": "Fresh Cut Honey Jackfruit Peeled 400g",
+        "qty": 3,
+        "unit_price": 8.9,
+        "amount": 26.7,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "S = 6%",
+        "rate": 6,
+        "amount": 6.06
+      },
+      {
+        "label": "Z = 0%",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 133.7,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "BENS INDEPENDENT GROCER SDN. BHD"
+      },
+      {
+        "field": "date",
+        "text": "Tax Invoice : BAT01201803090220 09/03/18"
+      },
+      {
+        "field": "tax",
+        "text": "S = 6% 100.94 6.06 | Z = 0% 26.70 0.00"
+      },
+      {
+        "field": "rounding",
+        "text": "Qty 5 Rounding 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total Saving 0.00 Total 133.70"
+      }
+    ],
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1757,
+    "output": 1255,
+    "cost": 0.006024
+  },
+  "ms": 6374
+}

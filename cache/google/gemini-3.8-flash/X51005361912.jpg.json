@@ -1,0 +1,65 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005361912.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "TEO HENG STATIONERY & BOOKS",
+    "date": "2018-01-29",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "CARBON PAPER",
+        "qty": 2,
+        "unit_price": 0.5,
+        "amount": 1,
+        "illegible": false
+      }
+    ],
+    "subtotal": 1,
+    "taxes": [
+      {
+        "label": "TOTAL TAX",
+        "rate": 6,
+        "amount": 0.06
+      }
+    ],
+    "adjustments": [],
+    "rounding": -0.01,
+    "total": 1.05,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "TEO HENG STATIONERY & BOOKS"
+      },
+      {
+        "field": "date",
+        "text": "Date : 29/01/2018"
+      },
+      {
+        "field": "subtotal",
+        "text": "SUB-TOTAL (EX) : 1.00"
+      },
+      {
+        "field": "tax",
+        "text": "TOTAL TAX : 0.06"
+      },
+      {
+        "field": "rounding",
+        "text": "ROUNDING : -0.01"
+      },
+      {
+        "field": "total",
+        "text": "TOTAL : 1.05"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 1759,
+    "output": 441,
+    "cost": 0.002973
+  },
+  "ms": 3852
+}

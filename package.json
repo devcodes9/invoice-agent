@@ -11,6 +11,7 @@
     "typecheck": "tsc",
     "tier": "tsx --env-file=.env scripts/tier.ts",
     "start": "tsx --env-file=.env src/index.ts",
+    "replay": "tsx src/index.ts --replay",
     "eval": "tsx scripts/eval.ts"
   },
   "keywords": [],

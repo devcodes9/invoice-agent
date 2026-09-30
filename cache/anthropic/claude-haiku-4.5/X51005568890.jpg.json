@@ -1,0 +1,79 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005568890.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "HON HWA HARDWARE TRADING",
+    "date": "2017-01-05",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "PVC WALLPLUG (50PCS)",
+        "qty": 5,
+        "unit_price": 1,
+        "amount": 5,
+        "illegible": false
+      },
+      {
+        "description": "Type: 1 Total",
+        "qty": 5,
+        "unit_price": null,
+        "amount": 5,
+        "illegible": false
+      },
+      {
+        "description": "Discount",
+        "qty": null,
+        "unit_price": null,
+        "amount": 0,
+        "illegible": false
+      }
+    ],
+    "subtotal": 4.72,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": null,
+        "amount": 0.28
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 5,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "HON HWA HARDWARE TRADING"
+      },
+      {
+        "field": "date",
+        "text": "05/01/2017"
+      },
+      {
+        "field": "subtotal",
+        "text": "Net Amt 4.72"
+      },
+      {
+        "field": "tax",
+        "text": "GST 0.28"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding Adj 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total Inclusive GST: 5.00"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 3722,
+    "output": 361,
+    "cost": 0.005527
+  },
+  "ms": 5249
+}

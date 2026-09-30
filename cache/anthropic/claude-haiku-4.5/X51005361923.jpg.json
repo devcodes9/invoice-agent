@@ -1,0 +1,73 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005361923.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SWC ENTERPRISE SDN BHD",
+    "date": "2018-01-02",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "SXB 500G (IYL60)",
+        "qty": null,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "SXB 500G",
+        "qty": 1,
+        "unit_price": 4.2,
+        "amount": 4.2,
+        "illegible": false
+      }
+    ],
+    "subtotal": 4.2,
+    "taxes": [
+      {
+        "label": "GST@6%",
+        "rate": 6,
+        "amount": 0.24
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 4.2,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "SWC ENTERPRISE SDN BHD (1125630-V)"
+      },
+      {
+        "field": "date",
+        "text": "02/01/2018"
+      },
+      {
+        "field": "subtotal",
+        "text": "TOTAL AMOUNT 4.20"
+      },
+      {
+        "field": "tax",
+        "text": "GST@6% Included in Total 0.24"
+      },
+      {
+        "field": "total",
+        "text": "TOTAL AMOUNT 4.20"
+      }
+    ],
+    "missing": [
+      {
+        "field": "currency",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3736,
+    "output": 329,
+    "cost": 0.005381
+  },
+  "ms": 5231
+}

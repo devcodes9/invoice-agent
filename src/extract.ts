@@ -44,12 +44,14 @@ export function cachePath(model: string, file: string) {
   return join("cache", model, `${basename(file)}.json`);
 }
 
-export async function extract(model: string, file: string): Promise<Extraction> {
+// replay: read from cache/ only, never call the model.
+export async function extract(model: string, file: string, { replay = false } = {}): Promise<Extraction> {
   const path = cachePath(model, file);
   if (existsSync(path)) {
     const cached: Extraction = JSON.parse(readFileSync(path, "utf8"));
     if (cached.prompt === PROMPT_HASH) return cached;
   }
+  if (replay) throw new Error(`no cached response for the current prompt: ${path}`);
 
   const t0 = Date.now();
   const res = await generateText({

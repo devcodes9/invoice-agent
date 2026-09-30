@@ -1,0 +1,61 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005444044.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "99 SPEED MART S/B (519537-X)",
+    "date": "2018-03-10",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "104 SUNQUICK OREN 330ML",
+        "qty": 1,
+        "unit_price": 5.35,
+        "amount": 5.35,
+        "illegible": false
+      }
+    ],
+    "subtotal": 5.05,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 0.3
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 5.35,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "99 SPEED MART S/B (519537-X)"
+      },
+      {
+        "field": "date",
+        "text": "10-03-18"
+      },
+      {
+        "field": "subtotal",
+        "text": "GST Summary    Amount(RM)    Tax(RM)\ns = 6%         5.05          .30"
+      },
+      {
+        "field": "tax",
+        "text": "GST Summary    Amount(RM)    Tax(RM)\ns = 6%         5.05          .30"
+      },
+      {
+        "field": "total",
+        "text": "Total Sales (Inclusive GST) RM    5.35"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 3427,
+    "output": 323,
+    "cost": 0.005042
+  },
+  "ms": 4952
+}

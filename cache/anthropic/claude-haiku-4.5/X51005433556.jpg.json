@@ -1,0 +1,94 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005433556.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "YHM Aeon Tebrau City",
+    "date": "2018-03-11",
+    "currency": "MYR",
+    "currency_symbol_seen": "MYR",
+    "line_items": [
+      {
+        "description": "Green Tea",
+        "qty": 1,
+        "unit_price": 1.5,
+        "amount": 1.5,
+        "illegible": false
+      },
+      {
+        "description": "Yakiniku Bowl R",
+        "qty": 1,
+        "unit_price": 12.8,
+        "amount": 12.8,
+        "illegible": false
+      },
+      {
+        "description": "Neal Tamp Beef Bowl R",
+        "qty": 2,
+        "unit_price": 15.8,
+        "amount": 31.6,
+        "illegible": false
+      },
+      {
+        "description": "Miso/Wakame+Green Tea",
+        "qty": 1,
+        "unit_price": 3.6,
+        "amount": 3.6,
+        "illegible": false
+      },
+      {
+        "description": "Miso Soup",
+        "qty": 1,
+        "unit_price": 0,
+        "amount": 0,
+        "illegible": false
+      }
+    ],
+    "subtotal": 49.7,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": 5,
+        "amount": 2.8
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 49.7,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "YHM Aeon Tebrau City"
+      },
+      {
+        "field": "date",
+        "text": "11/03/2018 07:09 PM"
+      },
+      {
+        "field": "subtotal",
+        "text": "SubTotal : 49.70"
+      },
+      {
+        "field": "tax",
+        "text": "SR 5 46.90 2.80"
+      },
+      {
+        "field": "total",
+        "text": "Total : 49.70"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3736,
+    "output": 452,
+    "cost": 0.005996
+  },
+  "ms": 5464
+}

@@ -1,0 +1,234 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005568855.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "POPULAR BOOK CO. (M) SDN BHD",
+    "date": "2017-12-23",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "Shoe White SW1101*2S",
+        "qty": null,
+        "unit_price": null,
+        "amount": 4.29,
+        "illegible": false
+      },
+      {
+        "description": "MR C.TAPE REF WH624R-",
+        "qty": null,
+        "unit_price": null,
+        "amount": 31.99,
+        "illegible": false
+      },
+      {
+        "description": "KIT KAT 2F (PM) 17G",
+        "qty": null,
+        "unit_price": null,
+        "amount": 1.35,
+        "illegible": false
+      },
+      {
+        "description": "Oxford-Coin Box",
+        "qty": null,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "BTS RM10 Voucher Issu",
+        "qty": null,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "FC GRIP BP0.5 BLK PK",
+        "qty": null,
+        "unit_price": null,
+        "amount": 4.2,
+        "illegible": false
+      },
+      {
+        "description": "Member Discount",
+        "qty": null,
+        "unit_price": null,
+        "amount": -0.42,
+        "illegible": false
+      },
+      {
+        "description": "FC GRIP BP0.5 BLU PK",
+        "qty": null,
+        "unit_price": null,
+        "amount": 4.2,
+        "illegible": false
+      },
+      {
+        "description": "Member Discount",
+        "qty": null,
+        "unit_price": null,
+        "amount": -0.42,
+        "illegible": false
+      },
+      {
+        "description": "3M GlueStick 7gm 4's",
+        "qty": null,
+        "unit_price": null,
+        "amount": 10.59,
+        "illegible": false
+      },
+      {
+        "description": "STAT-PROMO SPECIAL",
+        "qty": null,
+        "unit_price": null,
+        "amount": -3.69,
+        "illegible": false
+      },
+      {
+        "description": "PH F/C B/L A4 450's",
+        "qty": null,
+        "unit_price": null,
+        "amount": 16.99,
+        "illegible": false
+      },
+      {
+        "description": "STAT-PROMO SPECIAL",
+        "qty": null,
+        "unit_price": null,
+        "amount": -2.9,
+        "illegible": false
+      },
+      {
+        "description": "PLUS stapler set 010E",
+        "qty": null,
+        "unit_price": null,
+        "amount": 8.89,
+        "illegible": false
+      },
+      {
+        "description": "STAT-PROMO SPECIAL",
+        "qty": null,
+        "unit_price": null,
+        "amount": -3.89,
+        "illegible": false
+      },
+      {
+        "description": "FC EXM.ERS 4S 167016",
+        "qty": null,
+        "unit_price": null,
+        "amount": 3.9,
+        "illegible": false
+      },
+      {
+        "description": "STAT-PROMO SPECIAL",
+        "qty": null,
+        "unit_price": null,
+        "amount": -0.91,
+        "illegible": false
+      },
+      {
+        "description": "S4 SUPER S M AKT SPM [BK]",
+        "qty": null,
+        "unit_price": null,
+        "amount": 9.9,
+        "illegible": false
+      },
+      {
+        "description": "Rev-BTS Promotion",
+        "qty": null,
+        "unit_price": null,
+        "amount": -1.49,
+        "illegible": false
+      },
+      {
+        "description": "SUCCESS SPM ADD MATHS[BK]",
+        "qty": null,
+        "unit_price": null,
+        "amount": 37,
+        "illegible": false
+      },
+      {
+        "description": "Rev-BTS Promotion",
+        "qty": null,
+        "unit_price": null,
+        "amount": -7.4,
+        "illegible": false
+      },
+      {
+        "description": "SUCCESS SPM SCI [BK]",
+        "qty": null,
+        "unit_price": null,
+        "amount": 35.7,
+        "illegible": false
+      },
+      {
+        "description": "Rev-BTS Promotion",
+        "qty": null,
+        "unit_price": null,
+        "amount": -7.14,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "T @ 6%",
+        "rate": 6,
+        "amount": 4.18
+      },
+      {
+        "label": "Z @ 0%",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [
+      {
+        "label": "Mastercard",
+        "amount": -140.05
+      }
+    ],
+    "rounding": null,
+    "total": 140.65,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "POPULAR BOOK CO. (M) SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "23/12/17 15:53"
+      },
+      {
+        "field": "tax",
+        "text": "GST Summary Amount (RM) Tax (RM) | T @ 6% 69.90 4.18 | Z @ 0% 66.57 0.00"
+      },
+      {
+        "field": "adjustments",
+        "text": "Mastercard -140.05"
+      },
+      {
+        "field": "total",
+        "text": "Total RM Incl. of GST 140.65"
+      }
+    ],
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3025,
+    "output": 1273,
+    "cost": 0.00939
+  },
+  "ms": 12793
+}
