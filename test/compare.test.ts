@@ -23,3 +23,10 @@ test("line items in a different order but the same amounts agree", async () => {
   const d = compare(receipt({ line_items: [item(400), item(11.5)] }), receipt({ line_items: [item(11.5), item(400)] })).find((x) => x.field === "items")!;
   assert.equal(d.agree, true);
 });
+
+test("extra lines with a 0 or no amount don't make items disagree (X51005568887 'Item Discount 0')", async () => {
+  const { compare } = await import("../src/compare");
+  const { receipt, item } = await import("./fixtures");
+  const d = compare(receipt({ line_items: [item(400), item(11.5), item(0), item(null)] }), receipt({ line_items: [item(400), item(11.5)] })).find((x) => x.field === "items")!;
+  assert.equal(d.agree, true);
+});

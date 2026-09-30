@@ -35,9 +35,10 @@ export function sameValue(a: Value, b: Value): boolean {
   return normText(String(a)) === normText(String(b));
 }
 
-// Line items agree when the same amounts appear, in any order.
+// Line items agree when the same amounts appear, in any order. Lines with no or a 0 amount change nothing, so they're skipped.
 export function sameItems(a: Receipt, b: Receipt): boolean {
-  const amounts = (r: Receipt) => r.line_items.map((i) => i.amount ?? 0).sort((x, y) => x - y);
+  const amounts = (r: Receipt) =>
+    r.line_items.map((i) => i.amount).filter((x): x is number => !!x).sort((x, y) => x - y);
   const [x, y] = [amounts(a), amounts(b)];
   return x.length === y.length && x.every((v, i) => sameValue(v, y[i]));
 }
