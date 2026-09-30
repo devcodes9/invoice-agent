@@ -124,7 +124,7 @@ test("currency: derived from symbol when model left it null", () => {
 test("currency: symbol wins over a mismatching model code, with a reason", () => {
   const v = validate(receipt({ currency: "SGD", currency_symbol_seen: "RM" }), today);
   assert.equal(v.currency, "MYR");
-  assert.ok(v.reasons.includes("check currency: model said SGD, symbol RM means MYR"));
+  assert.ok(v.reasons.includes("check currency: read as SGD but symbol RM means MYR"));
 });
 
 test("currency: no symbol seen keeps model code and notes it was inferred", () => {

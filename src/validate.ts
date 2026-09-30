@@ -74,7 +74,7 @@ export function validate(r: Receipt, today = new Date()): Validation {
   const symbol = r.currency_symbol_seen?.trim().toUpperCase() ?? null;
   const fromSymbol = symbol ? SYMBOLS[symbol] : undefined;
   if (fromSymbol) {
-    if (currency && currency.toUpperCase() !== fromSymbol) reasons.push(`check currency: model said ${currency}, symbol ${r.currency_symbol_seen} means ${fromSymbol}`);
+    if (currency && currency.toUpperCase() !== fromSymbol) reasons.push(`check currency: read as ${currency} but symbol ${r.currency_symbol_seen} means ${fromSymbol}`);
     currency = fromSymbol;
   } else if (currency) {
     reasons.push("currency inferred");

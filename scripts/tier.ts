@@ -7,7 +7,7 @@ import { pool } from "../src/pool";
 
 const labels = loadLabels();
 
-const models = [...new Set(Object.values(MODELS).flatMap((t) => [t.primary, t.second]))];
+const models = [...new Set(Object.values(MODELS).flat())];
 const jobs = models.flatMap((model) => labels.map((l) => ({ model, file: `images/${l.file}` })));
 const settled = await pool(jobs, 8, (j) => extract(j.model, j.file));
 
@@ -36,7 +36,7 @@ for (const m of models) {
   console.log(m.padEnd(34), n("vendor"), n("date").slice(1), n("total"), String(cs.filter(allThree).length).padStart(4), ("$" + cost.toFixed(3)).padStart(7), secs.toFixed(1).padStart(6));
 }
 
-for (const [tier, { primary, second }] of Object.entries(MODELS)) {
+for (const [tier, [primary, second]] of Object.entries(MODELS)) {
   console.log(`\n${tier}: ${primary} + ${second}`);
   let wrongPrimary = 0, caught = 0, falseFlags = 0;
   for (const l of labels) {

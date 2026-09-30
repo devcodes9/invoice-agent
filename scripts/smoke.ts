@@ -7,7 +7,7 @@ import { Receipt } from "../src/schema";
 
 const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
 const image = readFileSync(process.argv[2] ?? "images/X51005200931.jpg");
-const ids = [...new Set(Object.values(MODELS).flatMap((t) => [t.primary, t.second]))];
+const ids = [...new Set(Object.values(MODELS).flat())];
 
 for (const id of ids) {
   const t0 = Date.now();

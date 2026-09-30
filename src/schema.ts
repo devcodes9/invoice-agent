@@ -24,6 +24,17 @@ export const Receipt = z.object({
     .describe("Discount, service charge, tip. Not rounding."),
   rounding: money.describe('Printed rounding adjustment, e.g. "Rounding Adj -0.01". Null if not printed.'),
   total: money.describe("Final amount payable, after rounding. Not cash tendered or change."),
+  evidence: z
+    .object({
+      vendor: z.string().nullable(),
+      date: z.string().nullable(),
+      subtotal: z.string().nullable(),
+      tax: z.string().nullable(),
+      adjustments: z.string().nullable(),
+      rounding: z.string().nullable(),
+      total: z.string().nullable(),
+    })
+    .describe("For each field, the exact printed text of the line its value came from. Null when the value is null."),
   missing: z.array(
     z.object({
       field: z.enum(["vendor", "date", "currency", "subtotal", "taxes", "rounding", "total"]),

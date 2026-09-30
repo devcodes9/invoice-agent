@@ -8,23 +8,28 @@ const row = (file: string, over: Partial<EvalRow> = {}): EvalRow => ({
   file, status: "HIGH", vendor: "Acme Sdn. Bhd", date: "2018-01-02", total: 10, flagged_fields: [], ...over,
 });
 
-test("counts per-field accuracy, all-3 per status, flag recall and false flags per signal", () => {
+test("per field: right, empty (left for review) and wrong (filled but wrong); rows, recall and signals", () => {
   const labels = ["a", "b", "c", "d"].map(label);
   const rows = [
-    row("a"),                                                        // HIGH, right
-    row("b", { status: "LOW", date: "2016-01-02", flagged_fields: ["date"] }), // LOW, wrong date, caught
-    row("c", { status: "MEDIUM", flagged_fields: ["items"] }),       // MEDIUM, right → false flag on items
-    row("d", { total: 10.5 }),                                       // HIGH, wrong total, missed
+    row("a"),                                                                   // HIGH, all right
+    row("b", { status: "LOW", date: null, flagged_fields: ["date"] }),          // date left empty
+    row("c", { status: "MEDIUM", flagged_fields: ["subtotal"] }),               // flag on a field not labelled
+    row("d", { total: 10.5 }),                                                  // HIGH, filled but wrong
   ];
   const r = evaluate(rows, labels);
-  assert.deepEqual(r.field, { vendor: 4, date: 3, total: 3, n: 4 });
-  assert.deepEqual(r.byStatus, { LOW: { n: 1, correct: 0 }, MEDIUM: { n: 1, correct: 1 }, HIGH: { n: 2, correct: 1 } });
-  assert.deepEqual(r.recall, { wrong: 2, flagged: 1, missed: ["d"] });
-  assert.deepEqual(r.signals, { date: { fired: 1, falseFlags: 0 }, items: { fired: 1, falseFlags: 1 } });
+  assert.deepEqual(r.field, {
+    vendor: { right: 4, empty: 0, wrong: 0 },
+    date: { right: 3, empty: 1, wrong: 0 },
+    total: { right: 3, empty: 0, wrong: 1 },
+  });
+  assert.equal(r.n, 4);
+  assert.deepEqual(r.byStatus, { HIGH: { n: 2, wrong: 1 }, LOW: { n: 1, wrong: 0 }, MEDIUM: { n: 1, wrong: 0 } });
+  assert.deepEqual(r.recall, { wrong: 1, flagged: 0, missed: ["d"] });
+  assert.deepEqual(r.signals, { date: 1, subtotal: 1 });
 });
 
-test("rows without a label are ignored; a labelled file with no row counts as wrong and missed", () => {
-  const r = evaluate([row("a"), row("z")], [label("a"), label("b")]);
-  assert.equal(r.field.n, 2);
-  assert.deepEqual(r.recall, { wrong: 1, flagged: 0, missed: ["b"] });
+test("a labelled file with no row counts every field as empty", () => {
+  const r = evaluate([row("z")], [label("b")]);
+  assert.deepEqual(r.field.total, { right: 0, empty: 1, wrong: 0 });
+  assert.deepEqual(r.recall, { wrong: 0, flagged: 0, missed: [] });
 });

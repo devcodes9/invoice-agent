@@ -1,216 +1,193 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { score, scoreReadings } from "../src/score";
-import { receipt } from "./fixtures";
+import { item, receipt, withEvidence } from "./fixtures";
 
 const today = new Date("2026-09-30T00:00:00Z");
+const noModelNames = (reasons: string[]) => assert.ok(!reasons.some((r) => /\b(model|A=|B=|haiku|gemini|flash)\b/i.test(r)), reasons.join(" | "));
 
-test("agreeing clean readings are HIGH with no reasons", () => {
+test("agreeing clean readings are HIGH, all values filled, no reasons", () => {
   const row = score("f.jpg", receipt(), receipt(), today);
   assert.equal(row.status, "HIGH");
   assert.equal(row.confidence, 3);
   assert.deepEqual(row.reasons, []);
-  assert.equal(row.total, 436.2);
-  assert.equal(row.tax, 24.69);
-  assert.equal(row.currency, "MYR");
+  assert.deepEqual([row.vendor, row.date, row.currency, row.subtotal, row.tax, row.total], ["PERNIAGAAN ZHENG HUI", "2018-02-09", "MYR", 411.5, 24.69, 436.2]);
+  assert.equal(row.itemsAgreed, true);
 });
 
-test("total disagreement is LOW; the reading whose sums add up is used", () => {
-  const row = score("f.jpg", receipt(), receipt({ total: 437.2 }), today);
+test("reader order does not matter", () => {
+  const a = receipt({ total: 437.2 }), b = receipt();
+  assert.deepEqual(score("f.jpg", a, b, today), score("f.jpg", b, a, today));
+});
+
+test("misread: same printed line, different number → LOW, total empty, both readings in the reason", () => {
+  const row = score("f.jpg", receipt(), withEvidence(receipt({ total: 486.2 }), { total: "Total (RM) : 486.20" }), today);
   assert.equal(row.status, "LOW");
-  assert.equal(row.total, 436.2);
+  assert.equal(row.total, null);
   assert.deepEqual(row.flagged_fields, ["total"]);
-  assert.ok(row.reasons.includes("check total: A=436.20 B=437.20, used A (sums match)"));
+  assert.ok(row.reasons.includes('check total: read as 436.20 or 486.20 ("Total (RM) : 436.20")'));
+  noModelNames(row.reasons);
 });
 
-test("when only B's sums add up, B's numbers are used", () => {
-  const row = score("f.jpg", receipt({ total: 437.2 }), receipt(), today);
-  assert.equal(row.total, 436.2);
-  assert.ok(row.reasons.includes("check total: A=437.20 B=436.20, used B (sums match)"));
-});
-
-test("when neither reading adds up, the primary is used", () => {
-  const row = score("f.jpg", receipt({ total: 437.2 }), receipt({ total: 438.2 }), today);
-  assert.equal(row.total, 437.2);
-  assert.ok(row.reasons.includes("check total: A=437.20 B=438.20, used A"));
-});
-
-test("date disagreement is LOW", () => {
-  const row = score("f.jpg", receipt({ date: "2016-03-13" }), receipt({ date: "2018-03-13" }), today);
-  assert.equal(row.status, "LOW");
-  assert.deepEqual(row.flagged_fields, ["date"]);
-  assert.ok(row.reasons.includes("check date: A=2016-03-13 B=2018-03-13, used A"));
-});
-
-test("vendor disagreement is MEDIUM", () => {
-  const row = score("f.jpg", receipt({ vendor: "PETRON BKT LANJAN SB" }), receipt({ vendor: "ALSERKAM ENTERPRISE" }), today);
-  assert.equal(row.status, "MEDIUM");
-  assert.equal(row.vendor, "PETRON BKT LANJAN SB");
-  assert.deepEqual(row.flagged_fields, ["vendor"]);
-  assert.ok(row.reasons.includes("check vendor: A=PETRON BKT LANJAN SB B=ALSERKAM ENTERPRISE, used A"));
-});
-
-test("vendor differing only in case and punctuation is not a disagreement", () => {
-  assert.equal(score("f.jpg", receipt({ vendor: "BENS SDN. BHD" }), receipt({ vendor: "Bens Sdn Bhd" }), today).status, "HIGH");
-});
-
-test("line-item disagreement is MEDIUM even when one reading adds up (it may be made up to fit)", () => {
-  const b = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 411.5, amount: 411.5 }, { description: "B", qty: 1, unit_price: 1, amount: 1 }] });
+test("different line: each reading quotes a different printed line → MEDIUM, subtotal empty", () => {
+  const b = withEvidence(receipt({ subtotal: 436.19 }), { subtotal: "Total Sales (Inclusive of GST) : 436.19" });
   const row = score("f.jpg", receipt(), b, today);
   assert.equal(row.status, "MEDIUM");
-  assert.deepEqual(row.flagged_fields, ["items"]);
-  assert.ok(row.reasons.includes("check line items: A=411.50 B=412.50, used A (items add up)"));
+  assert.equal(row.subtotal, null);
+  assert.ok(row.reasons.includes('check subtotal: 411.50 ("(Excluded GST) Sub Total (RM) : 411.50") or 436.19 ("Total Sales (Inclusive of GST) : 436.19"), different printed lines'));
 });
 
-test("line-item disagreement where neither reading adds up is MEDIUM", () => {
-  const a = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 5, amount: 5 }] });
-  const b = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 6, amount: 6 }] });
-  const row = score("f.jpg", a, b, today);
+test("one-sided: one reading has a value the other didn't find → MEDIUM, empty, says it may not be printed", () => {
+  const b = withEvidence(receipt({ subtotal: null }), { subtotal: null });
+  const row = score("f.jpg", receipt(), b, today);
   assert.equal(row.status, "MEDIUM");
-  assert.deepEqual(row.flagged_fields, ["items"]);
-});
-
-test("subtotal disagreement is MEDIUM (e.g. one model copies the total into a subtotal that isn't printed)", () => {
-  const row = score("f.jpg", receipt(), receipt({ subtotal: null }), today);
-  assert.equal(row.status, "MEDIUM");
+  assert.equal(row.subtotal, null);
   assert.deepEqual(row.flagged_fields, ["subtotal"]);
-  assert.ok(row.reasons.includes("check subtotal: A=411.50 B=none, used A (sums match)"));
+  assert.ok(row.reasons.includes('check subtotal: 411.50 may not be printed ("(Excluded GST) Sub Total (RM) : 411.50")'));
+});
+
+test("a value missing from its own quoted line is flagged as possibly made up", () => {
+  const r = withEvidence(receipt(), { total: "Total (RM) :" });
+  const row = score("f.jpg", r, r, today);
+  assert.equal(row.status, "MEDIUM");
+  assert.ok(row.reasons.includes('check total: 436.20 not found in printed line "Total (RM) :"'));
+});
+
+test("a value with no quoted line at all is flagged", () => {
+  const r = withEvidence(receipt(), { subtotal: null });
+  const row = score("f.jpg", r, r, today);
+  assert.equal(row.status, "MEDIUM");
+  assert.ok(row.reasons.includes("check subtotal: 411.50 has no printed line"));
+});
+
+test("quoted line with thousands separator or negative sign still matches", () => {
+  const r = withEvidence(receipt({ subtotal: 1411.5, total: 1436.2, line_items: [item(1411.5)] }), { subtotal: "Sub Total : 1,411.50", total: "TOTAL RM1,436.20" });
+  assert.equal(score("f.jpg", r, r, today).status, "HIGH");
+});
+
+test("date disagreement is LOW, date empty", () => {
+  const row = score("f.jpg", receipt({ date: "2016-03-13" }), receipt({ date: "2018-03-13" }), today);
+  assert.equal(row.status, "LOW");
+  assert.equal(row.date, null);
+  assert.ok(row.reasons.includes('check date: read as 2016-03-13 or 2018-03-13 ("Date: 09/02/2018")'));
+});
+
+test("vendor disagreement is MEDIUM, vendor empty", () => {
+  const row = score("f.jpg", receipt({ vendor: "TED HENG" }), withEvidence(receipt({ vendor: "TEO HENG" }), { vendor: "TEO HENG" }), today);
+  assert.equal(row.status, "MEDIUM");
+  assert.equal(row.vendor, null);
+  assert.deepEqual(row.flagged_fields, ["vendor"]);
+});
+
+test("vendor differing only in case, punctuation or a bracketed number is agreement", () => {
+  assert.equal(score("f.jpg", receipt({ vendor: "BENS SDN. BHD (913144-A)" }), receipt({ vendor: "Bens Sdn Bhd" }), today).status, "HIGH");
+});
+
+test("currency disagreement is MEDIUM, currency empty", () => {
+  const row = score("f.jpg", receipt({ currency: "SGD", currency_symbol_seen: "$" }), receipt({ currency: "MYR", currency_symbol_seen: "$" }), today);
+  assert.equal(row.status, "MEDIUM");
+  assert.equal(row.currency, null);
+  assert.ok(row.reasons.includes("check currency: read as MYR or SGD"));
+});
+
+test("adjustment disagreement is MEDIUM (credit note: one reading has the -0.20 discount)", () => {
+  const a = withEvidence(receipt({ adjustments: [{ label: "Item Discount", amount: -0.2 }] }), { adjustments: "Item Discount : RM 0.20" });
+  const row = score("f.jpg", a, receipt(), today);
+  assert.equal(row.status, "MEDIUM");
+  assert.deepEqual(row.flagged_fields, ["adjustments"]);
+  assert.ok(row.reasons.includes('check adjustments: -0.20 may not be printed ("Item Discount : RM 0.20")'));
+});
+
+test("no adjustments vs a printed 0.00 is not a disagreement", () => {
+  const row = score("f.jpg", receipt({ adjustments: [{ label: "Discount", amount: 0 }] }), receipt(), today);
+  assert.equal(row.status, "HIGH");
+});
+
+test("no rounding line vs a printed 0.00 is not a disagreement", () => {
+  const r = withEvidence(receipt({ rounding: 0, total: 436.19 }), { rounding: "Rounding : 0.00", total: "Total (RM) : 436.19" });
+  assert.equal(score("f.jpg", r, withEvidence({ ...r, rounding: null }, { rounding: null }), today).status, "HIGH");
+});
+
+test("line-item totals disagreeing is MEDIUM; items not written", () => {
+  const row = score("f.jpg", receipt(), receipt({ line_items: [item(411.5), item(1)] }), today);
+  assert.equal(row.status, "MEDIUM");
+  assert.equal(row.itemsAgreed, false);
+  assert.ok(row.reasons.includes("check line items: totals read as 411.50 or 412.50"));
+});
+
+test("an item amount that could not be read is MEDIUM; items not written (X51005447844: cut off)", () => {
+  const row = score("f.jpg", receipt(), receipt({ line_items: [item(400), item(null, true)] }), today);
+  assert.equal(row.status, "MEDIUM");
+  assert.equal(row.itemsAgreed, false);
+  assert.ok(row.reasons.includes("check line items: 1 amount could not be read"));
 });
 
 test("agreeing readings whose sums fail are LOW", () => {
-  const r = receipt({ total: 440 });
+  const r = withEvidence(receipt({ total: 440 }), { total: "Total (RM) : 440.00" });
   const row = score("f.jpg", r, r, today);
   assert.equal(row.status, "LOW");
-  assert.deepEqual(row.flagged_fields, ["total"]);
   assert.ok(row.reasons.includes("check sums: subtotal 411.50 + tax 24.69 + adjustments 0.00 + rounding 0.01 = 436.20, total 440.00"));
 });
 
-test("items matching neither subtotal nor total is MEDIUM", () => {
-  const r = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 5, amount: 5 }] });
+test("agreeing items that match neither subtotal nor total are MEDIUM", () => {
+  const r = receipt({ line_items: [item(5)] });
   const row = score("f.jpg", r, r, today);
   assert.equal(row.status, "MEDIUM");
   assert.ok(row.reasons.includes("check line items: sum 5.00 matches neither subtotal 411.50 nor total 436.20"));
 });
 
+test("agreed subtotal not printed is computed and filled", () => {
+  const r = withEvidence(receipt({ subtotal: null, rounding: null, total: 436.19, missing: [{ field: "subtotal", reason: "absent" }] }), { subtotal: null, rounding: null, total: "Total (RM) : 436.19" });
+  const row = score("f.jpg", r, r, today);
+  assert.equal(row.status, "HIGH");
+  assert.equal(row.subtotal, 411.5);
+  assert.ok(row.reasons.includes("subtotal computed (not printed)"));
+});
+
 test("null total is LOW", () => {
-  const r = receipt({ total: null, missing: [{ field: "total", reason: "absent" }] });
+  const r = withEvidence(receipt({ total: null, missing: [{ field: "total", reason: "absent" }] }), { total: null });
   assert.equal(score("f.jpg", r, r, today).status, "LOW");
 });
 
-test("invalid date is LOW", () => {
+test("invalid agreed date is LOW", () => {
   const r = receipt({ date: "2018-02-30" });
   const row = score("f.jpg", r, r, today);
   assert.equal(row.status, "LOW");
   assert.ok(row.reasons.includes("check date: 2018-02-30 is not a valid date"));
 });
 
-test("illegible key field (date) is LOW", () => {
-  const r = receipt({ date: null, missing: [{ field: "date", reason: "illegible" }] });
-  assert.equal(score("f.jpg", r, r, today).status, "LOW");
-});
-
-test("illegible non-key field is MEDIUM", () => {
-  const r = receipt({ rounding: null, missing: [{ field: "rounding", reason: "illegible" }] });
+test("illegible key field is LOW; illegible non-key field is MEDIUM", () => {
+  const d = withEvidence(receipt({ date: null, missing: [{ field: "date", reason: "illegible" }] }), { date: null });
+  const r = withEvidence(receipt({ rounding: null, total: 436.19, missing: [{ field: "rounding", reason: "illegible" }] }), { rounding: null, total: "Total (RM) : 436.19" });
+  assert.equal(score("f.jpg", d, d, today).status, "LOW");
   const row = score("f.jpg", r, r, today);
   assert.equal(row.status, "MEDIUM");
   assert.ok(row.reasons.includes("rounding illegible"));
 });
 
-test("absent fields do not downgrade", () => {
-  const r = receipt({ subtotal: null, taxes: [], rounding: null, total: 411.5, missing: [{ field: "subtotal", reason: "absent" }, { field: "taxes", reason: "absent" }] });
-  assert.equal(score("f.jpg", r, r, today).status, "HIGH");
-});
-
-test("either model saying not legible is UNREADABLE with empty values", () => {
+test("not legible is UNREADABLE with empty values and a neutral reason", () => {
   const row = score("f.jpg", receipt(), receipt({ legible: false }), today);
   assert.equal(row.status, "UNREADABLE");
-  assert.equal(row.confidence, 0);
   assert.equal(row.total, null);
-  assert.equal(row.vendor, null);
-  assert.ok(row.reasons.includes("model B: not legible"));
+  assert.deepEqual(row.reasons, ["receipt could not be read"]);
 });
 
-test("two of vendor/date/total illegible in one model is UNREADABLE", () => {
+test("two of vendor/date/total illegible is UNREADABLE", () => {
   const a = receipt({ vendor: null, date: null, missing: [{ field: "vendor", reason: "illegible" }, { field: "date", reason: "illegible" }] });
-  assert.equal(score("f.jpg", a, receipt(), today).status, "UNREADABLE");
+  const row = score("f.jpg", a, receipt(), today);
+  assert.equal(row.status, "UNREADABLE");
+  assert.deepEqual(row.reasons, ["vendor, date illegible"]);
 });
 
-test("one model failing still gives values from the other, marked LOW", () => {
+test("a failed reading leaves every value empty, LOW, neutral reason", () => {
   const row = scoreReadings("f.jpg", receipt(), new Error("timeout"), today);
   assert.equal(row.status, "LOW");
-  assert.equal(row.total, 436.2);
-  assert.ok(row.reasons.includes("model B failed: timeout"));
-});
-
-test("both models failing is LOW with empty values", () => {
-  const row = scoreReadings("f.jpg", new Error("x"), new Error("y"), today);
-  assert.equal(row.status, "LOW");
   assert.equal(row.total, null);
-  assert.deepEqual(row.reasons, ["model A failed: x", "model B failed: y"]);
+  assert.equal(row.itemsAgreed, false);
+  assert.deepEqual(row.reasons, ["could not be read automatically, check all fields"]);
 });
 
-test("line items come from the reading whose items add up, even if the other supplies the numbers", () => {
-  const a = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 5, amount: 5 }] });
-  const row = score("f.jpg", a, receipt(), today);
-  assert.equal(row.source, "A");
-  assert.equal(row.itemsSource, "B");
-  assert.equal(row.status, "MEDIUM");
-  assert.ok(row.reasons.includes("check line items: A=5.00 B=411.50, used B (items add up)"));
-  assert.ok(!row.reasons.some((r) => r.includes("matches neither")));
-});
-
-test("adjustment disagreement is MEDIUM (credit note: one model dropped the -0.20 discount)", () => {
-  const a = receipt({ adjustments: [{ label: "Item Discount", amount: -0.2 }] });
-  const row = score("f.jpg", a, receipt(), today);
-  assert.equal(row.status, "MEDIUM");
-  assert.deepEqual(row.flagged_fields, ["adjustments"]);
-  assert.ok(row.reasons.includes("check adjustments: A=-0.20 B=0.00, used B (sums match)"));
-});
-
-test("currency disagreement is MEDIUM (X51005433543: Haiku SGD, Flash MYR, symbol '$')", () => {
-  const row = score("f.jpg", receipt({ currency: "SGD", currency_symbol_seen: "$" }), receipt({ currency: "MYR", currency_symbol_seen: "$" }), today);
-  assert.equal(row.status, "MEDIUM");
-  assert.deepEqual(row.flagged_fields, ["currency"]);
-  assert.ok(row.reasons.includes("check currency: A=SGD B=MYR, used A"));
-});
-
-test("a reading whose sums were checked beats one that only has items backing it", () => {
-  const a = receipt({ total: null, missing: [{ field: "total", reason: "illegible" }] });
-  const row = score("f.jpg", a, receipt(), today);
-  assert.equal(row.total, 436.2);
-  assert.ok(row.reasons.includes("check total: A=none B=436.20, used B (sums match)"));
-});
-
-test("when the used reading passes only through its items, the reason says items, not sums", () => {
-  const a = receipt({ total: 440 });
-  const b = receipt({ subtotal: null, taxes: [], rounding: null, total: 411.5, missing: [{ field: "subtotal", reason: "absent" }] });
-  const row = score("f.jpg", a, b, today);
-  assert.equal(row.source, "B");
-  assert.ok(row.reasons.includes("check subtotal: A=411.50 B=none, used B (items add up)"));
-});
-
-test("no adjustments vs a printed 0.00 adjustment is not a disagreement", () => {
-  const row = score("f.jpg", receipt({ adjustments: [{ label: "Discount", amount: 0 }] }), receipt(), today);
-  assert.equal(row.status, "HIGH");
-  assert.deepEqual(row.reasons, []);
-});
-
-test("no rounding line vs a printed 0.00 rounding is not a disagreement", () => {
-  const r = receipt({ rounding: 0, total: 436.19 });
-  const row = score("f.jpg", r, { ...r, rounding: null }, today);
-  assert.equal(row.status, "HIGH");
-});
-
-test("a line item one model could not read is MEDIUM, and that reading is not treated as wrong (X51005447844: cut-off amounts)", () => {
-  const b = receipt({
-    line_items: [
-      { description: "A", qty: 1, unit_price: 400, amount: 400, illegible: false },
-      { description: "B", qty: 1, unit_price: 11.5, amount: null, illegible: true },
-    ],
-  });
-  const row = score("f.jpg", receipt(), b, today);
-  assert.equal(row.status, "MEDIUM");
-  assert.ok(row.flagged_fields.includes("items"));
-  assert.ok(row.reasons.includes("check line items: B could not read 1 amount"));
-  assert.ok(!row.reasons.some((r) => r.includes("matches neither")));
+test("no reason ever names a model or a reading", () => {
+  const a = receipt({ vendor: "X", date: "2016-01-01", total: 1, currency: "SGD", currency_symbol_seen: "$", line_items: [item(null, true)] });
+  noModelNames(score("f.jpg", a, receipt(), today).reasons);
 });

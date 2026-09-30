@@ -1,10 +1,10 @@
-// Usage: pnpm extract [--model <id>] <image>...   (default model: current tier's primary)
+// Usage: pnpm extract [--model <id>] <image>...   (default model: current tier's first reader)
 import { extract } from "../src/extract";
 import { MODELS, TIER } from "../src/config";
 
 const args = process.argv.slice(2);
 const i = args.indexOf("--model");
-const model = i >= 0 ? args.splice(i, 2)[1] : MODELS[TIER].primary;
+const model = i >= 0 ? args.splice(i, 2)[1] : MODELS[TIER][0];
 
 const results = await Promise.allSettled(args.map((f) => extract(model, f)));
 results.forEach((r, n) => {

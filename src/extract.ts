@@ -18,11 +18,12 @@ Rules:
 - vendor: the business name printed on the same line as, or directly above, the company registration number (e.g. "(123456-X)", "Co. No."). This may be a legal name like "... Sdn Bhd" rather than the brand name at the top. If no registration number is printed, the name at the top.
 - date: the transaction date as yyyy-mm-dd. Printed dates are day-first (dd/mm/yy or dd/mm/yyyy).
 - line_items: one entry per product. A discount printed under an item is its own entry with a negative amount. An item with no printed price (e.g. part of a set) gets null unit_price and amount. If an item's amount is printed but cut off or unreadable, set amount null and illegible true; never fill it from qty × unit price.
-- subtotal: the printed subtotal line, as printed (it may include tax). Null if not printed.
+- subtotal: only a printed line labelled as a subtotal, e.g. "Subtotal", "Sub Total", "Total Sales (Excluding GST)", "Total Excl. Tax". Copy it as printed. Null if there is no such line. Never use the final total, a line that includes tax (e.g. "Total Sales (Inclusive of GST)", "Total with GST"), or a quantity line.
 - taxes: each tax amount printed (e.g. GST, SST). Include it even if the receipt says it is already included in the total.
 - adjustments: bill-level discounts (negative), service charge, tip. Not rounding. Not discounts already listed as line items. Not summary lines such as "Total Savings". Not payment lines (cash, card, change).
 - rounding: the printed rounding adjustment, signed. Null if not printed.
 - total: the final amount payable, after rounding. Not cash tendered, not change.
+- evidence: for each field, copy the printed line the value came from, exactly as printed, including its label and number (e.g. "Total (RM) : 436.20"). For tax and adjustments, join several lines with " | ". Null when the value is null. If you cannot point to a printed line, the value must be null.
 - legible: false only if the receipt as a whole cannot be read.`;
 
 // Cached results from an older prompt are ignored.

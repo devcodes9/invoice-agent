@@ -1,10 +1,11 @@
-import { compare, type Field, type Value } from "./compare";
+import { compare, normText, type Field, type Value } from "./compare";
 import type { Receipt } from "./schema";
-import { validate, type Validation } from "./validate";
+import { validate } from "./validate";
 
 export const STATUSES = ["UNREADABLE", "LOW", "MEDIUM", "HIGH", "DUPLICATE"] as const;
 export type Status = (typeof STATUSES)[number];
 
+// A value is filled only when both readings agree. Code never breaks a tie; it reports the disagreement.
 export type Row = {
   file: string;
   status: Status;
@@ -16,111 +17,138 @@ export type Row = {
   tax: number | null;
   total: number | null;
   flagged_fields: string[];
-  reasons: string[];
-  source: "A" | "B" | null; // reading used for the numbers
-  itemsSource: "A" | "B" | null; // reading used for line items
+  reasons: string[]; // user-facing: about the receipt, never about models
+  itemsAgreed: boolean; // line items are written only when both readings agree
 };
 
+type Evidence = Receipt["evidence"];
 const KEY: Field[] = ["total", "date"];
-const NUMERIC: Field[] = ["subtotal", "tax", "adjustments", "rounding", "total", "items"];
+const SUMMED: Field[] = ["tax", "adjustments", "rounding", "items"];
+const QUOTED = ["subtotal", "rounding", "total"] as const; // single printed numbers we can find in their line
 const LABEL: Partial<Record<Field, string>> = { items: "line items" };
 
 const fmt = (v: Value) => (v === null ? "none" : typeof v === "number" ? v.toFixed(2) : v);
 const sum = (xs: (number | null)[]) => Math.round(xs.reduce<number>((t, x) => t + (x ?? 0), 0) * 100) / 100;
 const illegible = (r: Receipt) => r.missing.filter((m) => m.reason === "illegible").map((m) => m.field as string);
+const quote = (r: Receipt, f: Field): string | null => (f in r.evidence ? r.evidence[f as keyof Evidence] : null);
+// The printed label without its number: "Total (RM) : 436.20" → "total".
+const lineLabel = (ev: string) => normText(ev.replace(/[\d.,-]+/g, " "));
+// "RM1,436.20" contains 1436.20; "(0.20)" or "-0.20" contains -0.20.
+const inQuote = (v: number, ev: string) => {
+  const text = ev.replace(/,/g, "");
+  const abs = Math.abs(v);
+  return text.includes(abs.toFixed(2)) || new RegExp(`(^|[^\\d.])${abs}([^\\d]|$)`).test(text);
+};
 
-// How well a reading's numbers are backed: 2 = sums add up, 1 = sums not checkable but items back them, 0 = neither.
-const strength = (v: Validation) =>
-  v.totalCheck === "tax-added" || v.totalCheck === "tax-inclusive" ? 2 : v.totalCheck === "skipped" && (v.itemsCheck === "subtotal" || v.itemsCheck === "total") ? 1 : 0;
-const BACKED = ["", " (items add up)", " (sums match)"];
+function describe(field: Field, x: Value, evx: string | null, y: Value, evy: string | null): string {
+  const label = LABEL[field] ?? field;
+  // A summed 0 with no printed line means "nothing found".
+  const eff = (v: Value, ev: string | null) => (SUMMED.includes(field) && v === 0 && !ev ? null : v);
+  // Sorted, so the reason doesn't depend on reader order.
+  const [p, q] = [
+    { v: eff(x, evx), ev: evx },
+    { v: eff(y, evy), ev: evy },
+  ].sort((m, n) => fmt(m.v).localeCompare(fmt(n.v), undefined, { numeric: true }));
+  if (field === "items") return `check line items: totals read as ${fmt(p.v ?? 0)} or ${fmt(q.v ?? 0)}`;
+  if (p.v === null || q.v === null) {
+    const one = p.v === null ? q : p;
+    return `check ${label}: ${fmt(one.v)} may not be printed${one.ev ? ` ("${one.ev}")` : ""}`;
+  }
+  if (p.ev && q.ev && lineLabel(p.ev) !== lineLabel(q.ev))
+    return `check ${label}: ${fmt(p.v)} ("${p.ev}") or ${fmt(q.v)} ("${q.ev}"), different printed lines`;
+  const ev = p.ev ?? q.ev;
+  return `check ${label}: read as ${fmt(p.v)} or ${fmt(q.v)}${ev ? ` ("${ev}")` : ""}`;
+}
 
 export function emptyRow(file: string, status: Status, reasons: string[]): Row {
-  return { file, status, confidence: STATUSES.indexOf(status), vendor: null, date: null, currency: null, subtotal: null, tax: null, total: null, flagged_fields: [], reasons, source: null, itemsSource: null };
+  return { file, status, confidence: STATUSES.indexOf(status), vendor: null, date: null, currency: null, subtotal: null, tax: null, total: null, flagged_fields: [], reasons, itemsAgreed: false };
 }
 
 export function score(file: string, a: Receipt, b: Receipt, today = new Date()): Row {
-  const unreadable: string[] = [];
-  for (const [name, r] of [["A", a], ["B", b]] as const) {
-    const keyIllegible = illegible(r).filter((f) => f === "vendor" || f === "date" || f === "total");
-    if (!r.legible) unreadable.push(`model ${name}: not legible`);
-    else if (keyIllegible.length >= 2) unreadable.push(`model ${name}: ${keyIllegible.join(", ")} illegible`);
-  }
-  if (unreadable.length) return emptyRow(file, "UNREADABLE", unreadable);
+  if (!a.legible || !b.legible) return emptyRow(file, "UNREADABLE", ["receipt could not be read"]);
+  const keyIllegible: string[] = [...new Set([...illegible(a), ...illegible(b)])].filter((f) => f === "vendor" || f === "date" || f === "total");
+  if (illegible(a).filter((f) => keyIllegible.includes(f)).length >= 2 || illegible(b).filter((f) => keyIllegible.includes(f)).length >= 2)
+    return emptyRow(file, "UNREADABLE", [`${keyIllegible.join(", ")} illegible`]);
 
   const va = validate(a, today), vb = validate(b, today);
-  const source = strength(vb) > strength(va) ? "B" : "A";
-  const [c, vc] = source === "A" ? [a, va] : [b, vb];
-  // Line items: the numbers' reading unless its items don't add up and the other's do.
-  const itemsOk = (v: Validation) => v.itemsCheck !== "fail";
-  const itemsSource = itemsOk(vc) || !itemsOk(source === "A" ? vb : va) ? source : source === "A" ? "B" : "A";
-  const [ci, vi] = itemsSource === "A" ? [a, va] : [b, vb];
-
   const low = new Set<string>(), medium = new Set<string>();
   const reasons: string[] = [];
+  const flag = (f: string) => (KEY.includes(f as Field) ? low : medium).add(f);
 
-  for (const d of compare(a, b)) {
+  const diffs = compare(a, b);
+  const agrees = (f: Field) => diffs.find((d) => d.field === f)!.agree;
+  for (const d of diffs) {
     if (d.agree || d.field === "currency") continue;
-    const numeric = NUMERIC.includes(d.field);
-    const used = d.field === "items" ? itemsSource : numeric ? source : "A";
-    const why = d.field === "items" ? (itemsOk(vi) ? " (items add up)" : "") : numeric ? BACKED[strength(vc)] : "";
-    reasons.push(`check ${LABEL[d.field] ?? d.field}: A=${fmt(d.a)} B=${fmt(d.b)}, used ${used}${why}`);
-    // Arithmetic picks the value shown, never the status: a made-up value is usually made to add up.
-    if (KEY.includes(d.field)) low.add(d.field);
-    else medium.add(d.field);
+    reasons.push(describe(d.field, d.a, quote(a, d.field), d.b, quote(b, d.field)));
+    flag(d.field);
   }
-  if (va.currency && vb.currency && va.currency !== vb.currency) {
-    medium.add("currency");
-    reasons.push(`check currency: A=${va.currency} B=${vb.currency}, used ${source}`);
+  const currencyAgrees = va.currency === vb.currency;
+  if (!currencyAgrees) {
+    const [x, y] = [va.currency, vb.currency].map((c) => c ?? "none").sort();
+    reasons.push(`check currency: read as ${x} or ${y}`);
+    flag("currency");
   }
 
-  if (vc.totalCheck === "fail") {
+  // A number must appear in the line it was quoted from; otherwise it may be made up.
+  const quoteReasons = new Set<string>();
+  for (const f of QUOTED)
+    for (const r of [a, b]) {
+      const v = r[f], ev = r.evidence[f];
+      if (v === null) continue;
+      if (!ev) quoteReasons.add(`check ${f}: ${fmt(v)} has no printed line`);
+      else if (!inQuote(v, ev)) quoteReasons.add(`check ${f}: ${fmt(v)} not found in printed line "${ev}"`);
+      else continue;
+      medium.add(f);
+    }
+  reasons.push(...[...quoteReasons].sort());
+
+  // Checks on agreed values.
+  const moneyAgrees = (["subtotal", "tax", "adjustments", "rounding", "total"] as Field[]).every(agrees);
+  if (moneyAgrees && va.totalCheck === "fail") {
     low.add("total");
-    const adj = sum(c.adjustments.map((x) => x.amount)), tax = sum(c.taxes.map((x) => x.amount)), rnd = c.rounding ?? 0;
-    reasons.push(`check sums: subtotal ${fmt(c.subtotal)} + tax ${fmt(tax)} + adjustments ${fmt(adj)} + rounding ${fmt(rnd)} = ${fmt(sum([c.subtotal, tax, adj, rnd]))}, total ${fmt(c.total)}`);
+    const adj = sum(a.adjustments.map((x) => x.amount)), tax = sum(a.taxes.map((x) => x.amount)), rnd = a.rounding ?? 0;
+    reasons.push(`check sums: subtotal ${fmt(a.subtotal)} + tax ${fmt(tax)} + adjustments ${fmt(adj)} + rounding ${fmt(rnd)} = ${fmt(sum([a.subtotal, tax, adj, rnd]))}, total ${fmt(a.total)}`);
   }
-  if (c.total === null) low.add("total");
-  if (vc.dateOk === false) low.add("date");
-  if (vi.itemsCheck === "fail") {
+  if (agrees("total") && a.total === null) low.add("total");
+  if (agrees("date") && va.dateOk === false) low.add("date");
+
+  const unreadableItems = Math.max(...[a, b].map((r) => r.line_items.filter((i) => i.illegible).length));
+  if (unreadableItems) {
     medium.add("items");
-    reasons.push(`check line items: sum ${fmt(sum(ci.line_items.map((i) => i.amount)))} matches neither subtotal ${fmt(vi.subtotal)} nor total ${fmt(ci.total)}`);
+    reasons.push(`check line items: ${unreadableItems} amount${unreadableItems > 1 ? "s" : ""} could not be read`);
   }
-  for (const [name, r] of [["A", a], ["B", b]] as const) {
-    const n = r.line_items.filter((i) => i.illegible).length;
-    if (!n) continue;
+  const itemsAgreed = agrees("items") && !unreadableItems;
+  if (itemsAgreed && va.itemsCheck === "fail") {
     medium.add("items");
-    reasons.push(`check line items: ${name} could not read ${n} amount${n > 1 ? "s" : ""}`);
+    reasons.push(`check line items: sum ${fmt(sum(a.line_items.map((i) => i.amount)))} matches neither subtotal ${fmt(va.subtotal)} nor total ${fmt(a.total)}`);
   }
-  for (const f of new Set([...illegible(a), ...illegible(b)])) {
-    (KEY.includes(f as Field) ? low : medium).add(f);
+
+  for (const f of [...new Set([...illegible(a), ...illegible(b)])].sort()) {
+    flag(f);
     reasons.push(`${f} illegible`);
   }
-  for (const r of vc.reasons) if (!reasons.includes(r)) reasons.push(r);
+  for (const r of va.reasons) if (vb.reasons.includes(r) && !reasons.includes(r)) reasons.push(r);
 
   const status: Status = low.size ? "LOW" : medium.size ? "MEDIUM" : "HIGH";
+  const subtotal = !agrees("subtotal") ? null : a.subtotal ?? (agrees("total") && agrees("tax") ? va.subtotal : null);
   return {
     file,
     status,
     confidence: STATUSES.indexOf(status),
-    vendor: a.vendor ?? b.vendor,
-    date: a.date ?? b.date,
-    currency: vc.currency ?? (source === "A" ? vb : va).currency,
-    subtotal: vc.subtotal,
-    tax: c.taxes.length ? sum(c.taxes.map((t) => t.amount)) : null,
-    total: c.total,
+    vendor: agrees("vendor") ? a.vendor : null,
+    date: agrees("date") ? a.date : null,
+    currency: currencyAgrees ? va.currency : null,
+    subtotal,
+    tax: agrees("tax") && (a.taxes.length || b.taxes.length) ? sum(a.taxes.map((t) => t.amount)) : null,
+    total: agrees("total") ? a.total : null,
     flagged_fields: [...low, ...medium],
     reasons,
-    source,
-    itemsSource,
+    itemsAgreed,
   };
 }
 
-// A failed model call never drops a receipt: score what we have and send it to review.
+// A failed reading never drops a receipt, but with one reading nothing is agreed, so nothing is filled.
 export function scoreReadings(file: string, a: Receipt | Error, b: Receipt | Error, today = new Date()): Row {
-  const failed = [["A", a], ["B", b]].flatMap(([n, r]) => (r instanceof Error ? [`model ${n} failed: ${r.message}`] : []));
-  if (!failed.length) return score(file, a as Receipt, b as Receipt, today);
-  const ok = [a, b].find((r): r is Receipt => !(r instanceof Error));
-  if (!ok) return emptyRow(file, "LOW", failed);
-  const row = score(file, ok, ok, today);
-  const status = row.status === "UNREADABLE" ? row.status : "LOW";
-  return { ...row, status, confidence: STATUSES.indexOf(status), reasons: [...failed, ...row.reasons], source: ok === a ? "A" : "B", itemsSource: ok === a ? "A" : "B" };
+  if (a instanceof Error || b instanceof Error) return emptyRow(file, "LOW", ["could not be read automatically, check all fields"]);
+  return score(file, a, b, today);
 }
