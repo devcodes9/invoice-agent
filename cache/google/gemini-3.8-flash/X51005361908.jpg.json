@@ -1,0 +1,65 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005361908.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "TEO HENG STATIONERY & BOOKS",
+    "date": "2018-03-15",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "4974052801334 - ARTLINE 70",
+        "qty": 48,
+        "unit_price": 2.7,
+        "amount": 120,
+        "illegible": false
+      }
+    ],
+    "subtotal": 120,
+    "taxes": [
+      {
+        "label": "SR",
+        "rate": 6,
+        "amount": 7.2
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 127.2,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "TEO HENG STATIONERY & BOOKS"
+      },
+      {
+        "field": "date",
+        "text": "Date : 15/03/2018"
+      },
+      {
+        "field": "subtotal",
+        "text": "SUB-TOTAL (EX) : 120.00"
+      },
+      {
+        "field": "tax",
+        "text": "TOTAL TAX : 7.20 | SR 6.00 120.00 7.20"
+      },
+      {
+        "field": "rounding",
+        "text": "ROUNDING : 0.00"
+      },
+      {
+        "field": "total",
+        "text": "TOTAL 127.20"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 1771,
+    "output": 1489,
+    "cost": 0.006912
+  },
+  "ms": 6448
+}

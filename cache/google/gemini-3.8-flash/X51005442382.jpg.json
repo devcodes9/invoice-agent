@@ -1,0 +1,66 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005442382.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+    "date": "2018-03-20",
+    "currency": "MYR",
+    "currency_symbol_seen": "$",
+    "line_items": [
+      {
+        "description": "SR 100100000061-5 Vege",
+        "qty": 1,
+        "unit_price": 6.6,
+        "amount": 6.6,
+        "illegible": false
+      }
+    ],
+    "subtotal": 6.23,
+    "taxes": [
+      {
+        "label": "GST @6%",
+        "rate": 6,
+        "amount": 0.37
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 6.6,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "UNIHAKKA INTERNATIONAL SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "20 Mar 2018 17:55"
+      },
+      {
+        "field": "subtotal",
+        "text": "SR = GST @6% 6.23 0.37"
+      },
+      {
+        "field": "tax",
+        "text": "GST @6%: $0.37"
+      },
+      {
+        "field": "total",
+        "text": "Nett Total: $6.60"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1771,
+    "output": 1059,
+    "cost": 0.0052995
+  },
+  "ms": 6142
+}

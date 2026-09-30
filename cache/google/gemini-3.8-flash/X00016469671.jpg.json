@@ -1,0 +1,64 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X00016469671.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "OJC MARKETING SDN BHD",
+    "date": "2019-01-02",
+    "currency": null,
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "000000111 KINGS SAFETY SHOES KWD 805 P004",
+        "qty": 1,
+        "unit_price": 170,
+        "amount": 170,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 170,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "OJC MARKETING SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "Date 02/01/2019 2:47:14 PM"
+      },
+      {
+        "field": "rounding",
+        "text": "Round Amt: 0.00"
+      },
+      {
+        "field": "total",
+        "text": "TOTAL: 170.00"
+      }
+    ],
+    "missing": [
+      {
+        "field": "currency",
+        "reason": "absent"
+      },
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "taxes",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1754,
+    "output": 3317,
+    "cost": 0.01375425
+  },
+  "ms": 14536
+}

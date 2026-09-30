@@ -1,0 +1,66 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005288570.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SECURE PARKING CORPORATION S/B",
+    "date": "2018-03-23",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "Parking Fee",
+        "qty": null,
+        "unit_price": null,
+        "amount": 0.94,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "Add GST",
+        "rate": 6,
+        "amount": 0.06
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 1,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "SECURE PARKING CORPORATION S/B"
+      },
+      {
+        "field": "date",
+        "text": "EXIT TIME: 23.03.18 15:27"
+      },
+      {
+        "field": "tax",
+        "text": "Add GST RM 0.06 | *Rate incl. 6% GST"
+      },
+      {
+        "field": "total",
+        "text": "*AMT RM 1.00"
+      }
+    ],
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1792,
+    "output": 1831,
+    "cost": 0.00821025
+  },
+  "ms": 8746
+}

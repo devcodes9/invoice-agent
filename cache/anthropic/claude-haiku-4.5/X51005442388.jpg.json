@@ -1,0 +1,106 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005442388.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "CONTENTO",
+    "date": "2018-03-20",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "2x 5.90 (Promo)",
+        "qty": 2,
+        "unit_price": 5.9,
+        "amount": 11.8,
+        "illegible": false
+      },
+      {
+        "description": "Bubble H T",
+        "qty": 1,
+        "unit_price": 4.9,
+        "amount": 4.9,
+        "illegible": false
+      },
+      {
+        "description": "Yam H T",
+        "qty": 1,
+        "unit_price": 1,
+        "amount": 1,
+        "illegible": false
+      },
+      {
+        "description": "1x 1.00 (Snack)",
+        "qty": 1,
+        "unit_price": 1,
+        "amount": 1,
+        "illegible": false
+      },
+      {
+        "description": "ADD ON",
+        "qty": null,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "1x 3.90",
+        "qty": 1,
+        "unit_price": 3.9,
+        "amount": 3.9,
+        "illegible": false
+      },
+      {
+        "description": "U.Cho",
+        "qty": null,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      }
+    ],
+    "subtotal": 21.6,
+    "taxes": [],
+    "adjustments": [],
+    "rounding": null,
+    "total": 21.6,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "CONTENTO"
+      },
+      {
+        "field": "date",
+        "text": "20/03/18 17:19"
+      },
+      {
+        "field": "subtotal",
+        "text": "***TOTAL RM 21.60"
+      },
+      {
+        "field": "total",
+        "text": "***TOTAL RM 21.60"
+      }
+    ],
+    "missing": [
+      {
+        "field": "currency",
+        "reason": "absent"
+      },
+      {
+        "field": "taxes",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 3736,
+    "output": 487,
+    "cost": 0.006171
+  },
+  "ms": 4847
+}

@@ -1,0 +1,66 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005447842.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+    "date": "2018-03-14",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "GB CR-CORN",
+        "qty": 1,
+        "unit_price": 0.9,
+        "amount": 0.9,
+        "illegible": false
+      }
+    ],
+    "subtotal": 0.9,
+    "taxes": [
+      {
+        "label": "ZRL = 0 %",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 0.9,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "PASARAYA BORONG PINTAR\nSDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "14/03/2018 4:06:34PM"
+      },
+      {
+        "field": "subtotal",
+        "text": "ZRL = 0 % 0.90 0.00"
+      },
+      {
+        "field": "tax",
+        "text": "ZRL = 0 % 0.90 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total Includes GST 0% 0.90"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1783,
+    "output": 1389,
+    "cost": 0.006546
+  },
+  "ms": 6385
+}

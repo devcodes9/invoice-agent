@@ -1,0 +1,72 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005230621.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "SIN LIANHAP SDN BHD",
+    "date": "2018-02-05",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "PPD 4MM DENLIME",
+        "qty": 1,
+        "unit_price": 1.887,
+        "amount": 1.887,
+        "illegible": false
+      },
+      {
+        "description": "6023# GARDEN",
+        "qty": 1,
+        "unit_price": 5,
+        "amount": 5.3,
+        "illegible": false
+      }
+    ],
+    "subtotal": 7.3,
+    "taxes": [
+      {
+        "label": "SR @ 6",
+        "rate": 6,
+        "amount": 0.41
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0,
+    "total": 7.3,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "SIN LIANHAP SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "05/02/2018"
+      },
+      {
+        "field": "subtotal",
+        "text": "Subtotal : 7.30"
+      },
+      {
+        "field": "tax",
+        "text": "SR @ 6 Amount 6.89 Tax 0.41"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding Adjustment : 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total Sales Inclusive of GST: 7.30"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 3249,
+    "output": 355,
+    "cost": 0.005024
+  },
+  "ms": 5642
+}

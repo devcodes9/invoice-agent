@@ -1,0 +1,82 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005230657.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "CROSS CHANNEL NETWORK SDN. BHD.",
+    "date": "2017-12-31",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "20MM HERO PVC CONDUIT PIPE @ 1.7000",
+        "qty": 1,
+        "unit_price": 1.8,
+        "amount": 1.8,
+        "illegible": false
+      },
+      {
+        "description": "15A PVC CONNECTOR @ 1.8000",
+        "qty": 1,
+        "unit_price": 1.91,
+        "amount": 1.91,
+        "illegible": false
+      },
+      {
+        "description": "R & B-C/CLIP 8MM X 100PCS CABLE CLIPS @ 3.5000",
+        "qty": 1,
+        "unit_price": 3.71,
+        "amount": 3.71,
+        "illegible": false
+      },
+      {
+        "description": "3\" X 3\" 2862 A1 PVC NUT BOX @ 0.5000",
+        "qty": 1,
+        "unit_price": 0.53,
+        "amount": 0.53,
+        "illegible": false
+      }
+    ],
+    "subtotal": 7.5,
+    "taxes": [
+      {
+        "label": "SR @ A",
+        "rate": null,
+        "amount": 0.45
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 7.95,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "CROSS CHANNEL NETWORK SDN. BHD."
+      },
+      {
+        "field": "date",
+        "text": "31/12/2017 10:33:59 AM"
+      },
+      {
+        "field": "subtotal",
+        "text": "SR @ A                        7.50"
+      },
+      {
+        "field": "tax",
+        "text": "SR @ A                        7.50                    0.45"
+      },
+      {
+        "field": "total",
+        "text": "Total Amt Payable :           7.95"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 2977,
+    "output": 465,
+    "cost": 0.005302
+  },
+  "ms": 6139
+}

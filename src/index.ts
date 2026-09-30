@@ -11,6 +11,7 @@ import { emptyRow, scoreReadings, STATUSES, type Row } from "./score";
 
 const IMAGES = "images";
 const readers = MODELS[TIER];
+const replay = process.argv.includes("--replay");
 
 const files = readdirSync(IMAGES).filter((f) => /\.(jpe?g|png)$/i.test(f)).sort();
 const dupes = findDuplicates(files.map((file) => ({ file, bytes: readFileSync(join(IMAGES, file)) })));
@@ -25,7 +26,7 @@ const progress = (line: string) =>
   process.stdout.isTTY ? process.stdout.write(`\r\x1b[K${line}`) : console.log(line);
 const settled = await pool(jobs, 8, async (j) => {
   try {
-    return await extract(j.model, join(IMAGES, j.file));
+    return await extract(j.model, join(IMAGES, j.file), { replay });
   } catch (e) {
     failed++;
     throw e;
@@ -34,6 +35,11 @@ const settled = await pool(jobs, 8, async (j) => {
   }
 });
 if (process.stdout.isTTY) process.stdout.write("\n");
+if (replay && failed) {
+  for (const r of settled) if (r.status === "rejected") console.error(r.reason?.message ?? r.reason);
+  console.error(`--replay: ${failed} responses missing from cache/, out/ left unchanged. Run without --replay to read them live.`);
+  process.exit(1);
+}
 
 const rows: Row[] = [];
 const items: ItemRow[] = [];

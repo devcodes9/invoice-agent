@@ -1,0 +1,72 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X00016469671.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "OJC MARKETING SDN BHD",
+    "date": "2019-01-02",
+    "currency": "MYR",
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "000000111",
+        "qty": 1,
+        "unit_price": 170,
+        "amount": 170,
+        "illegible": false
+      },
+      {
+        "description": "KINGS SAFETY SHOES KWD 805",
+        "qty": null,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      }
+    ],
+    "subtotal": 170,
+    "taxes": [],
+    "adjustments": [
+      {
+        "label": "Total Item Discount",
+        "amount": 0
+      }
+    ],
+    "rounding": 0,
+    "total": 170,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "OJC MARKETING SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "02/01/2019 2:47:14 PM"
+      },
+      {
+        "field": "subtotal",
+        "text": "Total Amount: 170.00"
+      },
+      {
+        "field": "rounding",
+        "text": "Round Amt: 0.00"
+      },
+      {
+        "field": "total",
+        "text": "TOTAL: 170.00"
+      }
+    ],
+    "missing": [
+      {
+        "field": "currency",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 2661,
+    "output": 318,
+    "cost": 0.004251
+  },
+  "ms": 5649
+}

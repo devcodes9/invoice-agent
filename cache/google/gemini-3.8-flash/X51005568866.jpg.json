@@ -1,0 +1,72 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005568866.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "POPULAR BOOK CO. (M) SDN BHD",
+    "date": "2017-08-20",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "H'MAN GLASS PAPER",
+        "qty": 4,
+        "unit_price": 1.4,
+        "amount": 5.6,
+        "illegible": false
+      },
+      {
+        "description": "Member Discount",
+        "qty": null,
+        "unit_price": null,
+        "amount": -0.56,
+        "illegible": false
+      }
+    ],
+    "subtotal": 4.75,
+    "taxes": [
+      {
+        "label": "T @ 6%",
+        "rate": 6,
+        "amount": 0.29
+      }
+    ],
+    "adjustments": [],
+    "rounding": 0.01,
+    "total": 5.05,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "POPULAR BOOK CO. (M) SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "20/08/17 12:48   Slip No. : 9020374693"
+      },
+      {
+        "field": "subtotal",
+        "text": "T @ 6%                 4.75        0.29"
+      },
+      {
+        "field": "tax",
+        "text": "T @ 6%                 4.75        0.29"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding Adj                   0.01"
+      },
+      {
+        "field": "total",
+        "text": "Total RM                       5.05"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 1762,
+    "output": 1730,
+    "cost": 0.007809
+  },
+  "ms": 7781
+}

@@ -1,0 +1,110 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005442322.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "GRAND COMPANIONS SDN BHD",
+    "date": "2018-03-03",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "NY STRIP",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 67.67,
+        "illegible": false
+      },
+      {
+        "description": "NY STRIP",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 67.67,
+        "illegible": false
+      },
+      {
+        "description": "NY STRIP",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 67.67,
+        "illegible": false
+      },
+      {
+        "description": "ICE LATTE",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 9.35,
+        "illegible": false
+      },
+      {
+        "description": "7UP",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 9.35,
+        "illegible": false
+      },
+      {
+        "description": "PEPSI",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 9.35,
+        "illegible": false
+      }
+    ],
+    "subtotal": 231.06,
+    "taxes": [
+      {
+        "label": "GST @6%",
+        "rate": 6,
+        "amount": 15.25
+      }
+    ],
+    "adjustments": [
+      {
+        "label": "10% Srv Chg",
+        "amount": 23.1
+      }
+    ],
+    "rounding": null,
+    "total": 269.4,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "GRAND COMPANIONS SDN BHD (285560-H)"
+      },
+      {
+        "field": "date",
+        "text": "03 Mar 18 05:16:55 PM"
+      },
+      {
+        "field": "subtotal",
+        "text": "Subtotal 231.06"
+      },
+      {
+        "field": "tax",
+        "text": "GST @6% 15.25"
+      },
+      {
+        "field": "adjustments",
+        "text": "10% Srv Chg 23.10"
+      },
+      {
+        "field": "total",
+        "text": "Total 269.40"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1771,
+    "output": 1757,
+    "cost": 0.007917
+  },
+  "ms": 7388
+}

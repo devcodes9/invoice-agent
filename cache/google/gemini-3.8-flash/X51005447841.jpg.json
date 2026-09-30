@@ -1,0 +1,87 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005447841.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+    "date": "2018-03-09",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "A&M SARSAP 330ML",
+        "qty": 1,
+        "unit_price": 1.2,
+        "amount": 1.2,
+        "illegible": false
+      },
+      {
+        "description": "100PLUS REGULAR 500ML",
+        "qty": 1,
+        "unit_price": 1.9,
+        "amount": 1.9,
+        "illegible": false
+      },
+      {
+        "description": "Loacker wafer milk 45g",
+        "qty": 1,
+        "unit_price": 2.7,
+        "amount": 2.7,
+        "illegible": false
+      },
+      {
+        "description": "fishermans.f s/free lemon 25g",
+        "qty": 1,
+        "unit_price": 4.6,
+        "amount": 4.6,
+        "illegible": false
+      }
+    ],
+    "subtotal": 10.4,
+    "taxes": [
+      {
+        "label": "ZRL",
+        "rate": 0,
+        "amount": 0
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 10.4,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "PASARAYA BORONG PINTAR SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "09/03/2018 4:21:23PM"
+      },
+      {
+        "field": "subtotal",
+        "text": "ZRL = 0% 10.40 0.00"
+      },
+      {
+        "field": "tax",
+        "text": "ZRL = 0% 10.40 0.00"
+      },
+      {
+        "field": "total",
+        "text": "Total Includes GST 0% 10.40"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1729,
+    "output": 964,
+    "cost": 0.00491175
+  },
+  "ms": 4691
+}

@@ -1,0 +1,112 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005230616.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "Gerbang Alaf Restaurants Sdn Bhd",
+    "date": "2018-01-18",
+    "currency": null,
+    "currency_symbol_seen": null,
+    "line_items": [
+      {
+        "description": "M SpicyDeluxe",
+        "qty": 2,
+        "unit_price": null,
+        "amount": 25.4,
+        "illegible": false
+      },
+      {
+        "description": "M Coke",
+        "qty": 2,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "M Fries",
+        "qty": 2,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "M GrilChicBgr",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 12.5,
+        "illegible": false
+      },
+      {
+        "description": "M Coke",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "M Fries",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "Small Cone",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 1,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [
+      {
+        "label": "GST",
+        "rate": 6,
+        "amount": 2.2
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 38.9,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "Gerbang Alaf Restaurants Sdn Bhd"
+      },
+      {
+        "field": "date",
+        "text": "ORD #90 -REG #19- 18/01/2018 17:09:21"
+      },
+      {
+        "field": "tax",
+        "text": "TOTAL INCLUDES 6% GST 2.20"
+      },
+      {
+        "field": "total",
+        "text": "Total Rounded 38.90"
+      }
+    ],
+    "missing": [
+      {
+        "field": "currency",
+        "reason": "absent"
+      },
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1781,
+    "output": 2010,
+    "cost": 0.00887325
+  },
+  "ms": 9266
+}

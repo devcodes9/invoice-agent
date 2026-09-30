@@ -1,0 +1,109 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005337867.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "Old Town Kopitiam Sdn Bhd",
+    "date": "2018-03-22",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "ST30",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 13.87,
+        "illegible": false
+      },
+      {
+        "description": "BR10 Stm Ginger R",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "TF2 (H) Teh Tarik",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "HS4",
+        "qty": 1,
+        "unit_price": null,
+        "amount": 12.07,
+        "illegible": false
+      },
+      {
+        "description": "SN5 Curry Mee",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      },
+      {
+        "description": "TF7 (C) Lemon T",
+        "qty": 1,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      }
+    ],
+    "subtotal": 25.94,
+    "taxes": [
+      {
+        "label": "GST @6%",
+        "rate": 6,
+        "amount": 1.71
+      }
+    ],
+    "adjustments": [
+      {
+        "label": "10% Srv Chg:",
+        "amount": 2.59
+      }
+    ],
+    "rounding": 0.01,
+    "total": 30.25,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "Old Town Kopitiam Sdn Bhd (716269-X)"
+      },
+      {
+        "field": "date",
+        "text": "22 Mar 18 12:44:00 PM"
+      },
+      {
+        "field": "subtotal",
+        "text": "Subtotal: 25.94"
+      },
+      {
+        "field": "tax",
+        "text": "GST @6% 1.71"
+      },
+      {
+        "field": "adjustments",
+        "text": "10% Srv Chg: 2.59"
+      },
+      {
+        "field": "rounding",
+        "text": "Rounding: 0.01"
+      },
+      {
+        "field": "total",
+        "text": "Amount Due 30.25"
+      }
+    ],
+    "missing": []
+  },
+  "usage": {
+    "input": 1733,
+    "output": 1574,
+    "cost": 0.00720225
+  },
+  "ms": 6425
+}

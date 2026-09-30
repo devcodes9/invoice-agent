@@ -1,0 +1,81 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005442366.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "Triple Six Point Enterprise 666",
+    "date": "2018-03-22",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "VS FUJI500ml",
+        "qty": 1,
+        "unit_price": 10,
+        "amount": 10,
+        "illegible": false
+      },
+      {
+        "description": "Apollo cake original 30s",
+        "qty": 1,
+        "unit_price": 6.8,
+        "amount": 6.5,
+        "illegible": false
+      },
+      {
+        "description": "TG Cashew nuts mixwd Almond smoke",
+        "qty": 1,
+        "unit_price": 4.2,
+        "amount": 4.2,
+        "illegible": false
+      },
+      {
+        "description": "TG Coated coconut peanuts",
+        "qty": 1,
+        "unit_price": 1.9,
+        "amount": 1.9,
+        "illegible": false
+      }
+    ],
+    "subtotal": null,
+    "taxes": [],
+    "adjustments": [],
+    "rounding": null,
+    "total": 22.6,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "Triple Six Point Enterprise 666"
+      },
+      {
+        "field": "date",
+        "text": "Date: 22-03-2018 04:01:20 PM"
+      },
+      {
+        "field": "total",
+        "text": "Total Amount 22.60"
+      }
+    ],
+    "missing": [
+      {
+        "field": "subtotal",
+        "reason": "absent"
+      },
+      {
+        "field": "taxes",
+        "reason": "absent"
+      },
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1771,
+    "output": 30830,
+    "cost": 0.11694075
+  },
+  "ms": 119566
+}

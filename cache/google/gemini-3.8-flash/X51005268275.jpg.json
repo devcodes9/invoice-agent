@@ -1,0 +1,87 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005268275.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "LIGHTROOM GALLERY SDN BHD",
+    "date": "2017-11-20",
+    "currency": "MYR",
+    "currency_symbol_seen": "RM",
+    "line_items": [
+      {
+        "description": "YE36 BK 12W WW LED TRACK LIGHT",
+        "qty": 2,
+        "unit_price": 45.29,
+        "amount": 90.57,
+        "illegible": false
+      },
+      {
+        "description": "YE44 35W WW BK TRACK HOLDER",
+        "qty": 1,
+        "unit_price": 155.66,
+        "amount": 155.66,
+        "illegible": false
+      },
+      {
+        "description": "1METER TRACK-BK",
+        "qty": 1,
+        "unit_price": 16.99,
+        "amount": 16.79,
+        "illegible": false
+      },
+      {
+        "description": "RM39.80 CONTRA W LCN00211",
+        "qty": 0,
+        "unit_price": null,
+        "amount": null,
+        "illegible": false
+      }
+    ],
+    "subtotal": 263.02,
+    "taxes": [
+      {
+        "label": "GST/TAX 6%",
+        "rate": 6,
+        "amount": 15.78
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 278.8,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "LIGHTROOM GALLERY SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "Bill Date : 20/11/2017"
+      },
+      {
+        "field": "subtotal",
+        "text": "Sub Total : RM 263.02"
+      },
+      {
+        "field": "tax",
+        "text": "GST/TAX 6% : RM 15.78"
+      },
+      {
+        "field": "total",
+        "text": "TOT' : RM 278.80"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1779,
+    "output": 13929,
+    "cost": 0.053568
+  },
+  "ms": 59231
+}

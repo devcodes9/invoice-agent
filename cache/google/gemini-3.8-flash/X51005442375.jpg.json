@@ -1,0 +1,73 @@
+{
+  "model": "google/gemini-3.8-flash",
+  "prompt": "1d3bdb4e1ce2",
+  "file": "X51005442375.jpg",
+  "output": {
+    "legible": true,
+    "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+    "date": "2018-03-25",
+    "currency": "MYR",
+    "currency_symbol_seen": "$",
+    "line_items": [
+      {
+        "description": "SR 100100000060- 4 Vege",
+        "qty": 1,
+        "unit_price": 5.5,
+        "amount": 5.5,
+        "illegible": false
+      },
+      {
+        "description": "SR 10010000057-Fried Noodle (L)",
+        "qty": 1,
+        "unit_price": 3,
+        "amount": 3,
+        "illegible": false
+      }
+    ],
+    "subtotal": 8.02,
+    "taxes": [
+      {
+        "label": "GST @6%",
+        "rate": 6,
+        "amount": 0.48
+      }
+    ],
+    "adjustments": [],
+    "rounding": null,
+    "total": 8.5,
+    "evidence": [
+      {
+        "field": "vendor",
+        "text": "UNIHAKKA INTERNATIONAL SDN BHD"
+      },
+      {
+        "field": "date",
+        "text": "25 Mar 2018 18:26"
+      },
+      {
+        "field": "subtotal",
+        "text": "SR - GST @6% 8.02 0.48"
+      },
+      {
+        "field": "tax",
+        "text": "GST @6%: $0.48"
+      },
+      {
+        "field": "total",
+        "text": "Nett Total: $8.50"
+      }
+    ],
+    "missing": [
+      {
+        "field": "rounding",
+        "reason": "absent"
+      }
+    ]
+  },
+  "usage": {
+    "input": 1771,
+    "output": 1099,
+    "cost": 0.0054495
+  },
+  "ms": 5018
+}
