@@ -8,6 +8,7 @@ export type Validation = {
   itemsCheck: "subtotal" | "total" | "fail" | "skipped";
   dateOk: boolean | null;
   currency: string | null; // from the printed symbol when known, else the model's code
+  currencyPrinted: boolean; // a known currency symbol or code is printed
   reasons: string[];
 };
 
@@ -29,13 +30,15 @@ export function validate(r: Receipt, today = new Date()): Validation {
   const tax = sum(r.taxes.map((t) => t.amount));
   const adj = sum(r.adjustments.map((a) => a.amount));
   const rounding = r.rounding ?? 0;
+  // The total before bill-level adjustments and rounding: what the items (with or without tax) add up to.
+  const net = r.total === null ? null : round2(r.total - adj - rounding);
 
   // Subtotal: printed, computed when not printed, unknown when illegible.
   let subtotal = r.subtotal;
   let subtotalComputed = false;
   const subtotalIllegible = r.missing.some((m) => m.field === "subtotal" && m.reason === "illegible");
-  if (subtotal === null && !subtotalIllegible && r.total !== null) {
-    subtotal = round2(r.total - tax);
+  if (subtotal === null && !subtotalIllegible && net !== null) {
+    subtotal = round2(net - tax);
     subtotalComputed = true;
     reasons.push("subtotal computed (not printed)");
   }
@@ -51,7 +54,7 @@ export function validate(r: Receipt, today = new Date()): Validation {
   let itemsCheck: Validation["itemsCheck"] = "skipped";
   if (amounts.length && !r.line_items.some((i) => i.illegible)) {
     const items = sum(amounts);
-    itemsCheck = subtotal !== null && near(items, subtotal) ? "subtotal" : r.total !== null && near(items, r.total) ? "total" : "fail";
+    itemsCheck = subtotal !== null && near(items, subtotal) ? "subtotal" : net !== null && near(items, net) ? "total" : "fail";
   }
 
   // Tax sanity: reasons only. Printed rates are not checked: mixed 6%/0% and service charge make it noise.
@@ -80,5 +83,5 @@ export function validate(r: Receipt, today = new Date()): Validation {
     reasons.push("currency inferred");
   }
 
-  return { subtotal, subtotalComputed, totalCheck, itemsCheck, dateOk, currency, reasons };
+  return { subtotal, subtotalComputed, totalCheck, itemsCheck, dateOk, currency, currencyPrinted: !!fromSymbol, reasons };
 }

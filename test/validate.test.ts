@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { validate } from "../src/validate";
-import { receipt } from "./fixtures";
+import { item, receipt } from "./fixtures";
 
 const today = new Date("2026-09-30T00:00:00Z");
 
@@ -142,4 +142,11 @@ test("currency: unrecognised symbol (e.g. tax code read as symbol) counts as inf
 test("items check: skipped when an item amount is illegible", () => {
   const r = receipt({ line_items: [{ description: "A", qty: 1, unit_price: 400, amount: 400, illegible: false }, { description: "B", qty: 1, unit_price: 11.5, amount: null, illegible: true }] });
   assert.equal(validate(r, today).itemsCheck, "skipped");
+});
+
+test("computed subtotal and the items check take rounding and adjustments out of the total", () => {
+  const r = receipt({ subtotal: null, missing: [{ field: "subtotal", reason: "absent" }], taxes: [], adjustments: [{ label: "Discount", amount: -1 }], rounding: -0.02, total: 65.15, line_items: [item(60), item(6.17)] });
+  const v = validate(r, new Date("2026-09-30T00:00:00Z"));
+  assert.equal(v.subtotal, 66.17);
+  assert.equal(v.itemsCheck, "subtotal");
 });
