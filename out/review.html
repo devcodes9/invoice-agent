@@ -1,0 +1,208 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Receipt review</title>
+<style>
+:root{--bg:#fff;--fg:#1a1a1a;--muted:#666;--line:#ddd;--UNREADABLE:#6b21a8;--LOW:#b91c1c;--MEDIUM:#b45309;--HIGH:#15803d;--DUPLICATE:#64748b}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--fg:#eee;--muted:#999;--line:#333;--UNREADABLE:#c084fc;--LOW:#f87171;--MEDIUM:#fbbf24;--HIGH:#4ade80;--DUPLICATE:#94a3b8}}
+body{font:14px/1.45 system-ui,sans-serif;margin:0;padding:16px;background:var(--bg);color:var(--fg)}
+nav{position:sticky;top:0;background:var(--bg);padding:8px 0;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+button{font:inherit;padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:none;color:inherit;cursor:pointer}
+button.on{border-color:var(--fg)}
+.card{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);border-left:4px solid var(--c);padding-left:12px}
+.card img{width:220px;max-height:360px;object-fit:contain;object-position:top;border:1px solid var(--line)}
+.UNREADABLE{--c:var(--UNREADABLE)}.LOW{--c:var(--LOW)}.MEDIUM{--c:var(--MEDIUM)}.HIGH{--c:var(--HIGH)}.DUPLICATE{--c:var(--DUPLICATE)}
+h2{font-size:15px;margin:0 0 8px}
+.badge{color:var(--bg);background:var(--c);padding:1px 7px;border-radius:4px;font-size:12px}
+dl{display:grid;grid-template-columns:80px 1fr;gap:2px 8px;margin:0 0 8px}dt{color:var(--muted)}dd{margin:0}
+dd.check{color:var(--c);font-weight:600}
+ul{margin:0 0 8px;padding-left:18px}table{border-collapse:collapse}td{padding:2px 8px 2px 0}
+@media (max-width:640px){.card{flex-direction:column}.card img{width:100%}}
+</style></head><body>
+<h1>Receipt review</h1>
+<nav><button data-filter="" class="on">All 45</button><button data-filter="UNREADABLE">UNREADABLE 0</button><button data-filter="LOW">LOW 3</button><button data-filter="MEDIUM">MEDIUM 24</button><button data-filter="HIGH">HIGH 17</button><button data-filter="DUPLICATE">DUPLICATE 1</button></nav>
+<section class="card LOW" data-status="LOW">
+<a href="../images/X51005442334.jpg" target="_blank"><img src="../images/X51005442334.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge LOW">LOW</span> X51005442334.jpg</h2><dl><dt>vendor</dt><dd>UNIHAKKA INTERNATIONAL SDN BHD</dd><dt>date</dt><dd class="check">check</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd>0.46</dd><dt>total</dt><dd>8.20</dd></dl><ul><li>check date: read as 2018-03-26 or 2018-03-28 (&quot;26 Mar 2018 18:14&quot;)</li><li>check subtotal: 8.20 may not be printed (&quot;Total Amount: $8.20&quot;)</li><li>currency inferred</li></ul><details><summary>2 line items</summary><table><tr><td>SR 00010000035- 1 Meal + 3 Vege</td><td>1</td><td>7.10</td><td>7.10</td></tr><tr><td>SR 00010000015- Vegetable</td><td>1</td><td>1.10</td><td>1.10</td></tr></table></details></div>
+</section>
+<section class="card LOW" data-status="LOW">
+<a href="../images/X51005442343.jpg" target="_blank"><img src="../images/X51005442343.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge LOW">LOW</span> X51005442343.jpg</h2><dl><dt>vendor</dt><dd>YONG TAT HARDWARE TRADING</dd><dt>date</dt><dd class="check">check</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>67.92</dd><dt>tax</dt><dd>4.08</dd><dt>total</dt><dd>72.00</dd></dl><ul><li>check date: read as 2016-03-13 or 2018-03-13 (&quot;Date: 13/03/2016&quot;)</li></ul><details><summary>1 line item</summary><table><tr><td>0.8MM X 50' X 60' AR RED GASKET</td><td>1</td><td>67.92</td><td>72.00</td></tr></table></details></div>
+</section>
+<section class="card LOW" data-status="LOW">
+<a href="../images/X51005442375.jpg" target="_blank"><img src="../images/X51005442375.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge LOW">LOW</span> X51005442375.jpg</h2><dl><dt>vendor</dt><dd>UNIHAKKA INTERNATIONAL SDN BHD</dd><dt>date</dt><dd>2018-03-25</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd>0.48</dd><dt>total</dt><dd class="check">check</dd></dl><ul><li>check subtotal: 6.50 may not be printed (&quot;Total Amount: $6.50&quot;)</li><li>check total: read as 6.50 or 8.50 (&quot;Nett Total: $6.50&quot;)</li><li>check line items: sum 8.50 matches neither subtotal 6.50 nor total 6.50</li><li>currency inferred</li></ul><details><summary>2 line items</summary><table><tr><td>SR 10010000060- 4 Vege</td><td>1</td><td>5.50</td><td>5.50</td></tr><tr><td>SR 10010000057-Fried Noodle (L)</td><td>1</td><td>3.00</td><td>3.00</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X00016469671.jpg" target="_blank"><img src="../images/X00016469671.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X00016469671.jpg</h2><dl><dt>vendor</dt><dd>OJC MARKETING SDN BHD</dd><dt>date</dt><dd>2019-01-02</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd class="check">check</dd><dt>total</dt><dd>170.00</dd></dl><ul><li>check subtotal: 170.00 may not be printed (&quot;Total Amount: 170.00&quot;)</li><li>currency inferred</li></ul><details><summary>1 line item</summary><table><tr><td>000000111 KINGS SAFETY SHOES KWD 805 P004</td><td>1</td><td>170.00</td><td>170.00</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005230616.jpg" target="_blank"><img src="../images/X51005230616.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005230616.jpg</h2><dl><dt>vendor</dt><dd>Gerbang Alaf Restaurants Sdn Bhd</dd><dt>date</dt><dd>2018-01-18</dd><dt>currency</dt><dd class="check">check</dd><dt>subtotal</dt><dd>36.70</dd><dt>tax</dt><dd>2.20</dd><dt>total</dt><dd>38.90</dd></dl><ul><li>check currency: read as MYR or none</li><li>check rounding: 0.00 has no printed line</li><li>subtotal computed (not printed)</li></ul><details><summary>7 line items</summary><table><tr><td>M SpicyDeluxe</td><td>2</td><td></td><td>25.40</td></tr><tr><td>M Coke</td><td>2</td><td></td><td></td></tr><tr><td>M Fries</td><td>2</td><td></td><td></td></tr><tr><td>M GrillChicBgr</td><td>1</td><td></td><td>12.50</td></tr><tr><td>M Coke</td><td>1</td><td></td><td></td></tr><tr><td>M Fries</td><td>1</td><td></td><td></td></tr><tr><td>Small Cone</td><td>1</td><td></td><td>1.00</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005230621.jpg" target="_blank"><img src="../images/X51005230621.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005230621.jpg</h2><dl><dt>vendor</dt><dd>SIN LIANHAP SDN BHD</dd><dt>date</dt><dd>2018-02-05</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>7.30</dd><dt>tax</dt><dd>0.41</dd><dt>total</dt><dd>7.30</dd></dl><ul><li>check line items: totals read as 7.19 or 7.30</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005230657.jpg" target="_blank"><img src="../images/X51005230657.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005230657.jpg</h2><dl><dt>vendor</dt><dd>CROSS CHANNEL NETWORK SDN. BHD.</dd><dt>date</dt><dd>2017-12-31</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd>0.45</dd><dt>total</dt><dd>7.95</dd></dl><ul><li>check subtotal: 7.95 may not be printed (&quot;Total Amt Incl. GST @ 6% : 7.95&quot;)</li></ul><details><summary>4 line items</summary><table><tr><td>20MM HERO PVC CONDUIT PIPE @ 1.7000</td><td>1</td><td>1.80</td><td>1.80</td></tr><tr><td>15A PVC CONNECTOR @ 1.8000</td><td>1</td><td>1.91</td><td>1.91</td></tr><tr><td>R &amp; B-C/CLIP 8MM X 100PCS CABLE CLIPS @ 3.5000</td><td>1</td><td>3.71</td><td>3.71</td></tr><tr><td>3&quot; X 3&quot; 2862 A1 PVC NUT BOX @ 0.5000</td><td>1</td><td>0.53</td><td>0.53</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005268275.jpg" target="_blank"><img src="../images/X51005268275.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005268275.jpg</h2><dl><dt>vendor</dt><dd>LIGHTROOM GALLERY SDN BHD</dd><dt>date</dt><dd>2017-11-20</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>263.02</dd><dt>tax</dt><dd>15.78</dd><dt>total</dt><dd>278.80</dd></dl><ul><li>check line items: totals read as 262.82 or 263.02</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005268408.jpg" target="_blank"><img src="../images/X51005268408.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005268408.jpg</h2><dl><dt>vendor</dt><dd>99 SPEED MART S/B (519537-X)</dd><dt>date</dt><dd>2017-11-20</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd class="check">check</dd><dt>total</dt><dd>169.80</dd></dl><ul><li>check tax: 9.61 (&quot;GST Summary Amount(RM) Tax(RM) | S = 6% 160.17 9.61&quot;) or 9.81 (&quot;GST Summary = 6% | Amount(RM) 160.17 | Tax(RM) 9.81&quot;), different printed lines</li><li>check line items: totals read as 169.78 or 172.78</li><li>check rounding: 0.02 not found in printed line &quot;Rounding Adjustment RM .02&quot;</li><li>subtotal computed (not printed)</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005337867.jpg" target="_blank"><img src="../images/X51005337867.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005337867.jpg</h2><dl><dt>vendor</dt><dd>Old Town Kopitiam Sdn Bhd</dd><dt>date</dt><dd>2018-03-22</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>25.94</dd><dt>tax</dt><dd>1.71</dd><dt>total</dt><dd>30.25</dd></dl><ul><li>check line items: 4 amounts could not be read</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005337877.jpg" target="_blank"><img src="../images/X51005337877.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005337877.jpg</h2><dl><dt>vendor</dt><dd>UROKO JAPANESE CUISINE SDN BHD</dd><dt>date</dt><dd>2018-03-20</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd>3.00</dd><dt>total</dt><dd>53.00</dd></dl><ul><li>check subtotal: 46.00 may not be printed (&quot;Total : 46.00&quot;)</li></ul><details><summary>4 line items</summary><table><tr><td>KO NABE INANIWA UDON @ 24.00</td><td>1</td><td>24.00</td><td>24.00</td></tr><tr><td>GREEN TEA @ 1.00</td><td>1</td><td>1.00</td><td>1.00</td></tr><tr><td>GYOZA 5pcs @ 15.00</td><td>1</td><td>15.00</td><td>15.00</td></tr><tr><td>GARLIC CHAHAN @</td><td>1</td><td>6.00</td><td>6.00</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005361912.jpg" target="_blank"><img src="../images/X51005361912.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005361912.jpg</h2><dl><dt>vendor</dt><dd class="check">check</dd><dt>date</dt><dd>2018-01-29</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>1.00</dd><dt>tax</dt><dd>0.06</dd><dt>total</dt><dd>1.05</dd></dl><ul><li>check vendor: TED HENG STATIONERY &amp; BOOKS (&quot;TED HENG STATIONERY &amp; BOOKS&quot;) or TEO HENG STATIONERY &amp; BOOKS (&quot;TEO HENG STATIONERY &amp; BOOKS&quot;), different printed lines</li></ul><details><summary>1 line item</summary><table><tr><td>CARBON PAPER</td><td>2</td><td>0.50</td><td>1.00</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005361923.jpg" target="_blank"><img src="../images/X51005361923.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005361923.jpg</h2><dl><dt>vendor</dt><dd>SWC ENTERPRISE SDN BHD</dd><dt>date</dt><dd>2018-01-02</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>3.96</dd><dt>tax</dt><dd>0.24</dd><dt>total</dt><dd>4.20</dd></dl><ul><li>check line items: same total 4.20, but line amounts differ</li><li>subtotal computed (not printed)</li><li>currency inferred</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005365187.jpg" target="_blank"><img src="../images/X51005365187.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005365187.jpg</h2><dl><dt>vendor</dt><dd>F&amp;P PHARMACY</dd><dt>date</dt><dd>2018-03-02</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>30.68</dd><dt>tax</dt><dd>1.22</dd><dt>total</dt><dd>31.90</dd></dl><ul><li>check line items: totals read as 25.90 or 31.90</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005433518.jpg" target="_blank"><img src="../images/X51005433518.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005433518.jpg</h2><dl><dt>vendor</dt><dd>UNIHAKKA INTERNATIONAL SDN BHD</dd><dt>date</dt><dd>2018-03-07</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd class="check">check</dd><dt>total</dt><dd>8.20</dd></dl><ul><li>check tax: read as 0.46 or 0.48 (&quot;GST @6%: $0.46&quot;)</li><li>subtotal computed (not printed)</li><li>currency inferred</li></ul><details><summary>2 line items</summary><table><tr><td>SR 1001000035- 1 Meat + 3 Vege</td><td>1</td><td>7.10</td><td>7.10</td></tr><tr><td>SR 1001000015- Vegetable</td><td>1</td><td>1.10</td><td>1.10</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005433543.jpg" target="_blank"><img src="../images/X51005433543.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005433543.jpg</h2><dl><dt>vendor</dt><dd class="check">check</dd><dt>date</dt><dd>2018-03-13</dd><dt>currency</dt><dd class="check">check</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd>0.46</dd><dt>total</dt><dd>8.20</dd></dl><ul><li>check vendor: UNIHAKKA INTERNATIONAL SDN BHD (&quot;UNIHAKKA INTERNATIONAL SDN BHD&quot;) or UNIHAKKA INTERNATIONAL SDN EHD (&quot;UNIHAKKA INTERNATIONAL SDN EHD&quot;), different printed lines</li><li>check subtotal: 8.20 may not be printed (&quot;Total Amount: $8.20&quot;)</li><li>check currency: read as MYR or SGD</li><li>currency inferred</li></ul><details><summary>2 line items</summary><table><tr><td>SR 10010000035- 1 Meat + 3 Vege</td><td>1</td><td>7.10</td><td>7.10</td></tr><tr><td>SR 10010000015- Vegetable</td><td>1</td><td>1.10</td><td>1.10</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005433556.jpg" target="_blank"><img src="../images/X51005433556.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005433556.jpg</h2><dl><dt>vendor</dt><dd>YHM Aeon Tebrau City</dd><dt>date</dt><dd>2018-03-11</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>49.70</dd><dt>tax</dt><dd>2.80</dd><dt>total</dt><dd>49.70</dd></dl><ul><li>check line items: totals read as 49.50 or 49.70</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005442366.jpg" target="_blank"><img src="../images/X51005442366.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005442366.jpg</h2><dl><dt>vendor</dt><dd>Triple Six Point Enterprise 666</dd><dt>date</dt><dd>2018-03-22</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>22.60</dd><dt>tax</dt><dd class="check">check</dd><dt>total</dt><dd>22.60</dd></dl><ul><li>check adjustments: -0.30 may not be printed (&quot;Discount 0.30&quot;)</li><li>check line items: totals read as 22.30 or 22.60</li><li>subtotal computed (not printed)</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005442388.jpg" target="_blank"><img src="../images/X51005442388.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005442388.jpg</h2><dl><dt>vendor</dt><dd>CONTENTO</dd><dt>date</dt><dd>2018-03-20</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd class="check">check</dd><dt>tax</dt><dd class="check">check</dd><dt>total</dt><dd>21.60</dd></dl><ul><li>check subtotal: 21.60 may not be printed (&quot;***TOTAL RM 21.60&quot;)</li><li>check line items: totals read as 21.60 or 22.60</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005444040.jpg" target="_blank"><img src="../images/X51005444040.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005444040.jpg</h2><dl><dt>vendor</dt><dd>BENS INDEPENDENT GROCER SDN. BHD</dd><dt>date</dt><dd>2018-03-09</dd><dt>currency</dt><dd class="check">check</dd><dt>subtotal</dt><dd>127.64</dd><dt>tax</dt><dd>6.06</dd><dt>total</dt><dd>133.70</dd></dl><ul><li>check currency: read as MYR or none</li><li>subtotal computed (not printed)</li></ul><details><summary>2 line items</summary><table><tr><td>Evian Mineral Water 6x1.25L</td><td>2</td><td>53.50</td><td>107.00</td></tr><tr><td>Fresh Cut Honey Jackfruit Peeled 400g</td><td>3</td><td>8.90</td><td>26.70</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005444041.jpg" target="_blank"><img src="../images/X51005444041.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005444041.jpg</h2><dl><dt>vendor</dt><dd>BENS INDEPENDENT GROCER SDN. BHD</dd><dt>date</dt><dd>2018-03-08</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>79.26</dd><dt>tax</dt><dd>1.74</dd><dt>total</dt><dd>81.00</dd></dl><ul><li>check rounding: 0.00 has no printed line</li><li>subtotal computed (not printed)</li><li>currency inferred</li></ul><details><summary>5 line items</summary><table><tr><td>Dole Pineapple Pcs</td><td>3</td><td>7.90</td><td>23.70</td></tr><tr><td>Farmhouse Fresh Milk Twin Pack 2x1L</td><td>1</td><td>19.90</td><td>19.90</td></tr><tr><td>Fresh Cut Honey Kiwifruit Peeled 400g</td><td>3</td><td>8.90</td><td>26.70</td></tr><tr><td>Nestle Bliss Yog Drink Strawberry 700g</td><td>1</td><td>5.80</td><td>5.80</td></tr><tr><td>Vitagen Assorted 5x125ml</td><td>1</td><td>4.90</td><td>4.90</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005444046.jpg" target="_blank"><img src="../images/X51005444046.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005444046.jpg</h2><dl><dt>vendor</dt><dd>STAR GROCER SDN BHD</dd><dt>date</dt><dd>2018-03-25</dd><dt>currency</dt><dd class="check">check</dd><dt>subtotal</dt><dd>66.15</dd><dt>tax</dt><dd>0.00</dd><dt>total</dt><dd>66.15</dd></dl><ul><li>check currency: read as MYR or none</li><li>check line items: sum 66.17 matches neither subtotal 66.15 nor total 66.15</li><li>subtotal computed (not printed)</li></ul><details><summary>7 line items</summary><table><tr><td>CARROT S/M 500GM CH (PKT)</td><td>8</td><td>1.59</td><td>12.72</td></tr><tr><td>JAMBU BATU (GUAVA SEEDLESS/ MUTIARA) KG</td><td>0.214</td><td>6.92</td><td>1.48</td></tr><tr><td>MANGO HONEY (SUSU) (KG)</td><td>0.528</td><td>4.91</td><td>2.59</td></tr><tr><td>PINEAPPLE LOCAL 1S</td><td>2</td><td>8.60</td><td>17.20</td></tr><tr><td>TIMUN JEPUN (JAPANESE CUCUMBER) KG</td><td>0.837</td><td>1.29</td><td>1.08</td></tr><tr><td>US GREEN APPLE (175) 10S</td><td>1</td><td>7.50</td><td>7.50</td></tr><tr><td>VALENCIA SA (105) 8S</td><td>4</td><td>5.90</td><td>23.60</td></tr></table></details></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005447844.jpg" target="_blank"><img src="../images/X51005447844.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005447844.jpg</h2><dl><dt>vendor</dt><dd>JIAWEI HOUSE</dd><dt>date</dt><dd>2018-02-23</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>110.00</dd><dt>tax</dt><dd class="check">check</dd><dt>total</dt><dd>110.00</dd></dl><ul><li>check line items: totals read as 110.00 or 0.00</li><li>check line items: 7 amounts could not be read</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005568855.jpg" target="_blank"><img src="../images/X51005568855.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005568855.jpg</h2><dl><dt>vendor</dt><dd>POPULAR BOOK CO. (M) SDN BHD</dd><dt>date</dt><dd>2017-12-23</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>136.47</dd><dt>tax</dt><dd>4.18</dd><dt>total</dt><dd>140.65</dd></dl><ul><li>check line items: totals read as 140.65 or 140.83</li><li>subtotal computed (not printed)</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005568887.jpg" target="_blank"><img src="../images/X51005568887.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005568887.jpg</h2><dl><dt>vendor</dt><dd>HON HWA HARDWARE TRADING</dd><dt>date</dt><dd>2017-04-28</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>6.79</dd><dt>tax</dt><dd>0.41</dd><dt>total</dt><dd>7.20</dd></dl><ul><li>check line items: same total 7.20, but line amounts differ</li><li>subtotal computed (not printed)</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005568889.jpg" target="_blank"><img src="../images/X51005568889.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005568889.jpg</h2><dl><dt>vendor</dt><dd>HON HWA HARDWARE TRADING</dd><dt>date</dt><dd>2017-02-11</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>18.49</dd><dt>tax</dt><dd>1.11</dd><dt>total</dt><dd>19.60</dd></dl><ul><li>check line items: same total 19.60, but line amounts differ</li><li>subtotal computed (not printed)</li></ul></div>
+</section>
+<section class="card MEDIUM" data-status="MEDIUM">
+<a href="../images/X51005568890.jpg" target="_blank"><img src="../images/X51005568890.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge MEDIUM">MEDIUM</span> X51005568890.jpg</h2><dl><dt>vendor</dt><dd>HON HWA HARDWARE TRADING</dd><dt>date</dt><dd>2017-01-05</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>4.72</dd><dt>tax</dt><dd>0.28</dd><dt>total</dt><dd>5.00</dd></dl><ul><li>check rounding: 0.00 has no printed line</li><li>subtotal computed (not printed)</li></ul><details><summary>1 line item</summary><table><tr><td>PVC WALLPLUG (50PCS)</td><td>5</td><td>1.00</td><td>5.00</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005200931.jpg" target="_blank"><img src="../images/X51005200931.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005200931.jpg</h2><dl><dt>vendor</dt><dd>PERNIAGAAN ZHENG HUI</dd><dt>date</dt><dd>2018-02-09</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>411.50</dd><dt>tax</dt><dd>24.69</dd><dt>total</dt><dd>436.20</dd></dl><details><summary>6 line items</summary><table><tr><td>SR CERAMIC CAP</td><td>5</td><td>3.50</td><td>17.50</td></tr><tr><td>SR: S/STEEL 1/2&quot; STREET ELBOW</td><td>30</td><td>3.80</td><td>114.00</td></tr><tr><td>SR: 2.4MM STARWELD RED HEAD TUNGSTEN ROD</td><td>1</td><td>55.00</td><td>55.00</td></tr><tr><td>SR: E3CUT 4&quot; CUTTING DISC (1BOX)-50PCS</td><td>3</td><td>33.00</td><td>99.00</td></tr><tr><td>SR: WELDRO PICKLING GEL 1KG</td><td>2</td><td>43.00</td><td>86.00</td></tr><tr><td>SR: 13.5&quot; WELDING GLOVE - GREEN (QS)</td><td>4</td><td>10.00</td><td>40.00</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005230605.jpg" target="_blank"><img src="../images/X51005230605.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005230605.jpg</h2><dl><dt>vendor</dt><dd>ALSERKAM ENTERPRISE</dd><dt>date</dt><dd>2018-02-01</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>4.62</dd><dt>tax</dt><dd>0.28</dd><dt>total</dt><dd>4.90</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>2 line items</summary><table><tr><td>double ,mint te</td><td>2</td><td></td><td>3.00</td></tr><tr><td>sandwich venill</td><td>1</td><td></td><td>1.90</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005230648.jpg" target="_blank"><img src="../images/X51005230648.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005230648.jpg</h2><dl><dt>vendor</dt><dd>CROSS CHANNEL NETWORK SDN. BHD.</dd><dt>date</dt><dd>2018-01-29</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>5.99</dd><dt>tax</dt><dd>0.36</dd><dt>total</dt><dd>6.35</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>1 line item</summary><table><tr><td>SCHNEIDER E15R 13A SWITCH SOCKET OUTLET @ 6.0000</td><td>1</td><td>6.36</td><td>6.36</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005230659.jpg" target="_blank"><img src="../images/X51005230659.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005230659.jpg</h2><dl><dt>vendor</dt><dd>SWC ENTERPRISE SDN BHD</dd><dt>date</dt><dd>2018-01-08</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>7.55</dd><dt>tax</dt><dd>0.45</dd><dt>total</dt><dd>8.00</dd></dl><ul><li>subtotal computed (not printed)</li><li>currency inferred</li></ul><details><summary>1 line item</summary><table><tr><td>20X30 1KG</td><td>1</td><td>8.00</td><td>8.00</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005288570.jpg" target="_blank"><img src="../images/X51005288570.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005288570.jpg</h2><dl><dt>vendor</dt><dd>SECURE PARKING CORPORATION S/B</dd><dt>date</dt><dd>2018-03-23</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>0.94</dd><dt>tax</dt><dd>0.06</dd><dt>total</dt><dd>1.00</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>1 line item</summary><table><tr><td>Parking Fee</td><td></td><td></td><td>0.94</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005361906.jpg" target="_blank"><img src="../images/X51005361906.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005361906.jpg</h2><dl><dt>vendor</dt><dd>TEO HENG STATIONERY &amp; BOOKS</dd><dt>date</dt><dd>2018-01-27</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>25.80</dd><dt>tax</dt><dd>1.55</dd><dt>total</dt><dd>27.35</dd></dl><details><summary>4 line items</summary><table><tr><td>DOUBLE SIDE FOAM TAPE 18MM</td><td>1</td><td>3.96</td><td>3.80</td></tr><tr><td>CAMIS SQ BOOK 200</td><td>5</td><td>2.74</td><td>13.00</td></tr><tr><td>EAGLE F4 200 FOOLSCAP BOOK</td><td>1</td><td>5.47</td><td>5.20</td></tr><tr><td>EAGLE F4 120 NUMBERING FOOLSCAP BOOK</td><td>1</td><td>3.96</td><td>3.80</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005361908.jpg" target="_blank"><img src="../images/X51005361908.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005361908.jpg</h2><dl><dt>vendor</dt><dd>TEO HENG STATIONERY &amp; BOOKS</dd><dt>date</dt><dd>2018-03-15</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>120.00</dd><dt>tax</dt><dd>7.20</dd><dt>total</dt><dd>127.20</dd></dl><details><summary>1 line item</summary><table><tr><td>ARTLINE 70</td><td>48</td><td>2.70</td><td>120.00</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005433548.jpg" target="_blank"><img src="../images/X51005433548.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005433548.jpg</h2><dl><dt>vendor</dt><dd>PASAR MINI JIN SENG</dd><dt>date</dt><dd>2018-03-03</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>33.80</dd><dt>tax</dt><dd>0.77</dd><dt>total</dt><dd>33.80</dd></dl><details><summary>5 line items</summary><table><tr><td>VEGETABLES</td><td>1</td><td>16.00</td><td>16.00</td></tr><tr><td>TELUR / TELUR NASIN</td><td>1</td><td>2.40</td><td>2.40</td></tr><tr><td>VEGETABLES</td><td>1</td><td>1.80</td><td>1.80</td></tr><tr><td>GL STEWED PORK 200G</td><td>1</td><td>6.80</td><td>6.80</td></tr><tr><td>BOTAN IKAN SARDIN 425G</td><td>1</td><td>6.80</td><td>6.80</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005442322.jpg" target="_blank"><img src="../images/X51005442322.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005442322.jpg</h2><dl><dt>vendor</dt><dd>GRAND COMPANIONS SDN BHD (295560-H)</dd><dt>date</dt><dd>2018-03-03</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>231.06</dd><dt>tax</dt><dd>15.25</dd><dt>total</dt><dd>269.40</dd></dl><details><summary>6 line items</summary><table><tr><td>NY STRIP Medium Well RANCH BEANS SLAW</td><td>1</td><td>67.67</td><td>67.67</td></tr><tr><td>NY STRIP Medium FR ROASTED VEGE BAKED POTATO Loaded</td><td>1</td><td>67.67</td><td>67.67</td></tr><tr><td>NY STRIP Medium Well FR ROASTED VEGE FF</td><td>1</td><td>67.67</td><td>67.67</td></tr><tr><td>ICE LATTE</td><td>1</td><td>9.35</td><td>9.35</td></tr><tr><td>7UP</td><td>1</td><td>9.35</td><td>9.35</td></tr><tr><td>PEPSI</td><td>1</td><td>9.35</td><td>9.35</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005442382.jpg" target="_blank"><img src="../images/X51005442382.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005442382.jpg</h2><dl><dt>vendor</dt><dd>UNIHAKKA INTERNATIONAL SDN BHD</dd><dt>date</dt><dd>2018-03-20</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>6.23</dd><dt>tax</dt><dd>0.37</dd><dt>total</dt><dd>6.60</dd></dl><ul><li>subtotal computed (not printed)</li><li>currency inferred</li></ul><details><summary>1 line item</summary><table><tr><td>SR 10010000061: 5 Vege</td><td>1</td><td>6.60</td><td>6.60</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005444044.jpg" target="_blank"><img src="../images/X51005444044.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005444044.jpg</h2><dl><dt>vendor</dt><dd>99 SPEED MART S/B (519537-X)</dd><dt>date</dt><dd>2018-03-10</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>5.05</dd><dt>tax</dt><dd>0.30</dd><dt>total</dt><dd>5.35</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>1 line item</summary><table><tr><td>104 SUNQUICK OREN 330ML</td><td>1</td><td>5.35</td><td>5.35</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005447841.jpg" target="_blank"><img src="../images/X51005447841.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005447841.jpg</h2><dl><dt>vendor</dt><dd>PASARAYA BORONG PINTAR SDN BHD</dd><dt>date</dt><dd>2018-03-09</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>10.40</dd><dt>tax</dt><dd>0.00</dd><dt>total</dt><dd>10.40</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>4 line items</summary><table><tr><td>A&amp;M SARSAP 330ML</td><td>1</td><td>1.20</td><td>1.20</td></tr><tr><td>100PLUS REGULAR 500ML</td><td>1</td><td>1.90</td><td>1.90</td></tr><tr><td>Loacker wafer milk 45g</td><td>1</td><td>2.70</td><td>2.70</td></tr><tr><td>fishermans.f s/free lemon 25g</td><td>1</td><td>4.60</td><td>4.60</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005447842.jpg" target="_blank"><img src="../images/X51005447842.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005447842.jpg</h2><dl><dt>vendor</dt><dd>PASARAYA BORONG PINTAR SDN BHD</dd><dt>date</dt><dd>2018-03-14</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>0.90</dd><dt>tax</dt><dd>0.00</dd><dt>total</dt><dd>0.90</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>1 line item</summary><table><tr><td>GB CR-CORN WALK</td><td>1</td><td>0.90</td><td>0.90</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005447851.jpg" target="_blank"><img src="../images/X51005447851.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005447851.jpg</h2><dl><dt>vendor</dt><dd>PASARAYA BORONG PINTAR SDN BHD</dd><dt>date</dt><dd>2018-01-30</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>1.70</dd><dt>tax</dt><dd>0.00</dd><dt>total</dt><dd>1.70</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>1 line item</summary><table><tr><td>REVIVE 500ML</td><td>1</td><td>1.70</td><td>1.70</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005447859.jpg" target="_blank"><img src="../images/X51005447859.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005447859.jpg</h2><dl><dt>vendor</dt><dd>PASARAYA BORONG PINTAR SDN BHD</dd><dt>date</dt><dd>2018-02-14</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>1.45</dd><dt>tax</dt><dd>0.00</dd><dt>total</dt><dd>1.45</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>1 line item</summary><table><tr><td>100PLUS LIME 325ML</td><td>1</td><td>1.45</td><td>1.45</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005568866.jpg" target="_blank"><img src="../images/X51005568866.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005568866.jpg</h2><dl><dt>vendor</dt><dd>POPULAR BOOK CO. (M) SDN BHD</dd><dt>date</dt><dd>2017-08-20</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>4.76</dd><dt>tax</dt><dd>0.29</dd><dt>total</dt><dd>5.05</dd></dl><ul><li>subtotal computed (not printed)</li></ul><details><summary>2 line items</summary><table><tr><td>H'MAN GLASS PAPER</td><td>4</td><td>1.40</td><td>5.60</td></tr><tr><td>Member Discount</td><td></td><td></td><td>-0.56</td></tr></table></details></div>
+</section>
+<section class="card HIGH" data-status="HIGH">
+<a href="../images/X51005568885.jpg" target="_blank"><img src="../images/X51005568885.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge HIGH">HIGH</span> X51005568885.jpg</h2><dl><dt>vendor</dt><dd>EVERGREEN LIGHT SDN BHD</dd><dt>date</dt><dd>2017-07-10</dd><dt>currency</dt><dd>MYR</dd><dt>subtotal</dt><dd>52.84</dd><dt>tax</dt><dd>3.17</dd><dt>total</dt><dd>56.00</dd></dl><details><summary>1 line item</summary><table><tr><td>PROEMK 10W LED STICK</td><td>4</td><td>13.21</td><td>52.84</td></tr></table></details></div>
+</section>
+<section class="card DUPLICATE" data-status="DUPLICATE">
+<a href="../images/X51005301666.jpg" target="_blank"><img src="../images/X51005301666.jpg" loading="lazy" alt=""></a>
+<div><h2><span class="badge DUPLICATE">DUPLICATE</span> X51005301666.jpg</h2><ul><li>duplicate of X51005268275.jpg</li></ul></div>
+</section>
+<script>
+document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
+  document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("on", x === b));
+  document.querySelectorAll(".card").forEach((c) => c.hidden = !!b.dataset.filter && c.dataset.status !== b.dataset.filter);
+});
+</script>
+</body></html>

@@ -20,7 +20,20 @@ const reading = (r: PromiseSettledResult<Extraction>) =>
   r.status === "fulfilled" ? r.value.output : new Error(String(r.reason?.message ?? r.reason).slice(0, 200));
 
 const jobs = unique.flatMap((file) => readers.map((model) => ({ file, model })));
-const settled = await pool(jobs, 8, (j) => extract(j.model, join(IMAGES, j.file)));
+let done = 0, failed = 0;
+const progress = (line: string) =>
+  process.stdout.isTTY ? process.stdout.write(`\r\x1b[K${line}`) : console.log(line);
+const settled = await pool(jobs, 8, async (j) => {
+  try {
+    return await extract(j.model, join(IMAGES, j.file));
+  } catch (e) {
+    failed++;
+    throw e;
+  } finally {
+    progress(`reading ${++done}/${jobs.length} (${unique.length} receipts × ${readers.length} models)${failed ? `, ${failed} failed` : ""}: ${j.file}`);
+  }
+});
+if (process.stdout.isTTY) process.stdout.write("\n");
 
 const rows: Row[] = [];
 const items: ItemRow[] = [];
