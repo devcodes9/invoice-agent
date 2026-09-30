@@ -62,7 +62,7 @@ writeFileSync("out/line_items.csv", toCsv(["file", "description", "qty", "unit_p
 
 const cost = settled.reduce((t, r) => t + (r.status === "fulfilled" ? (r.value.usage.cost ?? 0) : 0), 0);
 const counts = STATUSES.map((s) => `${s} ${rows.filter((r) => r.status === s).length}`);
-console.log(`${rows.length} receipts (${counts.join(", ")}), ${items.length} line items, $${cost.toFixed(3)} (incl. cached)`);
+console.log(`${rows.length} receipts (${counts.join(", ")}), ${items.length} line items, $${cost.toFixed(3)}${replay ? " (original cost, replayed from cache/)" : ""}`);
 writeFileSync("out/debug.jsonl", debug.join("\n") + "\n");
 writeFileSync("out/review.html", renderReview(rows, items, `../${IMAGES}`));
 console.log("wrote out/receipts.csv, out/line_items.csv, out/debug.jsonl, out/review.html");
